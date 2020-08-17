@@ -1,28 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <!-- Title will be handled by React -->
-    <title>&nbsp;</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script>
-      const scripts = [];
 
-      // Dynamically insert the DLL script in development env in the
-      // renderer process
-      if (process.env.NODE_ENV === 'development') {
-        scripts.push('../dll/renderer.dev.dll.js');
-      }
+<head>
+  <meta charset="utf-8" />
+  <!-- Title will be handled by React -->
+  <title>&nbsp;</title>
+  <script>
+    // force-disable electron security warnings
+    // https://electronjs.org/docs/tutorial/security
+    window.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
+  </script>
+</head>
 
-      // Dynamically insert the bundled app script in the renderer process
-      const port = process.env.PORT || 4040;
-      const fileName = 'main.bundle.js';
-      scripts.push(
-        process.env.HOT ? `http://localhost:${port}/dist/${fileName}` : `../${fileName}`
-      );
-      document.write(scripts.map(script => `<script defer src="${script}"><\/script>`).join(''));
-    </script>
-  </body>
+<body>
+  <div id="root"></div>
+  <script>
+    const scripts = [];
+
+    // Dynamically insert the DLL script in development env in the
+    // renderer process
+    if (process.env.NODE_ENV === 'development') {
+      scripts.push('../dll/renderer.dev.dll.js');
+    }
+
+    // Dynamically insert the bundled app script in the renderer process
+    const port = process.env.PORT || 4040;
+    const fileName = 'main.bundle.js';
+    scripts.push(
+      process.env.NODE_ENV === 'development' ? `http://localhost:${port}/${fileName}` : `../${fileName}`
+    );
+    document.write(scripts.map(script => `<script defer src="${script}"><\/script>`).join(''));
+  </script>
+</body>
+
 </html>

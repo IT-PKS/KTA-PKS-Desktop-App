@@ -20,7 +20,11 @@ const distDir = path.join(__dirname, 'src', 'dist');
 const dllDir = path.join(distDir, 'dll');
 const manifest = path.resolve(dllDir, 'renderer.json');
 
-const baseEntry = [require.resolve('react-hot-loader/patch')];
+const baseEntry = ['react-hot-loader/patch'];
+// const baseEntry = [
+//   `webpack-dev-server/client?http://127.0.0.0:${port}`,
+//   'webpack/hot/only-dev-server',
+// ];
 
 export default merge(baseConfig, {
   mode: 'development',

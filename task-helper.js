@@ -5,6 +5,7 @@ import mkdirp from 'mkdirp';
 import del from 'del';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
+import { spawn } from 'child_process';
 import pkg from './package.json';
 
 const tasks = new Map(); // The collection of automation tasks ('clean', 'build', 'publish', etc.)
@@ -144,6 +145,7 @@ tasks.set('dev-renderer', async () => {
     const distDir = path.join(__dirname, 'src', 'dist');
 
     const server = new WebpackDevServer(webpack(config), {
+      port,
       publicPath,
       compress: true,
       inline: true,
@@ -154,12 +156,16 @@ tasks.set('dev-renderer', async () => {
         'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
       },
       contentBase: distDir,
-      historyApiFallback: {
-        verbose: true,
-        disableDotRule: false,
-      },
+      historyApiFallback: true,
       after() {
         // Start electron main process...
+        spawn('electron', [path.join(__dirname, 'src', 'dist', 'core.main.dev')], {
+          shell: true,
+          env: process.env,
+          stdio: 'inherit',
+        })
+          .on('close', (code) => process.exit(code))
+          .on('error', (spawnError) => console.error(spawnError));
       },
     });
 
@@ -173,7 +179,22 @@ tasks.set('dev-renderer', async () => {
 
 tasks.set('dev', async () => {
   return Promise.resolve()
-    .then(() => run('clean-dist'))
+    .then(() => {
+      const distDir = path.join(__dirname, 'src/dist');
+      const dllDir = path.join(distDir, 'dll');
+      const manifest = path.resolve(dllDir, 'renderer.json');
+      /**
+       * Warn if the DLL is not built
+       */
+      if (!(fs.existsSync(dllDir) && fs.existsSync(manifest))) {
+        process.stdout.write('The DLL files are missing. Sit back while we build them for you..\n');
+        return Promise.resolve()
+          .then(() => run('build-dll'))
+          .then(() => run('clean-dist'));
+      } else {
+        return run('clean-dist');
+      }
+    })
     .then(() => run('generate-html'))
     .then(() => run('build-main-dev'))
     .then(() => run('dev-renderer'));
