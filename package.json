@@ -1,0 +1,124 @@
+{
+  "name": "kta-desktop",
+  "description": "Desktop app KTA PKS.",
+  "productName": "KTA PKS",
+  "private": true,
+  "version": "0.0.1",
+  "author": {
+    "name": "Bakti Aditya Putra",
+    "email": "bakti@bvap.me"
+  },
+  "contributors": [],
+  "main": "./src/index",
+  "devEngines": {
+    "node": ">=7.x",
+    "npm": ">=4.x",
+    "yarn": ">=1.0.0"
+  },
+  "scripts": {
+    "postinstall": "concurrently \"npm run build-dll\" \"electron-builder install-app-deps\"",
+    "clean-dist": "node -r @babel/register task-helper clean-dist",
+    "clean-release": "node -r @babel/register task-helper clean-release",
+    "generate-html": "node -r @babel/register task-helper generate-html",
+    "build-dll": "cross-env NODE_ENV=development node -r @babel/register task-helper build-dll",
+    "dev": "cross-env NODE_ENV=development PORT=4040 node -r @babel/register task-helper dev",
+    "build": "cross-env NODE_ENV=production node -r @babel/register task-helper build"
+  },
+  "homepage": "https://github.com/IT-PKS/kta-desktop",
+  "browserslist": [
+    "electron >= 9"
+  ],
+  "build": {
+    "productName": "KTA PKS",
+    "appId": "com.pks.kta",
+    "copyright": "Copyright © 2020 PKS",
+    "directories": {
+      "app": "src",
+      "buildResources": "resources",
+      "output": "release"
+    },
+    "files": [
+      "assets/",
+      "dist/",
+      "!dist/core.main.dev.js",
+      "!dist/core.main.dev.js.map",
+      "!dist/dll/",
+      "node_modules/",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "./src/extraResources/",
+        "to": "extraResources",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "AppImage"
+      ]
+    }
+  },
+  "dependencies": {
+    "@emotion/cache": "11.0.0-next.12",
+    "@emotion/css": "11.0.0-next.12",
+    "@emotion/react": "11.0.0-next.12",
+    "@emotion/server": "11.0.0-next.12",
+    "@emotion/styled": "11.0.0-next.12",
+    "electron": "^9.2.0",
+    "electron-builder": "^22.8.0",
+    "polished": "^3.6.5",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.1",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-proposal-decorators": "^7.10.5",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4",
+    "@babel/register": "^7.10.5",
+    "@hot-loader/react-dom": "^16.13.0",
+    "@types/gulp": "^4.0.6",
+    "@types/mkdirp": "^1.0.1",
+    "@types/webpack": "^4.41.21",
+    "babel-loader": "^8.1.0",
+    "babel-preset-react-app": "^9.1.2",
+    "case-sensitive-paths-webpack-plugin": "^2.3.0",
+    "concurrently": "^5.3.0",
+    "cross-env": "^7.0.2",
+    "del": "^5.1.0",
+    "handlebars": "^4.7.6",
+    "mkdirp": "^1.0.4",
+    "react-hot-loader": "^4.12.21",
+    "tsconfig-paths-webpack-plugin": "^3.3.0",
+    "typescript": "^3.9.7",
+    "url-loader": "^4.1.0",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-filter-warnings-plugin": "^1.2.1",
+    "webpack-merge": "^5.1.1"
+  }
+}

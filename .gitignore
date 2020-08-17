@@ -1,0 +1,7 @@
+node_modules
+release
+app/core/main.prod.js
+app/core/main.prod.js.map
+app/renderer.prod.js
+app/renderer.prod.js.map
+dist
