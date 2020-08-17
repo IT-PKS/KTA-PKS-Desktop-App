@@ -7,7 +7,7 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "kta": ["src/@types/kta"],
+      "kta": ["@types/kta"],
       "*": ["src/*"]
     },
     "plugins": [
@@ -33,5 +33,5 @@
     "noEmit": true,
     "resolveJsonModule": true
   },
-  "exclude": ["node_modules", "functions", "release", "src/dist", "src/extraResources"]
+  "exclude": ["node_modules", "functions", "release", "src/dist"]
 }
