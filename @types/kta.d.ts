@@ -8,7 +8,6 @@ declare module 'kta' {
   export type ReduxState = {
     test: {
       lastUpdate: number;
-      light: boolean;
       count: number;
     };
   };

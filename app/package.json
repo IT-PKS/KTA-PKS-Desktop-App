@@ -6,7 +6,7 @@
   "version": "0.0.1",
   "main": "dist/main.js",
   "scripts": {
-    "postinstall": "npm rebuild --runtime=electron --target=9.2.0 --disturl=https://atom.io/download/atom-shell --build-from-source"
+    "postinstall": "npm rebuild --runtime=electron --target=8.5.0 --disturl=https://atom.io/download/atom-shell --build-from-source"
   },
   "dependencies": {}
 }

@@ -3,8 +3,7 @@ import { TICK, INCREMENT, DECREMENT, RESET } from './types';
 // Action Definition
 export interface Tick {
   type: typeof TICK;
-  light: boolean;
-  timestamp: any;
+  timestamp: number;
 }
 
 export interface Increment {

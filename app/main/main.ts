@@ -4,6 +4,10 @@ import installExtension, {
   REDUX_DEVTOOLS,
 } from 'electron-devtools-installer';
 
+// Supress warning
+// https://github.com/electron/electron/issues/18397
+app.allowRendererProcessReuse = false;
+
 const isDev = process.env.NODE_ENV === 'development';
 
 let mainWindow: Electron.BrowserWindow | null = null;

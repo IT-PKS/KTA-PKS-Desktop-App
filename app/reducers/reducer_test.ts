@@ -7,7 +7,6 @@ type State = ReduxState['test'];
 
 const INITIAL_STATE: State = {
   lastUpdate: 0,
-  light: false,
   count: 0,
 };
 
@@ -16,7 +15,6 @@ export default function (state: State = INITIAL_STATE, action: ActionTypes): Sta
     case TICK:
       return update(state, {
         lastUpdate: { $set: action.timestamp },
-        light: { $set: action.light },
       });
     case INCREMENT:
       return update(state, {
