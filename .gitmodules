@@ -1,0 +1,3 @@
+[submodule "app/components/base"]
+	path = app/components/base
+	url = git@github.com:IT-PKS/kta-frontend-ui-components.git
