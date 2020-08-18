@@ -4,12 +4,7 @@
   "productName": "KTA PKS",
   "private": true,
   "version": "0.0.1",
-  "author": {
-    "name": "Bakti Aditya Putra",
-    "email": "bakti@bvap.me"
-  },
-  "contributors": [],
-  "main": "./dist/core.main.prod.js",
+  "main": "dist/main.js",
   "scripts": {
     "postinstall": "npm rebuild --runtime=electron --target=9.2.0 --disturl=https://atom.io/download/atom-shell --build-from-source"
   },

@@ -2,17 +2,20 @@
  * Builds the DLL for development electron renderer process
  */
 
-import path from 'path';
-import webpack from 'webpack';
-import { merge } from 'webpack-merge';
-import baseConfig from './webpack.config.base';
-import pkg from './package.json';
+const path = require('path');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const baseConfig = require('./webpack.config.base');
+const pkg = require('./package.json');
 
 const dependencies = pkg.dependencies;
-const distDir = path.join(__dirname, 'src', 'dist', 'dll');
+const distDir = path.normalize(`${__dirname}/app/dist/dll`);
+const entry = Object.keys(dependencies || {}).filter((dependency) => {
+  const excludes = [];
+  return !excludes.includes(dependency);
+});
 
-export default merge(baseConfig, {
-  mode: 'development',
+const dllConfig = {
   context: process.cwd(),
   devtool: 'eval',
   target: 'electron-renderer',
@@ -25,7 +28,7 @@ export default merge(baseConfig, {
   output: {
     library: 'renderer',
     path: distDir,
-    filename: '[name].dev.dll.js',
+    filename: '[name].dll.js',
     libraryTarget: 'var',
   },
   externals: [/^electron/],
@@ -70,11 +73,6 @@ export default merge(baseConfig, {
       path: path.join(distDir, '[name].json'),
       name: '[name]',
     }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
-      },
-    }),
     new webpack.LoaderOptionsPlugin({
       debug: true,
       options: {
@@ -85,4 +83,6 @@ export default merge(baseConfig, {
       },
     }),
   ],
-});
+};
+
+module.exports = merge.smart(baseConfig, dllConfig);

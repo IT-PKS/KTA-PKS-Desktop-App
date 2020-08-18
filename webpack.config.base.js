@@ -1,55 +1,39 @@
-/**
- * Base webpack config used across other specific configs
- */
+const path = require('path');
+const webpack = require('webpack');
+const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
-import path from 'path';
-import webpack from 'webpack';
-import TsConfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
-import pkg from './src/package.json';
+const env = process.env.NODE_ENV || 'development';
 
-const distDir = path.join(__dirname, 'src', 'dist');
-
-export default {
-  externals: Object.keys(pkg.dependencies || {}),
+module.exports = {
+  mode: env,
+  output: {
+    path: path.normalize(`${__dirname}/app/dist`),
+    filename: 'bundle.js',
+  },
+  resolve: {
+    modules: ['node_modules'],
+    alias: {
+      'react-dom': '@hot-loader/react-dom',
+    },
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    plugins: [new TsConfigPathsPlugin()],
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(env),
+      },
+    }),
+  ],
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.(j|t)s(x)?$/,
+        exclude: /node_modules/,
         use: {
-          loader: require.resolve('babel-loader'),
-          options: {
-            cacheDirectory: true,
-          },
+          loader: 'babel-loader',
         },
-        exclude: /(node_modules|bower_components)/,
-      },
-      {
-        test: /\.tsx?$/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              presets: [['react-app', { flow: false, typescript: true }]],
-            },
-          },
-        ],
       },
     ],
   },
-  output: {
-    path: distDir,
-    filename: 'bundle.js',
-    // https://github.com/webpack/webpack/issues/1114
-    libraryTarget: 'commonjs2',
-  },
-  resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
-    modules: [path.join(__dirname, 'src'), 'node_modules'],
-    plugins: [
-      new TsConfigPathsPlugin({
-        configFile: path.resolve(__dirname, 'tsconfig.json'),
-      }),
-    ],
-  },
-  plugins: [new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)],
 };

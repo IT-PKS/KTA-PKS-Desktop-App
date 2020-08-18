@@ -8,17 +8,10 @@
     "baseUrl": ".",
     "paths": {
       "kta": ["@types/kta"],
-      "*": ["src/*"]
+      "*": ["app/*"]
     },
-    "plugins": [
-      {
-        "name": "typescript-styled-plugin",
-        "lint": {
-          "validProperties": ["label"]
-        }
-      }
-    ],
-    "allowJs": true,
+    "outDir": "app/dist",
+    "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "noImplicitAny": true,
@@ -30,8 +23,7 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "noEmit": true,
     "resolveJsonModule": true
   },
-  "exclude": ["node_modules", "functions", "release", "src/dist"]
+  "exclude": ["node_modules", "release", "app/dist"]
 }
