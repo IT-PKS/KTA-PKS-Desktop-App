@@ -1,12 +1,16 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import styled from '@emotion/styled';
 import { PATH } from 'components/contextual/Router';
+import { useHistory } from 'react-router-dom';
 
 // Redux
 import { ReduxState } from 'kta';
 import { connect } from 'react-redux';
 import { startClock, incrementCount, decrementCount, resetCount } from 'actions/action_test';
+
+// Utils
+import useDidMount from 'utils/hooks/useDidMount';
+import useWillUnmount from 'utils/hooks/useWillUnmount';
 
 type OwnProps = {
   dispatch: (action: any) => any;
@@ -49,34 +53,40 @@ const ButtonContainer = styled.div`
   }
 `;
 
-class TestRedux extends Component<Props> {
-  timer: NodeJS.Timer | undefined;
+const TestRedux: React.FC<Props> = props => {
+  const { dispatch, lastUpdate, count } = props;
+  const history = useHistory();
+  let timer: NodeJS.Timer | undefined;
 
-  componentDidMount() {
-    this.props.dispatch(startClock());
-
-    this.timer = setInterval(() => {
-      this.props.dispatch(startClock());
+  useDidMount(() => {
+    dispatch(startClock());
+    timer = setInterval(() => {
+      dispatch(startClock());
     }, 1000);
-  }
+  });
 
-  componentWillUnmount() {
-    this.timer && clearInterval(this.timer);
-  }
+  useWillUnmount(() => {
+    timer && clearInterval(timer);
+  });
 
-  increment = () => {
-    this.props.dispatch(incrementCount());
+  const increment = () => {
+    dispatch(incrementCount());
   };
 
-  decrement = () => {
-    this.props.dispatch(decrementCount());
+  const decrement = () => {
+    dispatch(decrementCount());
   };
 
-  reset = () => {
-    this.props.dispatch(resetCount());
+  const reset = () => {
+    dispatch(resetCount());
   };
 
-  format = (timestamp: number) => {
+  const redirectToHome = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+    history.push(PATH.HOME);
+  };
+
+  const format = (timestamp: number) => {
     let hour: number | string = new Date(timestamp).getHours();
     let minute: number | string = new Date(timestamp).getMinutes();
     let second: number | string = new Date(timestamp).getSeconds();
@@ -94,28 +104,26 @@ class TestRedux extends Component<Props> {
     return `${hour}:${minute}:${second}`;
   };
 
-  render() {
-    const { lastUpdate, count } = this.props;
+  return (
+    <Wrapper>
+      <Clock>{format(lastUpdate)}</Clock>
 
-    return (
-      <Wrapper>
-        <Clock>{this.format(lastUpdate)}</Clock>
+      {/* Counter */}
+      <h1>
+        Count: <span>{count}</span>
+      </h1>
 
-        {/* Counter */}
-        <h1>
-          Count: <span>{count}</span>
-        </h1>
+      <ButtonContainer>
+        <button onClick={decrement}>-1</button>
+        <button onClick={reset}>Reset</button>
+        <button onClick={increment}>+1</button>
+      </ButtonContainer>
 
-        <ButtonContainer>
-          <button onClick={this.decrement}>-1</button>
-          <button onClick={this.reset}>Reset</button>
-          <button onClick={this.increment}>+1</button>
-        </ButtonContainer>
-
-        <Link to={PATH.HOME}>Back to Home Page</Link>
-      </Wrapper>
-    );
-  }
-}
+      <a href="#" onClick={redirectToHome}>
+        Back to Home Page
+      </a>
+    </Wrapper>
+  );
+};
 
 export default connect(mapStateToProps)(TestRedux);

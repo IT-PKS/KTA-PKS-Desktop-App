@@ -1,11 +1,14 @@
 import { hot } from 'react-hot-loader/root';
 import React from 'react';
 import AuthDataProvider from 'utils/AuthDataProvider';
+import Layout from './Layout';
 import Router from './Router';
 
 const App: React.FC<{}> = () => (
   <AuthDataProvider>
-    <Router />
+    <Layout>
+      <Router />
+    </Layout>
   </AuthDataProvider>
 );
 
