@@ -1,0 +1,4 @@
+node_modules
+__snapshots__
+storybook-static
+@types

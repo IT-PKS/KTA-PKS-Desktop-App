@@ -87,21 +87,19 @@ const TestRedux: React.FC<Props> = props => {
   };
 
   const format = (timestamp: number) => {
-    let hour: number | string = new Date(timestamp).getHours();
-    let minute: number | string = new Date(timestamp).getMinutes();
-    let second: number | string = new Date(timestamp).getSeconds();
+    const hour = new Date(timestamp).getHours();
+    const minute = new Date(timestamp).getMinutes();
+    const second = new Date(timestamp).getSeconds();
 
-    if (String(hour).length < 2) {
-      hour = '0' + hour;
-    }
-    if (String(minute).length < 2) {
-      minute = '0' + minute;
-    }
-    if (String(second).length < 2) {
-      second = '0' + second;
-    }
+    const prefixed = (time: number) => {
+      let newTime = String(time);
+      if (newTime.length < 2) {
+        newTime = '0' + newTime;
+      }
+      return newTime;
+    };
 
-    return `${hour}:${minute}:${second}`;
+    return `${prefixed(hour)}:${prefixed(minute)}:${prefixed(second)}`;
   };
 
   return (
