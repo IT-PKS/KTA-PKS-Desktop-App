@@ -2,8 +2,9 @@
  * Webpack config for dev electron main process
  */
 
-const merge = require('webpack-merge');
 const path = require('path');
+const merge = require('webpack-merge');
+const nodeExternals = require('webpack-node-externals');
 const omit = require('lodash/omit');
 const baseConfig = require('./webpack.config.base');
 
@@ -16,6 +17,7 @@ const developmentConfig = {
   },
   output: { filename: '[name].js' },
   devtool: 'eval-source-map',
+  externals: [nodeExternals()],
 };
 
 const productionConfig = omit(developmentConfig, 'devtool');
