@@ -4,7 +4,7 @@ import AuthDataProvider from 'utils/AuthDataProvider';
 import Layout from './Layout';
 import Router from './Router';
 
-const App: React.FC<{}> = () => (
+const App: React.FC = () => (
   <AuthDataProvider>
     <Layout>
       <Router />

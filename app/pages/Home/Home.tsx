@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { PATH } from 'components/contextual/Router';
 
-const Home: React.FC<{}> = () => {
+const Home: React.FC = () => {
   return (
     <div>
       <h1>Hello, world!</h1>

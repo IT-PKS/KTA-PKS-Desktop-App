@@ -34,7 +34,7 @@ const getAuthData = () =>
     }, 1000);
   });
 
-const AuthDataProvider: React.FC<{}> = (props) => {
+const AuthDataProvider: React.FC = props => {
   const [authData, setAuthData] = React.useState<AuthData>(initialAuthData);
 
   /* The first time the component is rendered, it tries to

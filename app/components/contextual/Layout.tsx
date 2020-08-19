@@ -4,7 +4,7 @@ import { ThemeProvider } from 'emotion-theming';
 import theme from 'components/base/theme';
 import globalStyles from 'components/base/globalStyles';
 
-const Layout: React.FC<{}> = ({ children }) => {
+const Layout: React.FC = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
       <Global styles={globalStyles(theme)} />

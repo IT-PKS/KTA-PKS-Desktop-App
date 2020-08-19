@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { PATH } from 'components/contextual/Router';
 
-const NotFound: React.FC<{}> = () => {
+const NotFound: React.FC = () => {
   return (
     <div>
       <h2>NotFound</h2>
