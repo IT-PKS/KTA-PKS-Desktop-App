@@ -39,10 +39,7 @@ const createWindow = () => {
 app.whenReady().then(() => {
   if (isDev) {
     const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-    Promise.all([
-      installExtension(REACT_DEVELOPER_TOOLS, forceDownload),
-      installExtension(REDUX_DEVTOOLS, forceDownload),
-    ])
+    installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS], forceDownload)
       .finally(() => {
         createWindow();
       })
