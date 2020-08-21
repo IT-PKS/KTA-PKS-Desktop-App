@@ -4,7 +4,7 @@ This is an [Electron](http://electron.atom.io/) application, based on [React](ht
 
 ## Install
 
-⚠ Requires a node version >= 7 and an npm version >= 4. ⚠
+⚠ Requires a node version >= 7 and an npm version >= 4 ⚠
 
 First, clone the repo via git:
 
