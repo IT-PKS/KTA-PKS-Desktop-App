@@ -10,17 +10,13 @@ const pkg = require('./package.json');
 
 const dependencies = pkg.dependencies;
 const distDir = path.normalize(`${__dirname}/app/dist/dll`);
-const entry = Object.keys(dependencies || {}).filter((dependency) => {
-  const excludes = [];
-  return !excludes.includes(dependency);
-});
 
 const dllConfig = {
   context: process.cwd(),
   devtool: 'eval',
   target: 'electron-renderer',
   entry: {
-    renderer: Object.keys(dependencies || {}).filter((dependency) => {
+    renderer: Object.keys(dependencies || {}).filter(dependency => {
       const excludes = [];
       return !excludes.includes(dependency);
     }),
