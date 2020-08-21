@@ -6,6 +6,10 @@
   "version": "0.0.1",
   "homepage": "https://github.com/IT-PKS/kta-desktop",
   "main": "dist/main.js",
+  "author": {
+    "name": "Partai Keadilan Sejahtera (PKS)",
+    "email": "humas@pks.id"
+  },
   "devEngines": {
     "node": ">=7.x",
     "npm": ">=4.x",
@@ -14,7 +18,8 @@
   "scripts": {
     "postinstall": "node task-runner.js postinstall",
     "clean-release": "node task-runner.js clean-release",
-    "dev": "cross-env NODE_ENV=development PORT=9065 node task-runner.js dev"
+    "dev": "cross-env NODE_ENV=development PORT=9065 node task-runner.js dev",
+    "build-win": "cross-env NODE_ENV=production node task-runner.js build-win"
   },
   "build": {
     "productName": "KTA PKS",
@@ -26,9 +31,9 @@
       "output": "release"
     },
     "files": [
-      "dist/",
-      "!dist/dll/",
-      "node_modules/",
+      "dist",
+      "!dist/dll",
+      "node_modules",
       "package.json"
     ],
     "dmg": {

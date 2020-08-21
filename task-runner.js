@@ -222,7 +222,7 @@ tasks.set('dev', async () => {
       if (!(fs.existsSync(dllDir) && fs.existsSync(dllManifest))) {
         process.stdout.write('The DLL files are missing. Sit back while we build them for you..\n');
         return Promise.resolve()
-          .then(() => run('build-dll'))
+          .then(() => run('build-renderer-dll'))
           .then(() => run('clean-dist'));
       } else {
         return run('clean-dist');
@@ -231,6 +231,45 @@ tasks.set('dev', async () => {
     .then(() => run('cp-html-to-dist'))
     .then(() => run('build-main'))
     .then(() => run('dev-server'));
+});
+
+// Production task sequence
+// -----------------------------------------------------------------------------
+tasks.set('build-win', async () => {
+  return Promise.resolve()
+    .then(async () => {
+      /**
+       * Warn if the DLL is not built
+       */
+      if (!(fs.existsSync(dllDir) && fs.existsSync(dllManifest))) {
+        process.stdout.write('The DLL files are missing. Sit back while we build them for you..\n');
+        return Promise.resolve()
+          .then(() => run('build-renderer-dll'))
+          .then(() => run('clean-dist'));
+      } else {
+        return run('clean-dist');
+      }
+    })
+    .then(() => run('cp-html-to-dist'))
+    .then(() => run('build-main'))
+    .then(() => run('build-renderer'))
+    .then(() => {
+      return new Promise((resolve, reject) => {
+        spawn('electron-builder', ['--win'], {
+          shell: true,
+          env: process.env,
+          stdio: 'inherit',
+        })
+          .on('close', code => {
+            resolve();
+            process.exit(code);
+          })
+          .on('error', spawnError => {
+            reject(spawnError);
+            console.error(spawnError);
+          });
+      });
+    });
 });
 
 // Execute the specified task or default one. E.g.: node task-helper build

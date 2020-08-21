@@ -3,6 +3,7 @@ import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
 } from 'electron-devtools-installer';
+// import path from 'path';
 
 // Supress warning
 // https://github.com/electron/electron/issues/18397
@@ -22,7 +23,7 @@ const createWindow = () => {
     },
   });
 
-  mainWindow.loadFile('html/index.html');
+  mainWindow.loadFile(isDev ? './html/index.html' : './dist/html/index.html');
 
   mainWindow.on('closed', () => {
     mainWindow = null;

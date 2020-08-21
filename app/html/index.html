@@ -27,7 +27,7 @@
         scripts.push(`http://localhost:${port}/${fileName}`);
         scripts.push(`http://localhost:${port}/webpack-dev-server.js`);
       } else {
-        scripts.push(`${fileName}`);
+        scripts.push(`../${fileName}`);
       }
 
       document.write(scripts.map((script) => `<script defer src="${script}"><\/script>`).join(''));

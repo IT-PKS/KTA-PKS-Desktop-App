@@ -25,7 +25,6 @@ const productionConfig = {
     main: [path.normalize(`${__dirname}/app/main/main.ts`)],
   },
   output: { filename: '[name].js' },
-  externals: [nodeExternals()],
 };
 
 module.exports = merge.smart(

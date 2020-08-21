@@ -27,7 +27,8 @@ const rules = [
     use: {
       loader: 'url-loader',
       options: {
-        limit: 10000,
+        limit: 1000, // if less than 10 kb, add base64 encoded image to css
+        name: 'assets/[hash].[ext]', // if more than 10 kb move to this folder in build using file-loader
       },
     },
   },
@@ -66,7 +67,7 @@ const productionConfig = {
   entry,
   output: {
     ...output,
-    publicPath: '/',
+    publicPath: '../',
   },
   module: {
     rules,
