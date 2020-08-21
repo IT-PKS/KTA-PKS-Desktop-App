@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from '@emotion/styled';
+import { styled } from 'components/base';
 import { PATH } from 'components/contextual/Router';
 import { useHistory } from 'react-router-dom';
 
@@ -30,15 +30,23 @@ const mapStateToProps = (state: ReduxState) => {
 };
 
 const Wrapper = styled.div`
-  padding: 15px;
+  padding: ${p => p.theme.spacing.m}px;
+`;
+
+const ClockContainer = styled.div`
+  margin-bottom: ${p => p.theme.spacing.m}px;
 `;
 
 const Clock = styled.div`
-  padding: 15px;
+  padding: ${p => p.theme.spacing.m}px;
   display: inline-block;
   color: #000;
   font: 50px menlo, monaco, monospace;
   background-color: #ddd;
+`;
+
+const CountContainer = styled.div`
+  margin-bottom: ${p => p.theme.spacing.m}px;
 `;
 
 const ButtonContainer = styled.div`
@@ -104,12 +112,14 @@ const TestRedux: React.FC<Props> = props => {
 
   return (
     <Wrapper>
-      <Clock>{format(lastUpdate)}</Clock>
+      <ClockContainer>
+        <Clock>{format(lastUpdate)}</Clock>
+      </ClockContainer>
 
       {/* Counter */}
-      <h1>
-        Count: <span>{count}</span>
-      </h1>
+      <CountContainer>
+        <strong>Count: {count}</strong>
+      </CountContainer>
 
       <ButtonContainer>
         <button onClick={decrement}>-1</button>

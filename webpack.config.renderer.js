@@ -20,6 +20,25 @@ const output = {
   chunkFilename: 'renderer.[id].chunk.js',
   filename: 'renderer.[name].js',
 };
+const rules = [
+  // Fonts
+  {
+    test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+    use: {
+      loader: 'url-loader',
+      options: {
+        limit: 10000,
+      },
+    },
+  },
+  // Common Image Formats
+  {
+    test: /\.(?:ico|gif|png|jpg|jpeg|svg|webp)$/,
+    use: {
+      loader: 'url-loader',
+    },
+  },
+];
 
 const developmentConfig = {
   target: 'electron-renderer',
@@ -37,6 +56,9 @@ const developmentConfig = {
     }),
     new webpack.NamedModulesPlugin(),
   ],
+  module: {
+    rules,
+  },
 };
 
 const productionConfig = {
@@ -45,6 +67,9 @@ const productionConfig = {
   output: {
     ...output,
     publicPath: '/',
+  },
+  module: {
+    rules,
   },
 };
 

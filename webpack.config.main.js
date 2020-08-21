@@ -5,7 +5,6 @@
 const path = require('path');
 const merge = require('webpack-merge');
 const nodeExternals = require('webpack-node-externals');
-const omit = require('lodash/omit');
 const baseConfig = require('./webpack.config.base');
 
 const env = process.env.NODE_ENV;
@@ -20,7 +19,14 @@ const developmentConfig = {
   externals: [nodeExternals()],
 };
 
-const productionConfig = omit(developmentConfig, 'devtool');
+const productionConfig = {
+  target: 'electron-main',
+  entry: {
+    main: [path.normalize(`${__dirname}/app/main/main.ts`)],
+  },
+  output: { filename: '[name].js' },
+  externals: [nodeExternals()],
+};
 
 module.exports = merge.smart(
   baseConfig,

@@ -9,15 +9,15 @@ This is an [Electron](http://electron.atom.io/) application, based on [React](ht
 First, clone the repo via git:
 
 ```
-git clone git@github.com:IT-PKS/kta-desktop.git
-git submodule update --init
-git submodule update --remote
+$ git clone git@github.com:IT-PKS/kta-desktop.git
+$ cd kta-desktop
+$ git submodule update --init
+$ git submodule update --remote
 ```
 
 And then install dependencies with yarn.
 
 ```
-$ cd kta-desktop
 $ yarn
 ```
 **Note**: If you can't use [yarn](https://github.com/yarnpkg/yarn) for some reason, try `npm install`.
