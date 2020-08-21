@@ -1,15 +1,18 @@
 import { hot } from 'react-hot-loader/root';
 import React from 'react';
+import { Global } from '@emotion/core';
+import { ThemeProvider } from 'emotion-theming';
+import { theme, globalStyles } from 'components/base';
 import AuthDataProvider from 'utils/AuthDataProvider';
-import Layout from './Layout';
 import Router from './Router';
 
 const App: React.FC = () => (
-  <AuthDataProvider>
-    <Layout>
+  <ThemeProvider theme={theme}>
+    <Global styles={globalStyles(theme)} />
+    <AuthDataProvider>
       <Router />
-    </Layout>
-  </AuthDataProvider>
+    </AuthDataProvider>
+  </ThemeProvider>
 );
 
 export default hot(App);
