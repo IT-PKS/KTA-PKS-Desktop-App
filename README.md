@@ -4,7 +4,7 @@ This is an [Electron](http://electron.atom.io/) application, based on [React](ht
 
 ## Install
 
-**Note: requires a node version >= 7 and an npm version >= 4.**
+⚠ Requires a node version >= 7 and an npm version >= 4. ⚠
 
 First, clone the repo via git:
 
@@ -32,7 +32,11 @@ $ yarn dev
 
 ## Build
 
-WIP
+For Windows:
+```
+$ yarn build-win
+```
+Then locate .exe file in `release` folder for installation.
 
 ## Styling
 
