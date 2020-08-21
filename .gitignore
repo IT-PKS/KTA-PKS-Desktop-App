@@ -35,12 +35,13 @@ node_modules
 flow-typed/npm/*
 !flow-typed/npm/module_vx.x.x.js
 
-# code editor
+# Code editor
 .idea
+.vscode
 
 # env
 .env
 
-# App packaged
+# Other
 release
 dist
