@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const path = require('path');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
@@ -28,7 +29,7 @@ function run(task) {
           );
           return false;
         },
-        (err) => console.error(err.stack),
+        err => console.error(err.stack),
       );
   } else {
     console.log(`No available task for "${task}"`);
@@ -78,7 +79,7 @@ tasks.set('cp-html-to-dist', () => {
   }
 
   function writeFile(targetPath, contents, cb = () => {}) {
-    mkdirp(path.dirname(targetPath)).then((made) => {
+    mkdirp(path.dirname(targetPath)).then(made => {
       console.log(`"${targetPath}" created.`);
       fs.writeFile(targetPath, contents, cb);
     });
@@ -113,8 +114,8 @@ tasks.set('dev-server', async () => {
           env: process.env,
           stdio: 'inherit',
         })
-          .on('close', (code) => process.exit(code))
-          .on('error', (spawnError) => console.error(spawnError));
+          .on('close', code => process.exit(code))
+          .on('error', spawnError => console.error(spawnError));
       },
     });
 
@@ -198,11 +199,11 @@ tasks.set('postinstall', async () => {
           env: process.env,
           stdio: 'inherit',
         })
-          .on('close', (code) => {
+          .on('close', code => {
             resolve();
             process.exit(code);
           })
-          .on('error', (spawnError) => {
+          .on('error', spawnError => {
             reject(spawnError);
             console.error(spawnError);
           });
