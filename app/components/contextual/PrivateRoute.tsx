@@ -5,7 +5,6 @@ import SignInPage from 'pages/SignIn/SignIn';
 
 const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }) => {
   const { user, finishChecking } = useAuthDataContext();
-  console.log("user", user)
   const finalComponent = user ? component : SignInPage;
 
   if (finishChecking === false) {

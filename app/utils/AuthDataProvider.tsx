@@ -11,9 +11,10 @@ export interface AuthDataContextType extends AuthData {
 }
 
 const initialAuthData: AuthData = {
-  user: null,
+  user: JSON.parse(localStorage.getItem("user")) || '',
   finishChecking: false,
 };
+
 
 export const AuthDataContext = React.createContext<AuthDataContextType>({
   ...initialAuthData,
@@ -29,7 +30,7 @@ const getAuthData = () =>
   new Promise<AuthData>((resolve, reject) => {
     setTimeout(() => {
       resolve({
-        user: '',
+        ...initialAuthData
       });
     }, 1000);
   });
@@ -50,9 +51,13 @@ const AuthDataProvider: React.FC = props => {
     fetchData();
   }, []);
 
-  const onLogout = () => setAuthData(initialAuthData);
+  const onLogout = () => setAuthData({ ...authData, user: '' });
 
-  const onLogin = (newAuthData: AuthData) => setAuthData(newAuthData);
+  const onLogin = (newAuthData: AuthData) => {
+    localStorage.setItem("user", JSON.stringify('Dodi'))
+    setAuthData({ ...authData, user: 'Dodi' });
+  }
+
 
   const authDataValue = React.useMemo(() => {
     return {
@@ -64,5 +69,7 @@ const AuthDataProvider: React.FC = props => {
 
   return <AuthDataContext.Provider value={authDataValue} {...props} />;
 };
+
+
 
 export default AuthDataProvider;
