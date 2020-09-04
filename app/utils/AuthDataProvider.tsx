@@ -17,8 +17,8 @@ const initialAuthData: AuthData = {
 
 export const AuthDataContext = React.createContext<AuthDataContextType>({
   ...initialAuthData,
-  onLogin: () => {},
-  onLogout: () => {},
+  onLogin: () => { },
+  onLogout: () => { },
 });
 
 // Hooks
@@ -29,7 +29,7 @@ const getAuthData = () =>
   new Promise<AuthData>((resolve, reject) => {
     setTimeout(() => {
       resolve({
-        user: 'random',
+        user: '',
       });
     }, 1000);
   });
