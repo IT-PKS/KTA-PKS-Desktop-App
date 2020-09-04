@@ -14,6 +14,7 @@ module.exports = {
     modules: ['node_modules'],
     alias: {
       'react-dom': '@hot-loader/react-dom',
+      'kta-ui-components': `${__dirname}/app/components/base/index.ts`,
     },
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     plugins: [new TsConfigPathsPlugin()],
