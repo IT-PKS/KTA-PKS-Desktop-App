@@ -1,18 +1,32 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { Input } from 'kta-ui-components'
 
 import { useAuthDataContext } from 'utils/AuthDataProvider';
 
 
-const SignIn: React.FC = () => {
+const SignIn: React.FC<Props & InjectedFormProps<{}, {}>> = (props) => {
   const { onLogin } = useAuthDataContext();
 
   return (
     <div>
       <h2>SignIn</h2>
-      <form onClick={onLogin}>
-        <Input />
+      <form onSubmit={onLogin}>
+        <Field
+          name="username"
+          placeholder="Username"
+          component={Input}
+          type="text"
+        />
+        <Field
+          name="password"
+          placeholder="Password"
+          component={Input}
+          type="password"
+        />
+        <Input placeholder="test redux form" />
         <button type="submit">Login</button>
       </form>
 
@@ -21,4 +35,12 @@ const SignIn: React.FC = () => {
   );
 };
 
-export default SignIn;
+
+const form = reduxForm<{}, {}>({
+  destroyOnUnmount: false,
+  forceUnregisterOnUnmount: true,
+  form: 'sign-form',
+  touchOnChange: true,
+})(SignIn)
+
+export default connect(null)(form) 
