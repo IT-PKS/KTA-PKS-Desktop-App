@@ -6,6 +6,17 @@ import { Input } from 'kta-ui-components'
 
 import { useAuthDataContext } from 'utils/AuthDataProvider';
 
+import NeDB from 'nedb'
+
+const options = {
+  inMemoryOnly: false,
+  filename: 'kta-pks'
+}
+
+const user = new NeDB(options)
+
+console.log(user)
+
 
 const SignIn: React.FC<Props & InjectedFormProps<{}, {}>> = (props) => {
   const { onLogin } = useAuthDataContext();
