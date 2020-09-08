@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { Input } from 'kta-ui-components'
+import { Input, Login } from 'kta-ui-components'
 
 import { useAuthDataContext } from 'utils/AuthDataProvider';
 
@@ -11,27 +11,11 @@ const SignIn: React.FC<Props & InjectedFormProps<{}, {}>> = (props) => {
   const { onLogin } = useAuthDataContext();
 
   return (
-    <div>
-      <h2>SignIn</h2>
+    <>
       <form onSubmit={onLogin}>
-        <Field
-          name="username"
-          placeholder="Username"
-          component={Input}
-          type="text"
-        />
-        <Field
-          name="password"
-          placeholder="Password"
-          component={Input}
-          type="password"
-        />
-        <Input placeholder="test redux form" />
-        <button type="submit">Login</button>
+        <Login />
       </form>
-
-      <Link to="/broken">Broken Link</Link>
-    </div>
+    </>
   );
 };
 

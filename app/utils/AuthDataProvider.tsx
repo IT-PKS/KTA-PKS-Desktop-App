@@ -51,10 +51,12 @@ const AuthDataProvider: React.FC = props => {
     fetchData();
   }, []);
 
-  const onLogout = () => setAuthData({ ...authData, user: '' });
+  const onLogout = () => {
+    localStorage.clear();
+    setAuthData({ ...authData, user: '' });
+  }
 
   const onLogin = (newAuthData: AuthData) => {
-    console.log("onLogin -> newAuthData", newAuthData)
     localStorage.setItem("user", JSON.stringify('Dodi'))
     setAuthData({ ...authData, user: 'Dodi' });
   }
