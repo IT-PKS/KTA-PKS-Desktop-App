@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { Input, Login } from 'kta-ui-components'
+import { Login } from 'kta-ui-components'
 
 import { useAuthDataContext } from 'utils/AuthDataProvider';
 
