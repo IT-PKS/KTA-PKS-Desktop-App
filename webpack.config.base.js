@@ -6,6 +6,9 @@ const env = process.env.NODE_ENV || 'development';
 
 module.exports = {
   mode: env,
+  externals: {
+    sqlite3: 'commonjs sqlite3'
+  },
   output: {
     path: path.normalize(`${__dirname}/app/dist`),
     filename: 'bundle.js',
@@ -27,14 +30,12 @@ module.exports = {
     }),
   ],
   module: {
-    rules: [
-      {
-        test: /\.(j|t)s(x)?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
+    rules: [{
+      test: /\.(j|t)s(x)?$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader',
       },
-    ],
+    }, ],
   },
 };
