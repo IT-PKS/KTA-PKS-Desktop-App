@@ -45,3 +45,5 @@ flow-typed/npm/*
 # Other
 release
 dist
+
+kta-pks
