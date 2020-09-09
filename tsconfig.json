@@ -3,7 +3,7 @@
     "target": "esnext",
     "jsx": "react",
     "lib": ["esnext", "dom"],
-    "module": "esnext",
+    "module": ["esnext", "commonjs"],
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
@@ -23,7 +23,11 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types"
+    ]
   },
   "exclude": ["node_modules", "release", "app/dist"]
 }
