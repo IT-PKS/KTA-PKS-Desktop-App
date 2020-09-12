@@ -3,6 +3,7 @@ import { Route, RouteProps } from 'react-router-dom';
 import { useAuthDataContext } from 'utils/AuthDataProvider';
 import SignInPage from 'pages/SignIn/SignIn';
 import { Header, Sidebar } from 'kta-ui-components'
+import TemplateDataProvider from '../base/src/context/TemplateDataProvider'
 
 
 const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }) => {
@@ -15,10 +16,12 @@ const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }) => {
   }
 
   return (
-    <Header>
-      <Sidebar onLogout={onLogout} />
-      <Route {...rest} component={finalComponent} />
-    </Header>
+    <TemplateDataProvider>
+      <Header>
+        <Sidebar onLogout={onLogout} />
+        <Route {...rest} component={finalComponent} />
+      </Header>
+    </TemplateDataProvider>
   )
 };
 
