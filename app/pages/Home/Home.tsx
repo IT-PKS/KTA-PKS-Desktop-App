@@ -1,18 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { PATH } from 'components/contextual/Router';
 import { PersonalData } from 'kta-ui-components'
 
 
-const Home: React.FC = () => {
-
+const Home: React.FC = (props: any) => {
+  const handleSubmit = (values: any) => {
+    console.log("handleSubmit -> values", values)
+  }
   return (
     <div>
-      <PersonalData />
-      {/* <h1>Hello, world!</h1>
-      <Link to={PATH.TEST_REDUX}>Test Redux Page</Link>
-      <button onClick={onLogout}>Logout</button> */}
-
+      <PersonalData onSubmit={handleSubmit} />
     </div>
   );
 };
