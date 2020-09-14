@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <!-- Title will be handled by React -->
+    <title>&nbsp;</title>
+    <script>
+      // force-disable electron security warnings
+      // https://electronjs.org/docs/tutorial/security
+      window.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
+    </script>
+  </head>
+  <body>
+    <main id="root"></main>
+
+    <script>
+      const port = process.env.PORT || 8080;
+      const fileName = 'renderer.main.js';
+      const scripts = [];
+
+      if (process.env.NODE_ENV === 'development') {
+        // Dynamically insert the DLL script in development env in the
+        // renderer process
+        scripts.push('../dll/renderer.dll.js');
+
+        // Dynamically insert the bundled app script in the renderer process
+        scripts.push(`http://localhost:${port}/${fileName}`);
+        scripts.push(`http://localhost:${port}/webpack-dev-server.js`);
+      } else {
+        scripts.push(`../${fileName}`);
+      }
+
+      document.write(scripts.map((script) => `<script defer src="${script}"><\/script>`).join(''));
+    </script>
+  </body>
+</html>

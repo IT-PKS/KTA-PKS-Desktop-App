@@ -7,7 +7,8 @@ const env = process.env.NODE_ENV || 'development';
 module.exports = {
   mode: env,
   externals: {
-    sqlite3: 'commonjs sqlite3'
+    sqlite3: 'commonjs sqlite3',
+    typeorm: 'commonjs typeorm'
   },
   output: {
     path: path.normalize(`${__dirname}/app/dist`),

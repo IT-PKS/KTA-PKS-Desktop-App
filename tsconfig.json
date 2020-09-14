@@ -24,6 +24,8 @@
     "sourceMap": true,
     "strict": true,
     "resolveJsonModule": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "typeRoots": [
       "./node_modules/@types",
       "./types"
