@@ -19,6 +19,7 @@ module.exports = {
     alias: {
       'react-dom': '@hot-loader/react-dom',
       'kta-ui-components': `${__dirname}/app/components/base/index.ts`,
+      'client': `${__dirname}/app/client`,
     },
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     plugins: [new TsConfigPathsPlugin()],
@@ -37,6 +38,6 @@ module.exports = {
       use: {
         loader: 'babel-loader',
       },
-    }, ],
+    },],
   },
 };
