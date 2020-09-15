@@ -10,13 +10,12 @@ import "reflect-metadata";
 import { User } from "../../entity/User";
 
 const clientTest = async () => {
-  const connection = await initializeSQLite()
+  const connection = await initializeSQLite([User])
   console.log("Inserting a new user into the database...");
   const user = new User();
   user.firstName = "Timber";
   user.lastName = "Saw";
   user.age = 25;
-
 
   await connection.manager.save(user);
   console.log("Saved a new user with id: " + user.id);

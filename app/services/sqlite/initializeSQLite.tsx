@@ -1,13 +1,12 @@
 import { createConnection } from "typeorm";
-import { User } from "../../entity/User";
 
-const initializeSQLite = async () => {
+const initializeSQLite = async (Entity: any) => {
     const connection = await createConnection({
         "type": "sqlite",
         "database": "app/database/kta-pks.sql",
         "synchronize": true,
         "logging": false,
-        "entities": [User]
+        "entities": [...Entity]
     })
     return connection
 }
