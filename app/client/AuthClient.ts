@@ -4,6 +4,7 @@ import { User } from "../entity/User";
 
 export const clientTest = async () => {
     const connection = await initializeSQLite([User])
+    console.log("clientTest -> connection", connection)
 
     const user = new User()
     user.firstName = "Timber"

@@ -1,4 +1,6 @@
 import React from 'react';
+import { clientTest } from 'client/AuthClient'
+
 
 export type AuthData = {
   user: string | null;
@@ -56,7 +58,9 @@ const AuthDataProvider: React.FC = props => {
     setAuthData({ ...authData, user: '' });
   }
 
-  const onLogin = (newAuthData: AuthData) => {
+  const onLogin = async (newAuthData: AuthData) => {
+    console.log('woi')
+    await clientTest()
     localStorage.setItem("user", JSON.stringify('Dodi'))
     setAuthData({ ...authData, user: 'Dodi' });
   }
