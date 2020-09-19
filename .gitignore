@@ -4,3 +4,10 @@ node_modules/
 build/
 tmp/
 temp/
+app/dist/**
+release/*
+yarn-error.log
+
+app/dist/
+app/database/kta-pks.sql
+*.sql

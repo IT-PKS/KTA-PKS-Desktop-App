@@ -18,13 +18,13 @@ const createWindow = () => {
     width: 1000,
     height: 600,
     webPreferences: {
+      webSecurity: false,
       nodeIntegration: true,
       enableRemoteModule: true,
     },
   });
 
   mainWindow.loadFile(isDev ? './html/index.html' : './dist/html/index.html');
-
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
