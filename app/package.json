@@ -12,5 +12,8 @@
   "scripts": {
     "postinstall": "npm rebuild --runtime=electron --target=8.5.0 --disturl=https://atom.io/download/atom-shell --build-from-source"
   },
-  "dependencies": {}
+  "dependencies": {
+    "sqlite3": "^5.0.0",
+    "typeorm": "0.2.26"
+  }
 }
