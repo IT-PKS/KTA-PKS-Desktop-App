@@ -5,7 +5,9 @@ const WebpackDevServer = require('webpack-dev-server');
 const del = require('del');
 const fs = require('fs');
 const mkdirp = require('mkdirp');
-const { spawn } = require('child_process');
+const {
+  spawn
+} = require('child_process');
 
 const port = process.env.PORT || 8080;
 const distDir = path.normalize(`${__dirname}/app/dist`);
@@ -46,15 +48,18 @@ tasks.set('clean-dist', () =>
       '!app/dist/dll',
       '!app/dist/dll/renderer.dev.dll.js',
       '!app/dist/dll/renderer.json',
-    ],
-    { dot: true },
+    ], {
+      dot: true
+    },
   ),
 );
 
 // Clean up the "release" directory
 // -----------------------------------------------------------------------------
 tasks.set('clean-release', () =>
-  del(['release/**', '!release', '!release/.gitkeep'], { dot: true }),
+  del(['release/**', '!release', '!release/.gitkeep'], {
+    dot: true
+  }),
 );
 
 // Copy html files from "app/html" to "app/dist/html"
@@ -110,10 +115,10 @@ tasks.set('dev-server', async () => {
       after() {
         // Start electron main process...
         spawn('electron', [path.normalize(`${__dirname}/app/dist/main.js`)], {
-          shell: true,
-          env: process.env,
-          stdio: 'inherit',
-        })
+            shell: true,
+            env: process.env,
+            stdio: 'inherit',
+          })
           .on('close', code => process.exit(code))
           .on('error', spawnError => console.error(spawnError));
       },
@@ -195,10 +200,10 @@ tasks.set('postinstall', async () => {
     .then(() => {
       return new Promise((resolve, reject) => {
         spawn('electron-builder', ['install-app-deps'], {
-          shell: true,
-          env: process.env,
-          stdio: 'inherit',
-        })
+            shell: true,
+            env: process.env,
+            stdio: 'inherit',
+          })
           .on('close', code => {
             resolve();
             process.exit(code);
@@ -256,10 +261,47 @@ tasks.set('build-win', async () => {
     .then(() => {
       return new Promise((resolve, reject) => {
         spawn('electron-builder', ['--win'], {
-          shell: true,
-          env: process.env,
-          stdio: 'inherit',
-        })
+            shell: true,
+            env: process.env,
+            stdio: 'inherit',
+          })
+          .on('close', code => {
+            resolve();
+            process.exit(code);
+          })
+          .on('error', spawnError => {
+            reject(spawnError);
+            console.error(spawnError);
+          });
+      });
+    });
+});
+
+tasks.set('build-mac', async () => {
+  return Promise.resolve()
+    .then(async () => {
+      /**
+       * Warn if the DLL is not built
+       */
+      if (!(fs.existsSync(dllDir) && fs.existsSync(dllManifest))) {
+        process.stdout.write('The DLL files are missing. Sit back while we build them for you..\n');
+        return Promise.resolve()
+          .then(() => run('build-renderer-dll'))
+          .then(() => run('clean-dist'));
+      } else {
+        return run('clean-dist');
+      }
+    })
+    .then(() => run('cp-html-to-dist'))
+    .then(() => run('build-main'))
+    .then(() => run('build-renderer'))
+    .then(() => {
+      return new Promise((resolve, reject) => {
+        spawn('electron-builder', ['--mac'], {
+            shell: true,
+            env: process.env,
+            stdio: 'inherit',
+          })
           .on('close', code => {
             resolve();
             process.exit(code);

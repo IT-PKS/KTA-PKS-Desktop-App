@@ -21,6 +21,7 @@
       "clean-release": "node task-runner.js clean-release",
       "dev": "cross-env NODE_ENV=development PORT=9065 node task-runner.js dev",
       "build-win": "cross-env NODE_ENV=production node task-runner.js build-win",
+      "build-mac": "cross-env NODE_ENV=production node task-runner.js build-mac",
       "start": "ts-node src/index.ts"
    },
    "build": {
