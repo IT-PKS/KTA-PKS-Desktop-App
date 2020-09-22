@@ -1,9 +1,9 @@
 
-import initializeSQLite from '../services/sqlite/initializeSQLite'
+import initSQLite from '../services/sqlite/initSQLite'
 import { User } from "../entity/User";
 
 export const clientTest = async () => {
-    const connection = await initializeSQLite([User])
+    const connection = await initSQLite([User])
     console.log("clientTest -> connection", connection)
 
     const user = new User()

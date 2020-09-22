@@ -2,6 +2,9 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity()
 export class Member {
+    constructor(partial?: Partial<Member>) {
+        if (partial) Object.assign(this, partial)
+    }
 
     @PrimaryGeneratedColumn()
     id!: number;
@@ -57,19 +60,19 @@ export class Member {
     @Column('integer', { nullable: false })
     sub_district!: number;
 
-    @Column('text', { nullable: false })
+    @Column('text', { nullable: true })
     address!: string;
 
     @Column('varchar', { nullable: false })
     domicile!: string;
 
-    @Column('varchar', { nullable: false })
+    @Column('varchar', { nullable: true })
     lat!: string;
 
-    @Column('varchar', { nullable: false })
+    @Column('varchar', { nullable: true })
     lon!: string;
 
-    @Column('varchar', { nullable: false })
+    @Column('varchar', { nullable: true })
     email!: string;
 
     @Column('integer', { nullable: false })
