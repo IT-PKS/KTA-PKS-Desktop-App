@@ -73,6 +73,7 @@
       "@fortawesome/react-fontawesome": "^0.1.11",
       "@popperjs/core": "^2.4.4",
       "@types/electron-devtools-installer": "^2.2.0",
+      "axios": "^0.20.0",
       "electron": "8.5.0",
       "electron-rebuild": "^2.0.2",
       "emotion-theming": "^10.0.27",
