@@ -10,7 +10,7 @@ const createStyles = (t: Theme) => {
       box-shadow: 6px 0px 10px rgba(0, 0, 0, 0.05);
       width: 300px;
       background-color:${t.color.lightPrimary};
-      top: 92px;      
+      top: 92px;
       left: 0px;
       bottom: 0;
       margin:0;
@@ -112,7 +112,7 @@ const createStyles = (t: Theme) => {
       bottom: 0;
       display: flex;
       width: 300px;
-      border-top: 1px solid ${t.color.grayThird};
+      border-top: 1px solid ${t.color.grayDark};
       justify-content:space-between;
       transition: all 0.5s;
       p {
@@ -126,9 +126,9 @@ const createStyles = (t: Theme) => {
       width: 50px;
       div {
         width: 50px;
-        margin-left:10px;
+        margin-left: 10px;
         p {
-          display:none;
+          display: none;
         }
       }
   `,
@@ -139,15 +139,15 @@ const createStyles = (t: Theme) => {
         width: 50px;
         div {
           width: 50px;
-          margin-left:10px;
+          margin-left: 10px;
           p {
-            display:none;
+            display: none;
           }
         }
       }
     `,
     settings: css`
-      border-right: 1px solid ${t.color.grayThird};
+      border-right: 1px solid ${t.color.grayDark};
       width: 146px;
       height: 48px;
       cursor: pointer;
