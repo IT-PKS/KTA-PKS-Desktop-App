@@ -45,6 +45,7 @@ const AuthDataProvider: React.FC = props => {
   React.useEffect(() => {
     const fetchData = async () => {
       const currentAuthData = await getAuthData();
+      console.log(currentAuthData)
       setAuthData({ ...currentAuthData, finishChecking: true });
     };
 
