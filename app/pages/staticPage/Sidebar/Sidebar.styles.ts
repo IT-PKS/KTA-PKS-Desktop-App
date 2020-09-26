@@ -30,7 +30,7 @@ const createStyles = (t: Theme) => {
       display: flex;
       align-items: center;
       padding-left: 18px;
-      color: ${t.color.yellowPrimaryLight};
+      color: ${t.color.yellowLight};
       cursor: pointer;
       border-left: 5px solid ${t.color.lightPrimary};
 
@@ -38,7 +38,7 @@ const createStyles = (t: Theme) => {
         div{
           color: ${(t.color.darkPrimary)};
         }
-        color: ${t.color.yellowPrimaryDark};
+        color: ${t.color.yellowDark};
         border-left: 5px solid ${t.color.redPrimary};
         background-color: ${t.color.gray}
       }
@@ -74,7 +74,7 @@ const createStyles = (t: Theme) => {
           color: ${(t.color.darkPrimary)};
           background-color: ${t.color.lightPrimary}
         }
-        color: ${t.color.yellowPrimaryDark};
+        color: ${t.color.yellowDark};
         border-left: 5px solid ${t.color.redPrimary};
         background-color: ${t.color.lightPrimary}
       }
@@ -101,7 +101,7 @@ const createStyles = (t: Theme) => {
             color: ${(t.color.darkPrimary)};
             background-color: ${t.color.lightPrimary}
           }
-          color: ${t.color.yellowPrimaryDark};
+          color: ${t.color.yellowDark};
           border-left: 5px solid ${t.color.redPrimary};
           background-color: ${t.color.lightPrimary}
         }
@@ -166,7 +166,7 @@ const createStyles = (t: Theme) => {
         line-height: 20px;
       }
       &:hover {
-        svg {color: ${t.color.yellowPrimaryDark};}
+        svg {color: ${t.color.yellowDark};}
       }
     `,
     icon_settings: css`
@@ -174,9 +174,9 @@ const createStyles = (t: Theme) => {
       height: 24px;
       left: 18px;
       top: 12px;
-      color: ${t.color.yellowPrimaryLight};
+      color: ${t.color.yellowLight};
       &:hover {
-        color: ${t.color.yellowPrimaryDark};
+        color: ${t.color.yellowDark};
       }
       
     `,
@@ -205,14 +205,14 @@ const createStyles = (t: Theme) => {
         line-height: 20px;
       }
       &:hover {
-        svg {color: ${t.color.yellowPrimaryDark};}
+        svg {color: ${t.color.yellowDark};}
       }
     `,
     icon_logout: css`
       height: 24px;
       margin-top: 11px;
       margin-right: 18px;
-      color: ${t.color.yellowPrimaryLight};
+      color: ${t.color.yellowLight};
      
     `,
     icon_chevron_left: css`
@@ -233,7 +233,7 @@ const createStyles = (t: Theme) => {
       cursor: pointer; 
       transition: all 0.5s;
       &:hover {
-        background-color: ${t.color.yellowPrimaryDark};
+        background-color: ${t.color.yellowDark};
         svg {
           color:  ${t.color.lightPrimary};
         }
