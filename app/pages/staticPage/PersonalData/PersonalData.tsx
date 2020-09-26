@@ -43,9 +43,6 @@ import RegisterSuccess from '../../../components/base/src/staticPages/Register/R
 // Utils
 import { isPossiblyNumber, validateFileType, validateFileSize } from '../../../components/base/src/utils';
 
-// Images
-import logoImg from '../../../components/base/src/img/logo-71x100.png';
-
 type Props = {
     defaultValues?: { [K in keyof RegisterFormData]?: RegisterFormData[K] };
     state?: 'default' | 'success' | 'failed';
