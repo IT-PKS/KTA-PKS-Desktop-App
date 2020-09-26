@@ -1,7 +1,10 @@
 import React from 'react';
+import { _postAuthLogin } from '../client/AuthClient'
+
 
 export type AuthData = {
   user: string | null;
+  email: string | null;
   finishChecking?: boolean;
 };
 
@@ -12,6 +15,7 @@ export interface AuthDataContextType extends AuthData {
 
 const initialAuthData: AuthData = {
   user: JSON.parse(localStorage.getItem("user")) || '',
+  email: JSON.parse(localStorage.getItem("email")) || '',
   finishChecking: false,
 };
 
@@ -45,7 +49,6 @@ const AuthDataProvider: React.FC = props => {
   React.useEffect(() => {
     const fetchData = async () => {
       const currentAuthData = await getAuthData();
-      console.log(currentAuthData)
       setAuthData({ ...currentAuthData, finishChecking: true });
     };
 
@@ -54,12 +57,14 @@ const AuthDataProvider: React.FC = props => {
 
   const onLogout = () => {
     localStorage.clear();
-    setAuthData({ ...authData, user: '' });
+    setAuthData({ ...authData, user: '', email: '' });
   }
 
   const onLogin = async (newAuthData: AuthData) => {
-    localStorage.setItem("user", JSON.stringify('Dodi'))
-    setAuthData({ ...authData, user: 'Dodi' });
+    const res = await _postAuthLogin(newAuthData)
+    if(res.error) alert(res.error.message)
+    localStorage.setItem("user", JSON.stringify(newAuthData.email))
+    setAuthData({ ...authData, user: newAuthData.email });
   }
 
 

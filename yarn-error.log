@@ -1,11 +1,11 @@
 Arguments: 
-  /opt/node-v12.18.3-linux-x64/bin/node /opt/node-v12.18.3-linux-x64/bin/yarn add @types/electron-devtools-installer
+  /home/hlmifzi/.nvm/versions/node/v12.18.3/bin/node /home/hlmifzi/.nvm/versions/node/v12.18.3/bin/yarn add text-mask-addons
 
 PATH: 
-  /opt/node-v12.18.3-linux-x64/bin:/opt/node-v12.18.3-linux-x64/bin:/home/devops/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/games:/snap/bin
+  /home/hlmifzi/.nvm/versions/node/v12.18.3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/nodejs/:/mnt/c/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/:/mnt/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/:/mnt/c/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/:/mnt/c/Program Files/Microsoft SQL Server/150/Tools/Binn/:/mnt/c/Program Files/Microsoft SQL Server/150/DTS/Binn/:/mnt/c/Program Files/PuTTY/:/mnt/c/Program Files/Docker/Docker/resources/bin:/mnt/c/ProgramData/DockerDesktop/version-bin:/mnt/c/Program Files (x86)/Yarn/bin/:/mnt/c/Users/Asus/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Asus/AppData/Local/Programs/Microsoft VS Code Insiders/bin:/mnt/c/Users/Asus/AppData/Roaming/npm:/mnt/c/Users/Asus/AppData/Local/Yarn/bin:/snap/bin
 
 Yarn version: 
-  1.22.4
+  1.22.5
 
 Node version: 
   12.18.3
@@ -14,8 +14,7 @@ Platform:
   linux x64
 
 Trace: 
-  Error: getaddrinfo EAI_AGAIN registry.yarnpkg.com
-      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:66:26)
+  Error: EACCES: permission denied, unlink '/mnt/d/hlmifzi/private/pks/kta-desktop/node_modules/electron/dist/chrome_100_percent.pak'
 
 npm manifest: 
   {
@@ -23,7 +22,7 @@ npm manifest:
      "description": "Desktop app KTA PKS.",
      "productName": "KTA PKS",
      "private": true,
-     "version": "1.0.1",
+     "version": "0.0.1",
      "homepage": "https://github.com/IT-PKS/kta-desktop",
      "main": "dist/main.js",
      "author": {
@@ -41,10 +40,11 @@ npm manifest:
         "clean-release": "node task-runner.js clean-release",
         "dev": "cross-env NODE_ENV=development PORT=9065 node task-runner.js dev",
         "build-win": "cross-env NODE_ENV=production node task-runner.js build-win",
+        "build-mac": "cross-env NODE_ENV=production node task-runner.js build-mac",
         "start": "ts-node src/index.ts"
      },
      "build": {
-        "productName": "KTA PKS DUA",
+        "productName": "KTA PKS",
         "appId": "com.pks.kta",
         "copyright": "Copyright 2020 PKS",
         "directories": {
@@ -91,6 +91,7 @@ npm manifest:
         "@fortawesome/free-solid-svg-icons": "^5.14.0",
         "@fortawesome/react-fontawesome": "^0.1.11",
         "@popperjs/core": "^2.4.4",
+        "@types/electron-devtools-installer": "^2.2.0",
         "electron": "8.5.0",
         "electron-rebuild": "^2.0.2",
         "emotion-theming": "^10.0.27",
@@ -102,9 +103,12 @@ npm manifest:
         "polished": "^3.6.5",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
+        "react-hook-form": "^6.8.4",
         "react-popper": "^2.2.3",
         "react-redux": "^7.2.1",
         "react-router-dom": "^5.2.0",
+        "react-select": "^3.1.0",
+        "react-text-mask": "^5.4.3",
         "react-transition-group": "^4.4.1",
         "redux": "^4.0.5",
         "redux-form": "^8.3.6",
@@ -127,6 +131,8 @@ npm manifest:
         "@types/react-dom": "^16.9.8",
         "@types/react-redux": "^7.1.9",
         "@types/react-router-dom": "^5.1.5",
+        "@types/react-select": "^3.0.20",
+        "@types/react-text-mask": "^5.4.6",
         "@types/redux-form": "^8.2.7",
         "@types/sqlite3": "^3.1.6",
         "@typescript-eslint/eslint-plugin": "^3.9.1",
@@ -1084,7 +1090,7 @@ Lockfile:
       "@babel/helper-plugin-utils" "^7.10.4"
       "@babel/plugin-transform-typescript" "^7.10.4"
   
-  "@babel/runtime@^7.1.2", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
+  "@babel/runtime@^7.1.2", "@babel/runtime@^7.4.4", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
     version "7.11.2"
     resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.11.2.tgz#f549c13c754cc40b87644b9fa9f09a6a95fe0736"
     integrity sha512-TeWkU52so0mPtDcaCTxNBI/IHiz0pZgr8VEFqXFtZWpYD08ZB6FaSwVAS8MKRQAP3bYKiVjwysOJgMFY28o6Tw==
@@ -1148,7 +1154,7 @@ Lockfile:
       global-agent "^2.0.2"
       global-tunnel-ng "^2.7.1"
   
-  "@emotion/cache@^10.0.27":
+  "@emotion/cache@^10.0.27", "@emotion/cache@^10.0.9":
     version "10.0.29"
     resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-10.0.29.tgz#87e7e64f412c060102d589fe7c6dc042e6f9d1e0"
     integrity sha512-fU2VtSVlHiF27empSbxi1O2JFdNWZO+2NFHfwO0pxgTep6Xa3uGb+3pVKfLww2l/IBGLNEZl5Xf/++A4wAYDYQ==
@@ -1158,7 +1164,7 @@ Lockfile:
       "@emotion/utils" "0.11.3"
       "@emotion/weak-memoize" "0.2.5"
   
-  "@emotion/core@^10.0.27":
+  "@emotion/core@^10.0.27", "@emotion/core@^10.0.9":
     version "10.0.35"
     resolved "https://registry.yarnpkg.com/@emotion/core/-/core-10.0.35.tgz#513fcf2e22cd4dfe9d3894ed138c9d7a859af9b3"
     integrity sha512-sH++vJCdk025fBlRZSAhkRlSUoqSqgCzYf5fMOmqqi3bM6how+sQpg3hkgJonj8GxXM4WbD7dRO+4tegDB9fUw==
@@ -1170,7 +1176,7 @@ Lockfile:
       "@emotion/sheet" "0.9.4"
       "@emotion/utils" "0.11.3"
   
-  "@emotion/css@^10.0.27":
+  "@emotion/css@^10.0.27", "@emotion/css@^10.0.9":
     version "10.0.27"
     resolved "https://registry.yarnpkg.com/@emotion/css/-/css-10.0.27.tgz#3a7458198fbbebb53b01b2b87f64e5e21241e14c"
     integrity sha512-6wZjsvYeBhyZQYNrGoR5yPMYbMBNEnanDrqmsqS1mzDm1cOTu12shvl2j4QHNS36UaTE0USIJawCH9C8oW34Zw==
@@ -1376,6 +1382,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.5.tgz#b14efa8852b7768d898906613c23f688713e02cd"
     integrity sha512-Q1y515GcOdTHgagaVFhHnIFQ38ygs/kmxdNpvpou+raI9UO3YZcHDngBSYKQklcKlvA7iuQlmIKbzvmxcOE9CQ==
   
+  "@types/electron-devtools-installer@^2.2.0":
+    version "2.2.0"
+    resolved "https://registry.yarnpkg.com/@types/electron-devtools-installer/-/electron-devtools-installer-2.2.0.tgz#32ee4ebbe99b3daf9847a6d2097dc00b5de94f10"
+    integrity sha512-HJNxpaOXuykCK4rQ6FOMxAA0NLFYsf7FiPFGmab0iQmtVBHSAfxzy3MRFpLTTDDWbV0yD2YsHOQvdu8yCqtCfw==
+  
   "@types/eslint-visitor-keys@^1.0.0":
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
@@ -1454,7 +1465,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
     integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
   
-  "@types/react-dom@^16.9.8":
+  "@types/react-dom@*", "@types/react-dom@^16.9.8":
     version "16.9.8"
     resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.9.8.tgz#fe4c1e11dfc67155733dfa6aa65108b4971cb423"
     integrity sha512-ykkPQ+5nFknnlU6lDd947WbQ6TE3NNzbQAkInC2EKY1qeYdTKp7onFusmYZb+ityzx2YviqT6BXSu+LyWWJwcA==
@@ -1486,6 +1497,29 @@ Lockfile:
     integrity sha512-HzOyJb+wFmyEhyfp4D4NYrumi+LQgQL/68HvJO+q6XtuHSDvw6Aqov7sCAhjbNq3bUPgPqbdvjXC5HeB2oEAPg==
     dependencies:
       "@types/history" "*"
+      "@types/react" "*"
+  
+  "@types/react-select@^3.0.20":
+    version "3.0.20"
+    resolved "https://registry.yarnpkg.com/@types/react-select/-/react-select-3.0.20.tgz#1cbedcb145a910602ef192698235cd2d9debdd04"
+    integrity sha512-yKFcq773jsUV5C1nYb0KeQCboo8tCo4ngcM3mi9fmC0CTGJeIuV/mfxaWtmv7i7HetQtki4p7h1YpP8wBy9gWw==
+    dependencies:
+      "@types/react" "*"
+      "@types/react-dom" "*"
+      "@types/react-transition-group" "*"
+  
+  "@types/react-text-mask@^5.4.6":
+    version "5.4.6"
+    resolved "https://registry.yarnpkg.com/@types/react-text-mask/-/react-text-mask-5.4.6.tgz#3a81e9de472beb939038e78cb16d737ae94ba14a"
+    integrity sha512-0KkER9oXZY/v1x8aoMTHwANlWnKT5tnmV7Zz+g81gBvcHRtcIHotcpY4KgWRwx0T5JMcsYmEh7wGOz0lwdONew==
+    dependencies:
+      "@types/react" "*"
+  
+  "@types/react-transition-group@*":
+    version "4.4.0"
+    resolved "https://registry.yarnpkg.com/@types/react-transition-group/-/react-transition-group-4.4.0.tgz#882839db465df1320e4753e6e9f70ca7e9b4d46d"
+    integrity sha512-/QfLHGpu+2fQOqQaXh8MG9q03bFENooTb/it4jr5kKaZlDQfWvjqWZg48AwzPVMBHlRuTRAY7hRHCEOXz5kV6w==
+    dependencies:
       "@types/react" "*"
   
   "@types/react@*", "@types/react@^16.9.46":
@@ -2096,6 +2130,13 @@ Lockfile:
     version "1.10.1"
     resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.10.1.tgz#e1e82e4f3e999e2cfd61b161280d16a111f86428"
     integrity sha512-zg7Hz2k5lI8kb7U32998pRRFin7zJlkfezGJjUc2heaD4Pw2wObakCDVzkKztTm/Ln7eiVvYsjqak0Ed4LkMDA==
+  
+  axios@^0.20.0:
+    version "0.20.0"
+    resolved "https://registry.yarnpkg.com/axios/-/axios-0.20.0.tgz#057ba30f04884694993a8cd07fa394cff11c50bd"
+    integrity sha512-ANA4rr2BDcmmAQLOKft2fufrtuvlqR+cXNNinUmvfeSNCOF98PZL+7M/v1zIdGo7OLjEA9J2gXJL+j4zGsl0bA==
+    dependencies:
+      follow-redirects "^1.10.0"
   
   babel-loader@^8.1.0:
     version "8.1.0"
@@ -4087,7 +4128,7 @@ Lockfile:
       inherits "^2.0.3"
       readable-stream "^2.3.6"
   
-  follow-redirects@^1.0.0:
+  follow-redirects@^1.0.0, follow-redirects@^1.10.0:
     version "1.13.0"
     resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.13.0.tgz#b42e8d93a2a7eea5ed88633676d6597bc8e384db"
     integrity sha512-aq6gF1BEKje4a9i9+5jimNFIpq4Q1WiwBToeRK5NvZBd/TRsmW8BsJfOEGkr76TbOyPVD3OVDN910EcUNtRYEA==
@@ -5512,6 +5553,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
     integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
   
+  memoize-one@^5.0.0:
+    version "5.1.1"
+    resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-5.1.1.tgz#047b6e3199b508eaec03504de71229b8eb1d75c0"
+    integrity sha512-HKeeBpWvqiVJD57ZUAsJNm71eHTykffzcLZVYWiVfQeI1rJtuEaS7hQiEpWfVVk18donPwJEcFKIkCmPJNOhHA==
+  
   memory-fs@^0.4.1:
     version "0.4.1"
     resolved "https://registry.yarnpkg.com/memory-fs/-/memory-fs-0.4.1.tgz#3a9a20b8462523e447cfbc7e8bb80ed667bfc552"
@@ -6530,7 +6576,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/promise-inflight/-/promise-inflight-1.0.1.tgz#98472870bf228132fcbdd868129bad12c3c029e3"
     integrity sha1-mEcocL8igTL8vdhoEputEsPAKeM=
   
-  prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+  prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
     version "15.7.2"
     resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
     integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -6701,6 +6747,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
     integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
   
+  react-hook-form@^6.8.4:
+    version "6.8.4"
+    resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-6.8.4.tgz#1aed2f7badba3622324e37d68f7637868ea54cf2"
+    integrity sha512-qFd5SPPQUZWe+yXF6yjuJXKK8cLXywrzQuw74nL1jptW9Fad4HsEzfh+53Jg3c5TFPIwdIxrMNUvQfd0/p1y/w==
+  
   react-hot-loader@^4.12.21:
     version "4.12.21"
     resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-4.12.21.tgz#332e830801fb33024b5a147d6b13417f491eb975"
@@ -6714,6 +6765,13 @@ Lockfile:
       react-lifecycles-compat "^3.0.4"
       shallowequal "^1.1.0"
       source-map "^0.7.3"
+  
+  react-input-autosize@^2.2.2:
+    version "2.2.2"
+    resolved "https://registry.yarnpkg.com/react-input-autosize/-/react-input-autosize-2.2.2.tgz#fcaa7020568ec206bc04be36f4eb68e647c4d8c2"
+    integrity sha512-jQJgYCA3S0j+cuOwzuCd1OjmBmnZLdqQdiLKRYrsMMzbjUrVDS5RvJUDwJqA7sKuksDuzFtm6hZGKFu7Mjk5aw==
+    dependencies:
+      prop-types "^15.5.8"
   
   react-is@^16.4.2, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.9.0:
     version "16.13.1"
@@ -6773,7 +6831,28 @@ Lockfile:
       tiny-invariant "^1.0.2"
       tiny-warning "^1.0.0"
   
-  react-transition-group@^4.4.1:
+  react-select@^3.1.0:
+    version "3.1.0"
+    resolved "https://registry.yarnpkg.com/react-select/-/react-select-3.1.0.tgz#ab098720b2e9fe275047c993f0d0caf5ded17c27"
+    integrity sha512-wBFVblBH1iuCBprtpyGtd1dGMadsG36W5/t2Aj8OE6WbByDg5jIFyT7X5gT+l0qmT5TqWhxX+VsKJvCEl2uL9g==
+    dependencies:
+      "@babel/runtime" "^7.4.4"
+      "@emotion/cache" "^10.0.9"
+      "@emotion/core" "^10.0.9"
+      "@emotion/css" "^10.0.9"
+      memoize-one "^5.0.0"
+      prop-types "^15.6.0"
+      react-input-autosize "^2.2.2"
+      react-transition-group "^4.3.0"
+  
+  react-text-mask@^5.4.3:
+    version "5.4.3"
+    resolved "https://registry.yarnpkg.com/react-text-mask/-/react-text-mask-5.4.3.tgz#991efb4299e30c2e6c2c46d13f617169463e0d2d"
+    integrity sha1-mR77QpnjDC5sLEbRP2FxaUY+DS0=
+    dependencies:
+      prop-types "^15.5.6"
+  
+  react-transition-group@^4.3.0, react-transition-group@^4.4.1:
     version "4.4.1"
     resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.1.tgz#63868f9325a38ea5ee9535d828327f85773345c9"
     integrity sha512-Djqr7OQ2aPUiYurhPalTrVy9ddmFCCzwhqQmtN+J3+3DzLO209Fdr70QrN8Z3DsglWql6iY1lDWAfpFiBtuKGw==

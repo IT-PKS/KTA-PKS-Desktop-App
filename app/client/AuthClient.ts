@@ -1,10 +1,11 @@
 
 import initSQLite from '../services/sqlite/initSQLite'
 import { User } from "../entity/User";
+import { clientPost } from '../services/URLApi/URLApi'
+
 
 export const clientTest = async () => {
     const connection = await initSQLite([User])
-    console.log("clientTest -> connection", connection)
 
     const theUser = {
         "firstName": "Dodi",
@@ -19,6 +20,6 @@ export const clientTest = async () => {
     connection.close()
 }
 
-export const _postAuthLOgin = () => {
-
+export const _postAuthLogin = async (payload:object) => {
+    return await clientPost('auth/login', payload)
 }

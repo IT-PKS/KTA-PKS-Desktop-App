@@ -23,8 +23,8 @@ export const clientGet = async (endPoint: string,  params:object ) => {
 
 export const clientPost = async (endPoint:string, body:object) => {
     try {
-        let getData = await ROOT_API.post(endPoint, body)
-        if (getData.status === 200) return getData.data
+        let res = await ROOT_API.post(endPoint, body)
+        return res.data
     } catch (e) {
         alert(e.message)
     }

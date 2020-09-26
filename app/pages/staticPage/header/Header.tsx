@@ -3,7 +3,7 @@ import React from 'react'
 import { jsx } from '@emotion/core';
 import { useTheme } from 'emotion-theming';
 import createStyles from './Header.styles';
-import { Theme } from '../../../components/base/src/theme.ts';
+import { Theme } from '../../../components/base/src/theme';
 import pksLogo from '../../../components/base/src/img/logo-71x100.png'
 
 const Header: React.FC = (props) => {

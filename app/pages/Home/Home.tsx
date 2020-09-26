@@ -1,32 +1,13 @@
 import React from 'react';
-import { PersonalData } from 'kta-ui-components'
-import { InjectedFormProps, reduxForm } from 'redux-form';
-import { connect } from 'react-redux';
+import PersonalData from '../staticPage/PersonalData/PersonalData'
 
-
-
-const Home: React.FC<{} & InjectedFormProps<{}, {}>> = (props) => {
-  const handleSubmit = (values: any) => {
-    console.log("handleSubmit -> values", values)
-  }
+const Home: React.FC = () => {
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} noValidate={true}>
-        {/* <PersonalData onSubmit={handleSubmit} /> */}
-        logined
-      </form>
-
+    <div >
+         <PersonalData />
     </div>
   );
 }
 
-const formHome = reduxForm<{}, {}>({
-  destroyOnUnmount: false,
-  forceUnregisterOnUnmount: true,
-  form: 'registration-form',
-  touchOnChange: true,
-})(Home);
-
-
-export default connect(null)(formHome)
+export default Home

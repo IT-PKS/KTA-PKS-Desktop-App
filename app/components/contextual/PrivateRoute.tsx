@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, RouteProps } from 'react-router-dom';
 import { useAuthDataContext } from 'utils/AuthDataProvider';
 import SignInPage from 'pages/SignIn/SignIn';
+import Register from '../base/src/staticPages/Register/Register'
 import LicenseKey from 'pages/LicenseKey/LicenseKey';
 import Header from '../../pages/staticPage/header/Header'
 import Sidebar from '../../pages/staticPage/Sidebar/Sidebar'
@@ -10,10 +11,8 @@ import TemplateDataProvider from './TemplateDataProvider'
 
 const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }) => {
   const { user, finishChecking, onLogout } = useAuthDataContext();
-  console.log('user: ', user);
 
   const finalComponent = user ? component : SignInPage;
-  console.log('component: ', component);
 
   if (finishChecking === false) {
     return <div>Authenticating..</div>;
@@ -26,7 +25,7 @@ const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }) => {
     </Header>
   )
 
-  const withTemplate = () => (
+  const WithTemplate = () => (
     <Template>
       <Route {...rest} component={finalComponent} />
     </Template>
@@ -35,7 +34,7 @@ const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }) => {
   return (
     <TemplateDataProvider>
       {
-        user ? withTemplate : <Route {...rest} component={finalComponent} />
+        user ? <WithTemplate /> : <Route {...rest} component={finalComponent} />
       }
     </TemplateDataProvider>
   )

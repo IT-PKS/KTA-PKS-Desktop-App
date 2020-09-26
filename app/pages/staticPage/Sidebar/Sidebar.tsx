@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import { jsx } from '@emotion/core';
 import { useTheme } from 'emotion-theming';
 import createStyles from './Sidebar.styles';
-import { Theme } from '../../theme.ts';
-import { Icon } from '../../../index'
+import { Theme } from '../../../components/base/src/theme';
+import { Icon } from 'kta-ui-components'
 import { useTemplateDataContext } from '../../../components/contextual/TemplateDataProvider'
 
 const menus = [
