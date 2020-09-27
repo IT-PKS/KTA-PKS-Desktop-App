@@ -1,7 +1,7 @@
 
-import initSQLite from '../services/sqlite/initSQLite'
+import initSQLite from '../services/sqlite/initSQLite';
 import { User } from "../entity/User";
-import { clientPost } from '../services/URLApi/URLApi'
+import { clientPost } from '../services/URLApi/URLApi';
 
 
 export const clientTest = async () => {
@@ -21,5 +21,5 @@ export const clientTest = async () => {
 }
 
 export const _postAuthLogin = async (payload:object) => {
-    return await clientPost('auth/login', payload)
+    return await clientPost('auth/login', payload);
 }

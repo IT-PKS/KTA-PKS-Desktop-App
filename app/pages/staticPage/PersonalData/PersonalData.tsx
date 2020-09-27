@@ -30,7 +30,6 @@ import {
     InputMask,
     Label,
     LeafletMapPicker,
-    Panel,
     Row,
     Select,
     Textarea,
@@ -46,11 +45,12 @@ import { isPossiblyNumber, validateFileType, validateFileSize } from '../../../c
 type Props = {
     defaultValues?: { [K in keyof RegisterFormData]?: RegisterFormData[K] };
     state?: 'default' | 'success' | 'failed';
+    _hanldeOnSubmit(): any;
 };
 
   
 const PersonalData: React.FC = props => {
-    const { defaultValues, state = 'default' } = props;
+    const { defaultValues, state = 'default', _hanldeOnSubmit } = props;
     const { register, handleSubmit, errors, setValue, formState } = useForm<RegisterFormData>({
         defaultValues,
     });
@@ -70,8 +70,8 @@ const PersonalData: React.FC = props => {
     console.log('errors', errors);
   }, [errors]);
 
-  const onSubmit = (data: RegisterFormData) => {
-    console.log('data', data);
+  const onSubmit = async (data: RegisterFormData) => {
+    await _hanldeOnSubmit(data)
   };
 
   const getSelectDefaultValue = (key: SelectKeys) => {
