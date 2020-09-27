@@ -1,15 +1,16 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import PersonalData from '../staticPage/PersonalData/PersonalData';
 import { postMembersRegistration } from '../../client/RegisterClient';
 const Home: React.FC = () => {
-  const [state, setstate] = useState('default')
+  const [state, setState] = useState<string | null>('default');
 
   const _hanldeOnSubmit = async(payload:any) => {
+    const birthdate = payload.tanggalLahir.split('/')
 
     let dataFile = new FormData();
     dataFile.append('fullname', payload.namaLengkap);
     dataFile.append('nickname', payload.namaPanggilan);
-    dataFile.append('birthdate', payload.tanggalLahir);
+    dataFile.append('birthdate', `${birthdate[2]}/${birthdate[1]}/${birthdate[0]}`);
     dataFile.append('birthplace', payload.tempatLahir);
     dataFile.append('id_card', payload.nik);
     dataFile.append('gender', payload.jenisKelamin);
@@ -32,14 +33,11 @@ const Home: React.FC = () => {
     dataFile.append('organization_id', '1');
     dataFile.append('ktp', payload.fotoScanKTP[0]);
     dataFile.append('profile', payload.fotoDiri[0]);
-    console.log("_hanldeOnSubmit -> payload.fotoScanKTP[0].path", payload.fotoScanKTP[0]);
 
-    console.log("_hanldeOnSubmit -> payload", payload)
-    console.log("_hanldeOnSubmit -> dataFile", dataFile)
-    const res = await postMembersRegistration(dataFile)
-    console.log("_hanldeOnSubmit -> res", res)
+    const { message } = await postMembersRegistration(dataFile)
+    if(message === "Success") setState("success")
   };
- 
+
   return (
     <>
       <PersonalData state={state} _hanldeOnSubmit={_hanldeOnSubmit}/>
