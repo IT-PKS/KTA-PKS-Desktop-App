@@ -34,8 +34,8 @@ const Home: React.FC = () => {
     dataFile.append('ktp', payload.fotoScanKTP[0]);
     dataFile.append('profile', payload.fotoDiri[0]);
 
-    const { message } = await postMembersRegistration(dataFile)
-    if(message === "Success") setState("success")
+    const res = await postMembersRegistration(dataFile)
+    if(res.message === "Success") setState("success")
   };
 
   return (
