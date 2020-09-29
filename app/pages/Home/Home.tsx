@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PersonalData from '../staticPage/PersonalData/PersonalData';
-import { postMembersRegistration } from '../../client/RegisterClient';
+import { postMembersRegistration, saveToLocal } from '../../client/RegisterClient';
 const Home: React.FC = () => {
   const [state, setState] = useState<string | null>('default');
 
-  const _hanldeOnSubmit = async(payload:any) => {
+  const _hanldeOnSubmit = async (payload: any) => {
     const birthdate = payload.tanggalLahir.split('/')
 
     let dataFile = new FormData();
@@ -34,13 +34,19 @@ const Home: React.FC = () => {
     dataFile.append('ktp', payload.fotoScanKTP[0]);
     dataFile.append('profile', payload.fotoDiri[0]);
 
+    let payloadLocal: any = {};
+    dataFile.forEach((value, key) => { payloadLocal[key] = value });
+    console.log(payloadLocal)
+    payloadLocal['ktp'] = payload.fotoScanKTP[0].name
+    payloadLocal['profile'] = payload.fotoDiri[0].name
+    const local = await saveToLocal(payloadLocal)
+    console.log(local)
     const res = await postMembersRegistration(dataFile)
-    if(res.message === "Success") setState("success")
+    if (res.message === "Success") setState("success")
   };
-
   return (
     <>
-      <PersonalData state={state} _hanldeOnSubmit={_hanldeOnSubmit}/>
+      <PersonalData state={state} _hanldeOnSubmit={_hanldeOnSubmit} />
     </>
   );
 };

@@ -10,16 +10,16 @@ export class Member {
     id!: number;
 
     @Column('varchar', { nullable: false })
-    fullName!: string;
+    fullname!: string;
 
     @Column('varchar', { nullable: true })
-    nickName!: string;
+    nickname!: string;
 
     @Column('date', { nullable: false })
-    birthDate!: string;
+    birthdate!: string;
 
     @Column('varchar', { nullable: false })
-    birthPlace!: string;
+    birthplace!: string;
 
     @Column('varchar', { nullable: false })
     id_card!: number;
@@ -83,5 +83,8 @@ export class Member {
 
     @Column('varchar', { nullable: false })
     profile!: string;
+
+    @Column('varchar', { nullable: true })
+    isSentToBackend!: boolean;
 
 }

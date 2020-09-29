@@ -6,9 +6,9 @@ const SignIn: React.FC = () => {
   const { onLogin } = useAuthDataContext();
 
   return (
-      <div style={{ alignItems: 'center', height: '100vh' }}>
-        <Login onLogin={onLogin} />
-      </div>
+    <div style={{ alignItems: 'center', height: '100vh' }}>
+      <Login onSubmit={onLogin} />
+    </div>
   );
 };
 
