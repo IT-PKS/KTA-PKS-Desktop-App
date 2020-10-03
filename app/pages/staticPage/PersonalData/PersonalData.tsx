@@ -48,11 +48,12 @@ type iProps = {
     onSubmit(): any;
       /** @default false */
     loading?: boolean;
+    setState( value: any ): any;
 };
 
   
 const PersonalData: React.FC<iProps> = props => {
-    const { defaultValues, state = 'default', onSubmit, loading } = props;
+    const { defaultValues, state = 'default', onSubmit, loading, setState } = props;
     const { register, handleSubmit, errors, setValue, formState } = useForm<RegisterFormData>({
         defaultValues,
     });
@@ -150,7 +151,7 @@ const PersonalData: React.FC<iProps> = props => {
       return <RegisterFailed />;
     }
     if (state === 'success') {
-      return <RegisterSuccess />;
+      return <RegisterSuccess onNewForm={()=>setState('default')} />;
     }
     return (
       <form css={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>

@@ -10,7 +10,7 @@ const Home: React.FC = () => {
   const _hanldeOnSubmit = async (payload: any) => {
     setLoading(false);
 
-    const { payloadRest, payloadLocal } = normalizePayload(payload);
+    const { payloadRest, payloadLocal } = normalizePayl oad(payload);
 
     const reslocal = await saveToLocal(payloadLocal);
     const res = await postMembersRegistration(payloadRest);
@@ -25,7 +25,7 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <PersonalData state={state} onSubmit={_hanldeOnSubmit} loading={loading} />
+      <PersonalData state={state} setState={setState} onSubmit={_hanldeOnSubmit} loading={loading} />
     </>
   );
 };
