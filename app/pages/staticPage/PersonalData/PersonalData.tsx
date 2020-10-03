@@ -42,15 +42,17 @@ import RegisterSuccess from '../../../components/base/src/staticPages/Register/R
 // Utils
 import { isPossiblyNumber, validateFileType, validateFileSize } from '../../../components/base/src/utils';
 
-type Props = {
+type iProps = {
     defaultValues?: { [K in keyof RegisterFormData]?: RegisterFormData[K] };
     state?: 'default' | 'success' | 'failed';
-    _hanldeOnSubmit(): any;
+    onSubmit(): any;
+      /** @default false */
+    loading?: boolean;
 };
 
   
-const PersonalData: React.FC = props => {
-    const { defaultValues, state = 'default', _hanldeOnSubmit } = props;
+const PersonalData: React.FC<iProps> = props => {
+    const { defaultValues, state = 'default', onSubmit, loading } = props;
     const { register, handleSubmit, errors, setValue, formState } = useForm<RegisterFormData>({
         defaultValues,
     });
@@ -69,10 +71,6 @@ const PersonalData: React.FC = props => {
   React.useEffect(() => {
     console.log('errors', errors);
   }, [errors]);
-
-  const onSubmit = async (data: RegisterFormData) => {
-    await _hanldeOnSubmit(data)
-  };
 
   const getSelectDefaultValue = (key: SelectKeys) => {
     let selectedOption: Array<SelectOption> | undefined;
@@ -793,7 +791,7 @@ const PersonalData: React.FC = props => {
 
         {/* Kirim Data */}
         <div css={styles.buttonContainer}>
-          <Button icon="paper-plane" type="submit">
+          <Button icon="paper-plane" type="submit" loading={loading}>
             Kirim Data
           </Button>
         </div>
