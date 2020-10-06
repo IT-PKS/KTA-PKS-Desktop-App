@@ -10,7 +10,7 @@ const Home: React.FC = () => {
   const _hanldeOnSubmit = async (payload: any) => {
     setLoading(false);
 
-    const { payloadRest, payloadLocal } = normalizePayl oad(payload);
+    const { payloadRest, payloadLocal } = normalizePayload(payload);
 
     const reslocal = await saveToLocal(payloadLocal);
     const res = await postMembersRegistration(payloadRest);

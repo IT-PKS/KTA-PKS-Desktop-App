@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-export const developmentHost = 'https://stagging-api-kta.pks.id/api'
-export const productionHost = 'https://stagging-api-kta.pks.id/api'
+export const developmentHost = 'https://stagging-api-kta.pks.id/api';
+export const productionHost = 'https://stagging-api-kta.pks.id/api';
 
 const ROOT_API = axios.create({
     baseURL: `${process.env.NODE_ENV === "development" ? developmentHost : productionHost}`,

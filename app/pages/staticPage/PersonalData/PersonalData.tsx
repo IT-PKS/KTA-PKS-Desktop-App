@@ -7,6 +7,7 @@ import { Theme } from '../../../components/base/src/theme';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import { ValueType } from 'react-select';
 import isNull from 'lodash/isNull';
+import { getGenderList } from '../../../client/AdminClient'
 
 import Card from '../../../components/deskstop/Card/Card';
 
@@ -69,8 +70,13 @@ const PersonalData: React.FC<iProps> = props => {
   const [kecamatanValue, setKecamatanValue] = React.useState<string | null>(null);
   const [kelurahanDesaValue, setKelurahanDesaValue] = React.useState<string | null>(null);
 
+  const _handleGetGenderList = async() => {
+     const data = await getGenderList()
+     console.log("_handleGetGenderList -> data", data)
+  }
+
   React.useEffect(() => {
-    console.log('errors', errors);
+    _handleGetGenderList()
   }, [errors]);
 
   const getSelectDefaultValue = (key: SelectKeys) => {
