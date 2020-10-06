@@ -7,7 +7,6 @@ import { Theme } from '../../../components/base/src/theme';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import { ValueType } from 'react-select';
 import isNull from 'lodash/isNull';
-import { getGenderList } from '../../../client/AdminClient'
 
 import Card from '../../../components/deskstop/Card/Card';
 
@@ -50,19 +49,20 @@ type iProps = {
       /** @default false */
     loading?: boolean;
     setState( value: any ): any;
+    options:any;
 };
 
   
 const PersonalData: React.FC<iProps> = props => {
-    const { defaultValues, state = 'default', onSubmit, loading, setState } = props;
-    const { register, handleSubmit, errors, setValue, formState } = useForm<RegisterFormData>({
-        defaultValues,
-    });
+  const { defaultValues, state = 'default', onSubmit, loading, setState, options } = props;
+  const { register, handleSubmit, errors, setValue, formState } = useForm<RegisterFormData>({
+      defaultValues,
+  });
 
-    const theme = useTheme<Theme>();
-    const styles = createStyles(theme);
+  const theme = useTheme<Theme>();
+  const styles = createStyles(theme);
 
-    const { errorMessages, pattern, options } = formHelper;
+  const { errorMessages, pattern } = formHelper;
 
     
   const [provinsiValue, setProvinsiValue] = React.useState<string | null>(null);
@@ -70,13 +70,8 @@ const PersonalData: React.FC<iProps> = props => {
   const [kecamatanValue, setKecamatanValue] = React.useState<string | null>(null);
   const [kelurahanDesaValue, setKelurahanDesaValue] = React.useState<string | null>(null);
 
-  const _handleGetGenderList = async() => {
-     const data = await getGenderList()
-     console.log("_handleGetGenderList -> data", data)
-  }
-
   React.useEffect(() => {
-    _handleGetGenderList()
+
   }, [errors]);
 
   const getSelectDefaultValue = (key: SelectKeys) => {
