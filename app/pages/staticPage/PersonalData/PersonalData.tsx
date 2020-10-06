@@ -108,7 +108,6 @@ const PersonalData: React.FC<iProps> = props => {
   const _handleGetGenders = async () => {
     const { data: jenisKelamin } = await getGenders();
     setOptions({
-      ...options,
       jenisKelamin: normalizeDropdown(jenisKelamin, 'gender'),
     });
   }
@@ -116,7 +115,6 @@ const PersonalData: React.FC<iProps> = props => {
   const _handleGetProvinces = async () => {
     const { data: provinsi } = await getProvinces();
     setOptions({
-      ...options,
       provinsi: normalizeDropdown(provinsi, 'name'),
     });
   }
@@ -124,7 +122,6 @@ const PersonalData: React.FC<iProps> = props => {
   const _handleGetReligions = async () => {
     const { data: agama } = await getReligions();
     setOptions({
-      ...options,
       agama: normalizeDropdown(agama, 'religion'),
     });
   }
@@ -132,7 +129,6 @@ const PersonalData: React.FC<iProps> = props => {
   const _handleGetOccupations = async () => {
     const { data: pekerjaan } = await getOccupations();
     setOptions({
-      ...options,
       pekerjaan: normalizeDropdown(pekerjaan, 'occupation'),
     });
   }
@@ -140,7 +136,6 @@ const PersonalData: React.FC<iProps> = props => {
   const _handleGetEducations = async () => {
     const { data: pendidikanTerakhir } = await getEducations();
     setOptions({
-      ...options,
       pendidikanTerakhir: normalizeDropdown(pendidikanTerakhir, 'education'),
     });
   }
@@ -148,7 +143,6 @@ const PersonalData: React.FC<iProps> = props => {
   const _handleGetMarital = async () => {
     const { data: statusPerkawinan } = await getMarital();
     setOptions({
-      ...options,
       statusPerkawinan: normalizeDropdown(statusPerkawinan, 'status'),
     });
   }
@@ -156,7 +150,6 @@ const PersonalData: React.FC<iProps> = props => {
   const _handleGetBloodType = async () => {
     const { data: golonganDarah } = await getBloodType();
     setOptions({
-      ...options,
       golonganDarah: normalizeDropdown(golonganDarah, 'blood'),
     });
   }
@@ -164,7 +157,6 @@ const PersonalData: React.FC<iProps> = props => {
   const _hanldeGetCities = async(provincyId: string) => {
     const { data: kotaKabupaten } = await getCities(provincyId);
     setOptions({
-      ...options,
       kotaKabupaten: normalizeDropdown(kotaKabupaten, 'name')
     });
   }
@@ -172,7 +164,6 @@ const PersonalData: React.FC<iProps> = props => {
   const _hanldeGetDistricts = async (cityId: string) => {
     const { data: kecamatan } = await getDistricts(cityId);
     setOptions({
-      ...options,
       kecamatan: normalizeDropdown(kecamatan, 'name'),
     });
   }
@@ -180,7 +171,6 @@ const PersonalData: React.FC<iProps> = props => {
   const _hanldeGetSubDistricts = async (districtId: string) => {
     const { data: kelurahanDesa } = await getSubDistricts(districtId);
     setOptions({
-      ...options,
       kelurahanDesa: normalizeDropdown(kelurahanDesa, 'name'),
     });
   }
