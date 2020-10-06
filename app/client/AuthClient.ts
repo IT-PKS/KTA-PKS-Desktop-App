@@ -8,18 +8,30 @@ export const clientTest = async () => {
     const connection = await initSQLite([User])
 
     const theUser = {
-        "firstName": "Dodi",
-        "lastName": "Prasetyo",
-        "age": 22
+        "email": "mamen@admin.com",
+        "firstName": "Rahman",
+        "lastName": "Ramdani",
+        "password": "tes",
+        "serialKey": "LSHDTCRWHSKTYUHS"
     }
     const user = new User(theUser)
 
     await connection.manager.save(user)
     const users = await connection.manager.find(User)
-    console.log("Loaded usersaa: ", users)
     connection.close()
 }
 
-export const _postAuthLogin = async (payload:object) => {
+export const serialKey = async () => {
+    const connection = await initSQLite([User])
+    const user = await connection.manager.find(User)
+    try {
+        const res = user.length ? user[0].serialKey : ''
+        return res
+    } catch (error) {
+        throw error
+    }
+}
+
+export const _postAuthLogin = async (payload: object) => {
     return await clientPost('auth/login', payload);
 }

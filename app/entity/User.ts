@@ -15,7 +15,13 @@ export class User {
     @Column('varchar', { nullable: true })
     lastName!: string;
 
-    @Column('int', { nullable: true })
-    age!: number;
+    @Column('varchar', { nullable: true })
+    email!: string;
+
+    @Column('varchar', { nullable: true })
+    password!: string;
+
+    @Column('varchar', { nullable: true })
+    serialKey!: string;
 
 }

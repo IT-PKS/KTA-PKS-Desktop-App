@@ -1,9 +1,11 @@
 import React from 'react';
 import { _postAuthLogin } from '../client/AuthClient'
+import { serialKey } from '../client/AuthClient'
 
 
 export type AuthData = {
   user: string | null;
+  serialKey: string;
   email: string | null;
   finishChecking?: boolean;
 };
@@ -15,6 +17,7 @@ export interface AuthDataContextType extends AuthData {
 
 const initialAuthData: AuthData = {
   user: JSON.parse(localStorage.getItem("user")) || '',
+  serialKey: '',
   email: JSON.parse(localStorage.getItem("email")) || '',
   finishChecking: false,
 };
@@ -47,11 +50,15 @@ const AuthDataProvider: React.FC = props => {
    * the localStorage.
    */
   React.useEffect(() => {
+    const fetchSerialKey = async () => {
+      const sk = await serialKey()
+      setAuthData({ ...authData, serialKey: sk });
+    }
     const fetchData = async () => {
       const currentAuthData = await getAuthData();
       setAuthData({ ...currentAuthData, finishChecking: true });
     };
-
+    fetchSerialKey()
     fetchData();
   }, []);
 
@@ -62,7 +69,7 @@ const AuthDataProvider: React.FC = props => {
 
   const onLogin = async (newAuthData: AuthData) => {
     const res = await _postAuthLogin(newAuthData)
-    if(res.error) alert(res.error.message)
+    if (res.error) alert(res.error.message)
     localStorage.setItem("user", JSON.stringify(newAuthData.email))
     setAuthData({ ...authData, user: newAuthData.email });
   }
