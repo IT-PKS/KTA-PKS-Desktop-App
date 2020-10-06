@@ -12,15 +12,15 @@ export const getProvinces = async () => {
     return await clientGet('drop-down/place/provinces', {});
 };
 
-export const getCities = async (provincyId:number) => {
+export const getCities = async (provincyId: string) => {
     return await clientGet(`drop-down/place/provinces/${provincyId}/cities`, {});
 };
 
-export const getDistricts = async (cityId:number) => {
+export const getDistricts = async (cityId: string) => {
     return await clientGet(`drop-down/place/cities/${cityId}/districts`, {});
 };
 
-export const getSubDistricts = async (districtId:number) => {
+export const getSubDistricts = async (districtId: string) => {
     return await clientGet(`drop-down/place/districts/${districtId}/sub-districts`, {});
 };
 

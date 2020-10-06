@@ -79,19 +79,18 @@ const PersonalData: React.FC<iProps> = props => {
 
   const { errorMessages, pattern } = formHelper;
 
-  const [options, setOptions] = React.useState<Object | null>({
-    jenisKelamin: [],
-    golonganDarah: [],
-    provinsi: [],
-    kotaKabupaten: [],
-    kecamatan: [],
-    kelurahanDesa: [],
-    negaraSaatIni: [],
-    agama: [],
-    statusPerkawinan: [],
-    pekerjaan: [],
-    pendidikanTerakhir: [],
-  });
+  const [jenisKelamin, setJenisKelamin] = React.useState<any | []>([])
+  const [golonganDarah, setGolonganDarah] = React.useState<any | []>([])
+  const [provinsi, setProvinsi] = React.useState<any | []>([])
+  const [kotaKabupaten, setKotaKabupaten] = React.useState<any | []>([])
+  const [kecamatan, setKecamatan] = React.useState<any | []>([])
+  const [kelurahanDesa, setKelurahanDesa] = React.useState<any | []>([])
+  const [negaraSaatIni, setNegaraSaatIni] = React.useState<any | []>([{label: 'Indonesia', value: 1}])
+  const [agama, setAgama] = React.useState<any | []>([])
+  const [statusPerkawinan, setStatusPerkawinan] = React.useState<any | []>([])
+  const [pekerjaan, setPekerjaan] = React.useState<any | []>([])
+  const [pendidikanTerakhir, setPendidikanTerakhir] = React.useState<any | []>([])
+
   const [provinsiValue, setProvinsiValue] = React.useState<string | null>(null);
   const [kotaKabupatenValue, setKotaKabupatenValue] = React.useState<string | null>(null);
   const [kecamatanValue, setKecamatanValue] = React.useState<string | null>(null);
@@ -107,84 +106,64 @@ const PersonalData: React.FC<iProps> = props => {
 
   const _handleGetGenders = async () => {
     const { data: jenisKelamin } = await getGenders();
-    setOptions({
-      jenisKelamin: normalizeDropdown(jenisKelamin, 'gender'),
-    });
+    setJenisKelamin(normalizeDropdown(jenisKelamin, 'gender'));
   }
 
   const _handleGetProvinces = async () => {
     const { data: provinsi } = await getProvinces();
-    setOptions({
-      provinsi: normalizeDropdown(provinsi, 'name'),
-    });
+    setProvinsi(normalizeDropdown(provinsi, 'name'),);
   }
 
   const _handleGetReligions = async () => {
     const { data: agama } = await getReligions();
-    setOptions({
-      agama: normalizeDropdown(agama, 'religion'),
-    });
+    setAgama(normalizeDropdown(agama, 'religion'));
   }
 
   const _handleGetOccupations = async () => {
     const { data: pekerjaan } = await getOccupations();
-    setOptions({
-      pekerjaan: normalizeDropdown(pekerjaan, 'occupation'),
-    });
+    setPekerjaan(normalizeDropdown(pekerjaan, 'occupation'));
   }
 
   const _handleGetEducations = async () => {
     const { data: pendidikanTerakhir } = await getEducations();
-    setOptions({
-      pendidikanTerakhir: normalizeDropdown(pendidikanTerakhir, 'education'),
-    });
+    setPendidikanTerakhir(normalizeDropdown(pendidikanTerakhir, 'education'));
   }
 
   const _handleGetMarital = async () => {
     const { data: statusPerkawinan } = await getMarital();
-    setOptions({
-      statusPerkawinan: normalizeDropdown(statusPerkawinan, 'status'),
-    });
+    setStatusPerkawinan(normalizeDropdown(statusPerkawinan, 'status'));
   }
 
   const _handleGetBloodType = async () => {
     const { data: golonganDarah } = await getBloodType();
-    setOptions({
-      golonganDarah: normalizeDropdown(golonganDarah, 'blood'),
-    });
+    setGolonganDarah(normalizeDropdown(golonganDarah, 'blood'));
   }
 
   const _hanldeGetCities = async(provincyId: string) => {
     const { data: kotaKabupaten } = await getCities(provincyId);
-    setOptions({
-      kotaKabupaten: normalizeDropdown(kotaKabupaten, 'name')
-    });
+    setKotaKabupaten(normalizeDropdown(kotaKabupaten, 'name'));
   }
 
   const _hanldeGetDistricts = async (cityId: string) => {
     const { data: kecamatan } = await getDistricts(cityId);
-    setOptions({
-      kecamatan: normalizeDropdown(kecamatan, 'name'),
-    });
+    setKecamatan(normalizeDropdown(kecamatan, 'name'));
   }
 
   const _hanldeGetSubDistricts = async (districtId: string) => {
     const { data: kelurahanDesa } = await getSubDistricts(districtId);
-    setOptions({
-      kelurahanDesa: normalizeDropdown(kelurahanDesa, 'name'),
-    });
+    setKelurahanDesa(normalizeDropdown(kelurahanDesa, 'name'));
   }
 
   React.useEffect(()=>{
-    _hanldeGetCities(provinsiValue)
+    _hanldeGetCities(provinsi)
   },[provinsiValue])
 
   React.useEffect(()=>{ 
-    _hanldeGetDistricts(kotaKabupatenValue)
+    _hanldeGetDistricts(kotaKabupaten)
   },[kotaKabupatenValue])
 
   React.useEffect(()=>{
-    _hanldeGetSubDistricts(kecamatanValue)
+    _hanldeGetSubDistricts(kecamatan)
   },[kecamatanValue])
 
   useDidMount(()=>{
@@ -386,7 +365,7 @@ const PersonalData: React.FC<iProps> = props => {
             <FormGroup>
               <Label required>Jenis Kelamin</Label>
               <Select<SelectOption>
-                options={options.jenisKelamin}
+                options={jenisKelamin}
                 defaultValue={getSelectDefaultValue('jenisKelamin')}
                 onChange={handleSelectOnChange('jenisKelamin')}
                 innerRef={() =>
@@ -410,7 +389,7 @@ const PersonalData: React.FC<iProps> = props => {
             <FormGroup>
               <Label required>Golongan Darah</Label>
               <Select<SelectOption>
-                options={options.golonganDarah}
+                options={golonganDarah}
                 defaultValue={getSelectDefaultValue('golonganDarah')}
                 onChange={handleSelectOnChange('golonganDarah')}
                 innerRef={() =>
@@ -440,7 +419,7 @@ const PersonalData: React.FC<iProps> = props => {
             <FormGroup>
               <Label required>Provinsi</Label>
               <Select<SelectOption>
-                options={options.provinsi}
+                options={provinsi}
                 defaultValue={getSelectDefaultValue('provinsi')}
                 onChange={handleSelectOnChange('provinsi', selectedOption => {
                   if (selectedOption && 'value' in selectedOption) {
@@ -468,7 +447,7 @@ const PersonalData: React.FC<iProps> = props => {
             <FormGroup>
               <Label required>Kota / Kabupaten</Label>
               <Select<SelectOption>
-                options={options.kotaKabupaten}
+                options={kotaKabupaten}
                 defaultValue={getSelectDefaultValue('kotaKabupaten')}
                 onChange={handleSelectOnChange('kotaKabupaten', selectedOption => {
                   if (selectedOption && 'value' in selectedOption) {
@@ -500,7 +479,7 @@ const PersonalData: React.FC<iProps> = props => {
             <FormGroup>
               <Label required>Kecamatan</Label>
               <Select<SelectOption>
-                options={options.kecamatan}
+                options={kecamatan}
                 defaultValue={getSelectDefaultValue('kecamatan')}
                 onChange={handleSelectOnChange('kecamatan', selectedOption => {
                   if (selectedOption && 'value' in selectedOption) {
@@ -529,7 +508,7 @@ const PersonalData: React.FC<iProps> = props => {
             <FormGroup>
               <Label required>Kelurahan / Desa</Label>
               <Select<SelectOption>
-                options={options.kelurahanDesa}
+                options={kelurahanDesa}
                 defaultValue={getSelectDefaultValue('kelurahanDesa')}
                 onChange={handleSelectOnChange('kelurahanDesa', selectedOption => {
                   if (selectedOption && 'value' in selectedOption) {
@@ -637,7 +616,7 @@ const PersonalData: React.FC<iProps> = props => {
         <FormGroup>
           <Label>Negara Saat Ini (bagi yang di luar negeri)</Label>
           <Select<SelectOption>
-            options={options.negaraSaatIni}
+            options={negaraSaatIni}
             defaultValue={getSelectDefaultValue('negaraSaatIni')}
             onChange={handleSelectOnChange('negaraSaatIni')}
             innerRef={() => register({ name: 'negaraSaatIni' })}
@@ -655,7 +634,7 @@ const PersonalData: React.FC<iProps> = props => {
             <FormGroup>
               <Label required>Agama</Label>
               <Select<SelectOption>
-                options={options.agama}
+                options={agama}
                 defaultValue={getSelectDefaultValue('agama')}
                 onChange={handleSelectOnChange('agama')}
                 innerRef={() =>
@@ -679,7 +658,7 @@ const PersonalData: React.FC<iProps> = props => {
             <FormGroup>
               <Label required>Status Perkawinan</Label>
               <Select<SelectOption>
-                options={options.statusPerkawinan}
+                options={statusPerkawinan}
                 defaultValue={getSelectDefaultValue('statusPerkawinan')}
                 onChange={handleSelectOnChange('statusPerkawinan')}
                 innerRef={() =>
@@ -706,7 +685,7 @@ const PersonalData: React.FC<iProps> = props => {
             <FormGroup>
               <Label required>Pekerjaan</Label>
               <Select<SelectOption>
-                options={options.pekerjaan}
+                options={pekerjaan}
                 defaultValue={getSelectDefaultValue('pekerjaan')}
                 onChange={handleSelectOnChange('pekerjaan')}
                 innerRef={() =>
@@ -730,7 +709,7 @@ const PersonalData: React.FC<iProps> = props => {
             <FormGroup>
               <Label required>Pendidikan Terakhir</Label>
               <Select<SelectOption>
-                options={options.pendidikanTerakhir}
+                options={pendidikanTerakhir}
                 defaultValue={getSelectDefaultValue('pendidikanTerakhir')}
                 onChange={handleSelectOnChange('pendidikanTerakhir')}
                 innerRef={() =>
