@@ -16,6 +16,22 @@ import formHelper, {
     SelectKeys,
     ErrorMessageKeys,
 } from '../../../components/base/src/staticPages/Register/Register.formHelper';
+
+import {
+  getGenders,
+  getProvinces,
+  getCities,
+  getDistricts,
+  getSubDistricts,
+  getReligions,
+  getOccupations,
+  getEducations,
+  getMarital,
+  getBloodType,
+} from 'client/AdminClient.ts';
+import useDidMount from '../../../components/base/src/utils/hooks/useDidMount'
+import useDidUpdate from '../../../components/base/src/utils/hooks/useDidUpdate'
+
 import createStyles from './PersonalData.styles';
 
 // Components
@@ -49,12 +65,11 @@ type iProps = {
       /** @default false */
     loading?: boolean;
     setState( value: any ): any;
-    options:any;
 };
 
   
 const PersonalData: React.FC<iProps> = props => {
-  const { defaultValues, state = 'default', onSubmit, loading, setState, options } = props;
+  const { defaultValues, state = 'default', onSubmit, loading, setState } = props;
   const { register, handleSubmit, errors, setValue, formState } = useForm<RegisterFormData>({
       defaultValues,
   });
@@ -64,15 +79,91 @@ const PersonalData: React.FC<iProps> = props => {
 
   const { errorMessages, pattern } = formHelper;
 
-    
+  const [options, setOptions] = React.useState<Object | null>({
+    jenisKelamin: [],
+    golonganDarah: [],
+    provinsi: [],
+    kotaKabupaten: [],
+    kecamatan: [],
+    kelurahanDesa: [],
+    negaraSaatIni: [],
+    agama: [],
+    statusPerkawinan: [],
+    pekerjaan: [],
+    pendidikanTerakhir: [],
+  });
   const [provinsiValue, setProvinsiValue] = React.useState<string | null>(null);
   const [kotaKabupatenValue, setKotaKabupatenValue] = React.useState<string | null>(null);
   const [kecamatanValue, setKecamatanValue] = React.useState<string | null>(null);
   const [kelurahanDesaValue, setKelurahanDesaValue] = React.useState<string | null>(null);
+  
+  const normalizeDropdown = (arrayObj: any, keyValue: string) => {
+    for(let i = 0; i < arrayObj.length; i++){
+      arrayObj[i].label = arrayObj[i][keyValue];
+      arrayObj[i].value = arrayObj[i]['id'];
+    }
+    return arrayObj;
+  };
 
-  React.useEffect(() => {
+  const _handleGetDropdown = async () => {
+    const { data: jenisKelamin } = await getGenders();
+    const { data: provinsi } = await getProvinces();
+    const { data: agama } = await getReligions();
+    const { data: pekerjaan } = await getOccupations();
+    const { data: pendidikanTerakhir } = await getEducations();
+    const { data: statusPerkawinan } = await getMarital();
+    const { data: golonganDarah } = await getBloodType();
 
-  }, [errors]);
+    setOptions({
+      jenisKelamin: normalizeDropdown(jenisKelamin, 'gender'),
+      golonganDarah: normalizeDropdown(golonganDarah, 'blood'),
+      provinsi: normalizeDropdown(provinsi, 'name'),
+      agama: normalizeDropdown(agama, 'religion'),
+      statusPerkawinan: normalizeDropdown(statusPerkawinan, 'status'),
+      pekerjaan: normalizeDropdown(pekerjaan, 'occupation'),
+      pendidikanTerakhir: normalizeDropdown(pendidikanTerakhir, 'education'),
+    });
+  };
+
+  const _hanldeGetCities = async(provincyId: string) => {
+    const { data: kotaKabupaten } = await getCities(provincyId);
+    setOptions({
+      ...options,
+      kotaKabupaten: normalizeDropdown(kotaKabupaten, 'name')
+    });
+  }
+
+  const _hanldeGetDistricts = async (cityId: string) => {
+    const { data: kecamatan } = await getDistricts(cityId);
+    setOptions({
+      ...options,
+      kecamatan: normalizeDropdown(kecamatan, 'name'),
+    });
+  }
+
+  const _hanldeGetSubDistricts = async (districtId: string) => {
+    const { data: kelurahanDesa } = await getSubDistricts(districtId);
+    setOptions({
+      ...options,
+      kelurahanDesa: normalizeDropdown(kelurahanDesa, 'name'),
+    });
+  }
+
+  React.useEffect(()=>{
+    _hanldeGetCities(provinsiValue)
+  },[provinsiValue])
+
+  React.useEffect(()=>{ 
+    _hanldeGetDistricts(kotaKabupatenValue)
+  },[kotaKabupatenValue])
+
+  React.useEffect(()=>{
+    _hanldeGetSubDistricts(kecamatanValue)
+  },[kecamatanValue])
+
+  useDidMount(()=>{
+    _handleGetDropdown()
+  })
 
   const getSelectDefaultValue = (key: SelectKeys) => {
     let selectedOption: Array<SelectOption> | undefined;
