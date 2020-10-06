@@ -155,15 +155,15 @@ const PersonalData: React.FC<iProps> = props => {
   }
 
   React.useEffect(()=>{
-    _hanldeGetCities(provinsi)
+    if(provinsiValue !== null)_hanldeGetCities(provinsiValue)
   },[provinsiValue])
 
   React.useEffect(()=>{ 
-    _hanldeGetDistricts(kotaKabupaten)
+    if(kotaKabupatenValue !== null)_hanldeGetDistricts(kotaKabupatenValue)
   },[kotaKabupatenValue])
 
   React.useEffect(()=>{
-    _hanldeGetSubDistricts(kecamatan)
+    if(kecamatanValue !== null)_hanldeGetSubDistricts(kecamatanValue)
   },[kecamatanValue])
 
   useDidMount(()=>{
