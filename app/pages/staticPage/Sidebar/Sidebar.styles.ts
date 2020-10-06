@@ -1,6 +1,5 @@
 import { css } from '@emotion/core';
-import { Theme } from '../../theme';
-import loginBackground from '../../resources/loginBackground.png'
+import { Theme } from '../../../components/base/src/theme';
 
 const createStyles = (t: Theme) => {
   return {
@@ -9,11 +8,11 @@ const createStyles = (t: Theme) => {
       position: absolute;
       box-shadow: 6px 0px 10px rgba(0, 0, 0, 0.05);
       width: 300px;
-      background-color:${t.color.lightPrimary};
+      background-color: ${t.color.lightPrimary};
       top: 92px;
       left: 0px;
       bottom: 0;
-      margin:0;
+      margin: 0;
       transition: all 0.5s;
     `,
     sidebar_menus__close: css`
@@ -24,6 +23,10 @@ const createStyles = (t: Theme) => {
       @media screen and (min-width: 320px) and (max-width: 1024px) {
         width: 50px;
         padding: 0px;
+    }`,
+    sidebar_minimize__responsive: css`
+      @media screen and (min-width: 320px) and (max-width: 1024px) {
+        display: none;
     }`,
     menu: css`
       height: 42px;
@@ -90,7 +93,7 @@ const createStyles = (t: Theme) => {
           p {
             width: 110px;
             padding: 5px;
-            height:12px;
+            height: 12px;
             padding-bottom: 0;
           }
         }
@@ -113,7 +116,7 @@ const createStyles = (t: Theme) => {
       display: flex;
       width: 300px;
       border-top: 1px solid ${t.color.grayDark};
-      justify-content:space-between;
+      justify-content: space-between;
       transition: all 0.5s;
       p {
         transition: all 0.5s;
@@ -229,7 +232,7 @@ const createStyles = (t: Theme) => {
       height: 32px;
       border-radius: 50%;
       top:400px;
-      left: 285px;   
+      left: 285px;
       cursor: pointer; 
       transition: all 0.5s;
       &:hover {

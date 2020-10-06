@@ -42,23 +42,27 @@ import RegisterSuccess from '../../../components/base/src/staticPages/Register/R
 // Utils
 import { isPossiblyNumber, validateFileType, validateFileSize } from '../../../components/base/src/utils';
 
-type Props = {
+type iProps = {
     defaultValues?: { [K in keyof RegisterFormData]?: RegisterFormData[K] };
     state?: 'default' | 'success' | 'failed';
-    _hanldeOnSubmit(): any;
+    onSubmit(): any;
+      /** @default false */
+    loading?: boolean;
+    setState( value: any ): any;
+    options:any;
 };
 
   
-const PersonalData: React.FC = props => {
-    const { defaultValues, state = 'default', _hanldeOnSubmit } = props;
-    const { register, handleSubmit, errors, setValue, formState } = useForm<RegisterFormData>({
-        defaultValues,
-    });
+const PersonalData: React.FC<iProps> = props => {
+  const { defaultValues, state = 'default', onSubmit, loading, setState, options } = props;
+  const { register, handleSubmit, errors, setValue, formState } = useForm<RegisterFormData>({
+      defaultValues,
+  });
 
-    const theme = useTheme<Theme>();
-    const styles = createStyles(theme);
+  const theme = useTheme<Theme>();
+  const styles = createStyles(theme);
 
-    const { errorMessages, pattern, options } = formHelper;
+  const { errorMessages, pattern } = formHelper;
 
     
   const [provinsiValue, setProvinsiValue] = React.useState<string | null>(null);
@@ -67,12 +71,8 @@ const PersonalData: React.FC = props => {
   const [kelurahanDesaValue, setKelurahanDesaValue] = React.useState<string | null>(null);
 
   React.useEffect(() => {
-    console.log('errors', errors);
-  }, [errors]);
 
-  const onSubmit = async (data: RegisterFormData) => {
-    await _hanldeOnSubmit(data)
-  };
+  }, [errors]);
 
   const getSelectDefaultValue = (key: SelectKeys) => {
     let selectedOption: Array<SelectOption> | undefined;
@@ -152,7 +152,7 @@ const PersonalData: React.FC = props => {
       return <RegisterFailed />;
     }
     if (state === 'success') {
-      return <RegisterSuccess />;
+      return <RegisterSuccess onNewForm={()=>setState('default')} />;
     }
     return (
       <form css={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -793,7 +793,7 @@ const PersonalData: React.FC = props => {
 
         {/* Kirim Data */}
         <div css={styles.buttonContainer}>
-          <Button icon="paper-plane" type="submit">
+          <Button icon="paper-plane" type="submit" loading={loading}>
             Kirim Data
           </Button>
         </div>

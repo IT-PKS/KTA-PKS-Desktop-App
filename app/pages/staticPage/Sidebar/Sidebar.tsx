@@ -7,18 +7,19 @@ import { Theme } from '../../../components/base/src/theme';
 import { Icon } from 'kta-ui-components'
 import { useTemplateDataContext } from '../../../components/contextual/TemplateDataProvider'
 
-const menus = [
-    { title: 'Ringkasan', icon: "list", active: false },
-    { title: 'Tambah Data', icon: "plus-circle", active: false },
-    { title: 'Validasi', icon: "check-circle", active: false },
-    { title: 'Data KTA', icon: "id-card", active: false },
-    { title: 'Laporan', icon: "chart-line", active: false },
-]
-const Sidebar: React.FC = (props) => {
-    const { onLogout } = props
+const Sidebar: React.FC<iProps> = (props) => {
+    const { onLogout } = props;
     const { isOpenMenu, onMinimizeMenu } = useTemplateDataContext()
     const theme = useTheme<Theme>();
     const styles = createStyles(theme);
+
+    const menus = [
+        { title: 'Ringkasan', icon: "list", active: false },
+        { title: 'Tambah Data', icon: "plus-circle", active: false },
+        { title: 'Validasi', icon: "check-circle", active: false },
+        { title: 'Data KTA', icon: "id-card", active: false },
+        { title: 'Laporan', icon: "chart-line", active: false },
+    ]
 
     const _handleMinimizeMenu = () => {
         onMinimizeMenu(!isOpenMenu)
@@ -39,7 +40,7 @@ const Sidebar: React.FC = (props) => {
                         )
                     })
                 }
-                <div css={[styles.sidebar_minimize, isOpenMenu || styles.sidebar_minimize__close]} onClick={_handleMinimizeMenu}>
+                <div css={[styles.sidebar_minimize, isOpenMenu || styles.sidebar_minimize__close, styles.sidebar_minimize__responsive]} onClick={_handleMinimizeMenu}>
                     <Icon icon={isOpenMenu ? 'chevron-left' : 'chevron-right'} css={[styles.icon_chevron_left]} />
                 </div>
             </ul>
@@ -57,4 +58,4 @@ const Sidebar: React.FC = (props) => {
     )
 }
 
-export default Sidebar
+export default Sidebar;

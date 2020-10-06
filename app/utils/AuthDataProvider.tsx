@@ -8,6 +8,7 @@ export type AuthData = {
   serialKey: string;
   email: string | null;
   finishChecking?: boolean;
+  loading?: boolean;
 };
 
 export interface AuthDataContextType extends AuthData {
@@ -20,6 +21,7 @@ const initialAuthData: AuthData = {
   serialKey: '',
   email: JSON.parse(localStorage.getItem("email")) || '',
   finishChecking: false,
+  loading: false,
 };
 
 
@@ -37,7 +39,7 @@ const getAuthData = () =>
   new Promise<AuthData>((resolve, reject) => {
     setTimeout(() => {
       resolve({
-        ...initialAuthData
+        ...initialAuthData,
       });
     }, 1000);
   });
@@ -68,10 +70,13 @@ const AuthDataProvider: React.FC = props => {
   }
 
   const onLogin = async (newAuthData: AuthData) => {
+    setAuthData({...authData,  loading: true})
     const res = await _postAuthLogin(newAuthData)
-    if (res.error) alert(res.error.message)
-    localStorage.setItem("user", JSON.stringify(newAuthData.email))
-    setAuthData({ ...authData, user: newAuthData.email });
+    // if(res.error) alert(res.error.message)
+    if(res.access_token){
+      localStorage.setItem("user", JSON.stringify(newAuthData.email))
+      setAuthData({ ...authData, user: newAuthData.email, loading: false });
+    }
   }
 
 

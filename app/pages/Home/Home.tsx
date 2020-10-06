@@ -1,52 +1,102 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PersonalData from '../staticPage/PersonalData/PersonalData';
 import { postMembersRegistration, saveToLocal } from '../../client/RegisterClient';
+import { normalizePayload } from './HomeHelper';
+import {
+  getGenders,
+  getProvinces,
+  getCities,
+  getDistricts,
+  getSubDistricts,
+  getReligions,
+  getOccupations,
+  getEducations,
+  getMarital,
+  getBloodType,
+} from '../../client/AdminClient';
+import useDidMount from '../../components/base/src/utils/hooks/useDidMount'
+
 const Home: React.FC = () => {
   const [state, setState] = useState<string | null>('default');
+  const [loading, setLoading] = useState(false);
+  const [options, setOptions] = useState({
+    jenisKelamin: [],
+    golonganDarah: [],
+    provinsi: [],
+    kotaKabupaten: [],
+    kecamatan: [],
+    kelurahanDesa: [],
+    negaraSaatIni: [],
+    agama: [],
+    statusPerkawinan: [],
+    pekerjaan: [],
+    pendidikanTerakhir: [],
+  });
 
   const _hanldeOnSubmit = async (payload: any) => {
-    const birthdate = payload.tanggalLahir.split('/')
+    setLoading(false);
 
-    let dataFile = new FormData();
-    dataFile.append('fullname', payload.namaLengkap);
-    dataFile.append('nickname', payload.namaPanggilan);
-    dataFile.append('birthdate', `${birthdate[2]}/${birthdate[1]}/${birthdate[0]}`);
-    dataFile.append('birthplace', payload.tempatLahir);
-    dataFile.append('id_card', payload.nik);
-    dataFile.append('gender', payload.jenisKelamin);
-    dataFile.append('identity_type', 'KTP');
-    dataFile.append('religion', payload.agama);
-    dataFile.append('marital_status', payload.statusPerkawinan);
-    dataFile.append('job', payload.pekerjaan);
-    dataFile.append('last_education', payload.pendidikanTerakhir);
-    dataFile.append('blood_type', payload.golonganDarah);
-    dataFile.append('country_id', payload.negaraSaatIni);
-    dataFile.append('province_id', payload.provinsi);
-    dataFile.append('city_id', payload.kotaKabupaten);
-    dataFile.append('district_id', payload.kecamatan);
-    dataFile.append('sub_district', payload.kelurahanDesa);
-    dataFile.append('address', payload.alamat);
-    dataFile.append('domicile', payload.alamatSaatIni);
-    dataFile.append('lat', payload.alamatSaatIniLatLng.split(',')[0]);
-    dataFile.append('lon', payload.alamatSaatIniLatLng.split(',')[1]);
-    dataFile.append('email', payload.email);
-    dataFile.append('organization_id', '1');
-    dataFile.append('ktp', payload.fotoScanKTP[0]);
-    dataFile.append('profile', payload.fotoDiri[0]);
+    const { payloadRest, payloadLocal } = normalizePayload(payload);
 
-    let payloadLocal: any = {};
-    dataFile.forEach((value, key) => { payloadLocal[key] = value });
-    console.log(payloadLocal)
-    payloadLocal['ktp'] = payload.fotoScanKTP[0].name
-    payloadLocal['profile'] = payload.fotoDiri[0].name
-    const local = await saveToLocal(payloadLocal)
-    console.log(local)
-    const res = await postMembersRegistration(dataFile)
-    if (res.message === "Success") setState("success")
+    const reslocal = await saveToLocal(payloadLocal);
+    const res = await postMembersRegistration(payloadRest);
+
+    if (reslocal && res.message === 'Success') {
+      setLoading(true);
+      setState('success');
+    } else {
+      setLoading(true);
+    }
   };
+
+  const normalizeDropdown = (arrayObj: any, keyValue: string) => {
+    for(let i = 0; i < arrayObj.length; i++){
+      arrayObj[i].label = arrayObj[i][keyValue];
+      arrayObj[i].value = arrayObj[i]['id'];
+    }
+    return arrayObj;
+  };
+
+  const _handleGetDropdown = async () => {
+    const { data: jenisKelamin } = await getGenders();
+    const { data: provinsi } = await getProvinces();
+    const { data: kotaKabupaten } = await getCities();
+    const { data: kecamatan } = await getDistricts();
+    const { data: kelurahanDesa } = await getSubDistricts();
+    const { data: agama } = await getReligions();
+    const { data: pekerjaan } = await getOccupations();
+    const { data: pendidikanTerakhir } = await getEducations();
+    const { data: statusPerkawinan } = await getMarital();
+    const { data: golonganDarah } = await getBloodType();
+
+    setOptions({
+      jenisKelamin: normalizeDropdown(jenisKelamin, 'gender'),
+      golonganDarah: normalizeDropdown(golonganDarah, 'blood'),
+      provinsi: normalizeDropdown(provinsi, 'name'),
+      kotaKabupaten: normalizeDropdown(kotaKabupaten, 'name'),
+      kecamatan: normalizeDropdown(kecamatan, 'name'),
+      kelurahanDesa: normalizeDropdown(kelurahanDesa, 'name'),
+      agama: normalizeDropdown(agama, 'religion'),
+      statusPerkawinan: normalizeDropdown(statusPerkawinan, 'status'),
+      pekerjaan: normalizeDropdown(pekerjaan, 'occupation'),
+      pendidikanTerakhir: normalizeDropdown(pendidikanTerakhir, 'education'),
+    });
+
+  };
+
+  useDidMount(() => {
+    _handleGetDropdown();
+  });
+
   return (
     <>
-      <PersonalData state={state} _hanldeOnSubmit={_hanldeOnSubmit} />
+      <PersonalData
+        state={state}
+        setState={setState}
+        onSubmit={_hanldeOnSubmit}
+        loading={loading}
+        options={options}
+      />
     </>
   );
 };

@@ -3,13 +3,13 @@ import { Login } from 'kta-ui-components'
 import { useAuthDataContext } from 'utils/AuthDataProvider';
 
 const SignIn: React.FC = () => {
-  const { onLogin } = useAuthDataContext();
+  const { onLogin, loading } = useAuthDataContext();
 
   return (
     <div style={{ alignItems: 'center', height: '100vh' }}>
-      <Login onSubmit={onLogin} />
+      <Login onSubmit={onLogin} loading={loading} />
     </div>
   );
 };
 
-export default SignIn
+export default SignIn;
