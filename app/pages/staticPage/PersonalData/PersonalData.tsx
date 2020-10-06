@@ -105,25 +105,61 @@ const PersonalData: React.FC<iProps> = props => {
     return arrayObj;
   };
 
-  const _handleGetDropdown = async () => {
+  const _handleGetGenders = async () => {
     const { data: jenisKelamin } = await getGenders();
-    const { data: provinsi } = await getProvinces();
-    const { data: agama } = await getReligions();
-    const { data: pekerjaan } = await getOccupations();
-    const { data: pendidikanTerakhir } = await getEducations();
-    const { data: statusPerkawinan } = await getMarital();
-    const { data: golonganDarah } = await getBloodType();
-
     setOptions({
+      ...options,
       jenisKelamin: normalizeDropdown(jenisKelamin, 'gender'),
-      golonganDarah: normalizeDropdown(golonganDarah, 'blood'),
+    });
+  }
+
+  const _handleGetProvinces = async () => {
+    const { data: provinsi } = await getProvinces();
+    setOptions({
+      ...options,
       provinsi: normalizeDropdown(provinsi, 'name'),
+    });
+  }
+
+  const _handleGetReligions = async () => {
+    const { data: agama } = await getReligions();
+    setOptions({
+      ...options,
       agama: normalizeDropdown(agama, 'religion'),
-      statusPerkawinan: normalizeDropdown(statusPerkawinan, 'status'),
+    });
+  }
+
+  const _handleGetOccupations = async () => {
+    const { data: pekerjaan } = await getOccupations();
+    setOptions({
+      ...options,
       pekerjaan: normalizeDropdown(pekerjaan, 'occupation'),
+    });
+  }
+
+  const _handleGetEducations = async () => {
+    const { data: pendidikanTerakhir } = await getEducations();
+    setOptions({
+      ...options,
       pendidikanTerakhir: normalizeDropdown(pendidikanTerakhir, 'education'),
     });
-  };
+  }
+
+  const _handleGetMarital = async () => {
+    const { data: statusPerkawinan } = await getMarital();
+    setOptions({
+      ...options,
+      statusPerkawinan: normalizeDropdown(statusPerkawinan, 'status'),
+    });
+  }
+
+  const _handleGetBloodType = async () => {
+    const { data: golonganDarah } = await getBloodType();
+    setOptions({
+      ...options,
+      golonganDarah: normalizeDropdown(golonganDarah, 'blood'),
+    });
+  }
 
   const _hanldeGetCities = async(provincyId: string) => {
     const { data: kotaKabupaten } = await getCities(provincyId);
@@ -162,7 +198,13 @@ const PersonalData: React.FC<iProps> = props => {
   },[kecamatanValue])
 
   useDidMount(()=>{
-    _handleGetDropdown()
+    _handleGetGenders();
+    _handleGetProvinces();
+    _handleGetReligions();
+    _handleGetOccupations();
+    _handleGetEducations();
+    _handleGetMarital();
+    _handleGetBloodType();
   })
 
   const getSelectDefaultValue = (key: SelectKeys) => {
