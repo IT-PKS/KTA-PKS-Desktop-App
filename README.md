@@ -12,7 +12,6 @@ First, clone the repo via git:
 $ git clone git@github.com:IT-PKS/kta-desktop.git
 $ cd kta-desktop
 $ git submodule update --init
-$ git submodule update --remote
 ```
 
 And then install dependencies with yarn.
