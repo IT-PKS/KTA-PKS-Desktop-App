@@ -17,10 +17,15 @@ const createStyles = (t: Theme) => {
         z-index: -200;
         overflow-x: auto;
       `,
+    content__transparent: css`
+      background-color: transparent;
+    `,
+    content__bg__white: css`
+      background-color: white;
+    `,
     content: css`
         display: flex;
         flex-direction: column;
-        background-color: white;
         border-radius: 4px;
         margin-bottom: 40px;
         left: 340px;

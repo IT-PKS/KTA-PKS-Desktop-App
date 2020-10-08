@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { useState } from 'react'
+import React, { Fragment } from 'react'
 import { jsx } from '@emotion/core';
 import { useTheme } from 'emotion-theming';
 import createStyles from './Sidebar.styles';
@@ -10,8 +10,7 @@ import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
 type iProps = {
-    onLogout(): any,
-    history: any,
+    onLogout(): any
 }
 
 const Sidebar: React.FC<iProps> = (props) => {
@@ -35,7 +34,7 @@ const Sidebar: React.FC<iProps> = (props) => {
     }
 
     return (
-        <div>
+        <Fragment>
             <ul css={[styles.sidebar_menus, isOpenMenu || styles.sidebar_menus__close, styles.sidebar_menus__responsive]}>
                 {
                     menus.map((v, i) => {
@@ -56,7 +55,7 @@ const Sidebar: React.FC<iProps> = (props) => {
                     <Icon icon={isOpenMenu ? 'chevron-left' : 'chevron-right'} css={[styles.icon_chevron_left]} />
                 </div>
             </ul>
-        </div>
+        </Fragment>
     )
 }
 
