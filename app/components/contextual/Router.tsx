@@ -6,6 +6,12 @@ import NotFoundPage from 'pages/NotFound/NotFound';
 import SignInPage from 'pages/SignIn/SignIn';
 import HomePage from 'pages/Home/Home';
 import LicenseKey from 'pages/LicenseKey/LicenseKey';
+import Ringkasan from 'pages/staticPage/ringkasan/Ringkasan';
+import Validasi from 'pages/staticPage/validasi/Validasi'
+import DataKta from 'pages/staticPage/dataKta/DataKta'
+import Laporan from 'pages/staticPage/laporan/Laporan'
+import Pengaturan from 'pages/staticPage/pengaturan/Pengaturan'
+
 
 export const PATH = {
   HOME: '/',
@@ -13,12 +19,22 @@ export const PATH = {
   SIGN_IN: '/sign-in',
   LICENSE_KEY: '/license-key',
   TEST_REDUX: '/test-redux',
+  DASHBOARD: '/ringkasan',
+  VALIDATION: '/validasi',
+  DATA_KTA: '/data-kta',
+  REPORT: '/laporan',
+  CONFIG: '/pengaturan',
 } as const;
 
 export default () => (
   <HashRouter>
     <Switch>
       <PrivateRoute exact path={PATH.HOME} component={HomePage} />
+      <PrivateRoute path={PATH.DASHBOARD} component={Ringkasan} />
+      <PrivateRoute path={PATH.VALIDATION} component={Validasi} />
+      <PrivateRoute path={PATH.DATA_KTA} component={DataKta} />
+      <PrivateRoute path={PATH.REPORT} component={Laporan} />
+      <PrivateRoute path={PATH.CONFIG} component={Pengaturan} />
       <Route path={PATH.SIGN_IN} component={SignInPage} />
       <Route path={PATH.LICENSE_KEY} component={LicenseKey} />
       <Route component={NotFoundPage} />

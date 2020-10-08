@@ -3,10 +3,9 @@ import { Route, RouteProps } from 'react-router-dom';
 import { useAuthDataContext } from 'utils/AuthDataProvider';
 import SignInPage from 'pages/SignIn/SignIn';
 import LicenseKey from '../../pages/LicenseKey/LicenseKey';
-import Register from '../base/src/staticPages/Register/Register'
-import Header from '../../pages/staticPage/header/Header'
-import Sidebar from '../../pages/staticPage/Sidebar/Sidebar'
-import TemplateDataProvider from './TemplateDataProvider'
+import Header from '../../pages/staticPage/header/Header';
+import Sidebar from '../../pages/staticPage/Sidebar/Sidebar';
+import TemplateDataProvider from './TemplateDataProvider';
 
 
 const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }) => {
@@ -26,11 +25,13 @@ const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }) => {
     </Header>
   )
 
-  const WithTemplate = () => (
-    <Template>
-      <Route {...rest} component={finalComponent} />
-    </Template>
-  )
+  const WithTemplate = () => {
+    return (
+      <Template>
+        <Route {...rest} component={finalComponent} />
+      </Template>
+    )
+  }
 
   return (
     <TemplateDataProvider>

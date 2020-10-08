@@ -45,6 +45,14 @@ const createStyles = (t: Theme) => {
         border-left: 5px solid ${t.color.redPrimary};
         background-color: ${t.color.gray}
       }
+      &.active{
+        div{
+          color: ${(t.color.darkPrimary)};
+        }
+        color: ${t.color.yellowDark};
+        border-left: 5px solid ${t.color.redPrimary};
+        background-color: ${t.color.gray}
+      }
       div {
         font-family: Open Sans;
         font-style: normal;
@@ -109,114 +117,6 @@ const createStyles = (t: Theme) => {
           background-color: ${t.color.lightPrimary}
         }
       }
-    `,
-    bottom__menu: css`
-      position: absolute;
-      bottom: 0;
-      display: flex;
-      width: 300px;
-      border-top: 1px solid ${t.color.grayDark};
-      justify-content: space-between;
-      transition: all 0.5s;
-      p {
-        transition: all 0.5s;
-        display: inline;
-      }
-    `,
-    bottom__menu_minimize: css`
-      display: flex;
-      flex-direction: column;
-      width: 50px;
-      div {
-        width: 50px;
-        margin-left: 10px;
-        p {
-          display: none;
-        }
-      }
-  `,
-    bottom__menu_responsive: css`
-      @media screen and (min-width: 320px) and (max-width: 1024px) {
-        display: flex;
-        flex-direction: column;
-        width: 50px;
-        div {
-          width: 50px;
-          margin-left: 10px;
-          p {
-            display: none;
-          }
-        }
-      }
-    `,
-    settings: css`
-      border-right: 1px solid ${t.color.grayDark};
-      width: 146px;
-      height: 48px;
-      cursor: pointer;
-      transition: all 0.5s;
-
-      p {
-        position: absolute;
-        height: 20px;
-        left: 60px;
-        margin-top: 13px;
-        color: rgba(0, 0, 0, 0.5);
-
-        font-style: normal;
-        font-weight: normal;
-        font-size: 14px;
-        line-height: 20px;
-      }
-      &:hover {
-        svg {color: ${t.color.yellowDark};}
-      }
-    `,
-    icon_settings: css`
-      position: absolute;
-      height: 24px;
-      left: 18px;
-      top: 12px;
-      color: ${t.color.yellowLight};
-      &:hover {
-        color: ${t.color.yellowDark};
-      }
-      
-    `,
-    icon_settings_minimize: css`
-      left: 10px;
-    `,
-    icon_settings_responsive: css`
-      @media screen and (min-width: 320px) and (max-width: 1024px) {
-        left: 10px;
-      }
-    `,
-    logout: css`
-      display:flex;
-      flex-direction: row;
-      width: 146px;
-      height: 48px;
-      cursor: pointer;
-      p {
-        height: 20px;
-        margin-right: 18px;
-        margin-top: 13px;
-        color: rgba(0, 0, 0, 0.5);
-        font-style: normal;
-        font-weight: normal;
-        font-size: 14px;
-        line-height: 20px;
-      }
-      &:hover {
-        svg {color: ${t.color.yellowDark};}
-      }
-    `,
-    icon_logout: css`
-      height: 24px;
-      margin-top: 11px;
-      margin-right: 18px;
-      color: ${t.color.yellowLight};
-     
     `,
     icon_chevron_left: css`
       color: ${t.color.darkNeutral};

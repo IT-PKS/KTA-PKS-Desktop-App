@@ -11,10 +11,10 @@ import isNull from 'lodash/isNull';
 import Card from '../../../components/deskstop/Card/Card';
 
 import formHelper, {
-    RegisterFormData,
-    SelectOption,
-    SelectKeys,
-    ErrorMessageKeys,
+  RegisterFormData,
+  SelectOption,
+  SelectKeys,
+  ErrorMessageKeys,
 } from '../../../components/base/src/staticPages/Register/Register.formHelper';
 
 import {
@@ -28,7 +28,7 @@ import {
   getEducations,
   getMarital,
   getBloodType,
-} from 'client/AdminClient.ts';
+} from 'client/AdminClient';
 import useDidMount from '../../../components/base/src/utils/hooks/useDidMount'
 import useDidUpdate from '../../../components/base/src/utils/hooks/useDidUpdate'
 
@@ -36,20 +36,20 @@ import createStyles from './PersonalData.styles';
 
 // Components
 import {
-    Button,
-    Checkbox,
-    Column,
-    FormErrorMessage,
-    FormGroup,
-    Icon,
-    Input,
-    InputMask,
-    Label,
-    LeafletMapPicker,
-    Row,
-    Select,
-    Textarea,
-    UploadBox,
+  Button,
+  Checkbox,
+  Column,
+  FormErrorMessage,
+  FormGroup,
+  Icon,
+  Input,
+  InputMask,
+  Label,
+  LeafletMapPicker,
+  Row,
+  Select,
+  Textarea,
+  UploadBox,
 } from 'kta-ui-components';
 
 import RegisterFailed from '../../../components/base/src/staticPages/Register/RegisterFailed';
@@ -59,19 +59,19 @@ import RegisterSuccess from '../../../components/base/src/staticPages/Register/R
 import { isPossiblyNumber, validateFileType, validateFileSize } from '../../../components/base/src/utils';
 
 type iProps = {
-    defaultValues?: { [K in keyof RegisterFormData]?: RegisterFormData[K] };
-    state?: 'default' | 'success' | 'failed';
-    onSubmit(): any;
-      /** @default false */
-    loading?: boolean;
-    setState( value: any ): any;
+  defaultValues?: { [K in keyof RegisterFormData]?: RegisterFormData[K] };
+  state?: 'default' | 'success' | 'failed';
+  onSubmit(): any;
+  /** @default false */
+  loading?: boolean;
+  setState(value: any): any;
 };
 
-  
+
 const PersonalData: React.FC<iProps> = props => {
   const { defaultValues, state = 'default', onSubmit, loading, setState } = props;
   const { register, handleSubmit, errors, setValue, formState } = useForm<RegisterFormData>({
-      defaultValues,
+    defaultValues,
   });
 
   const theme = useTheme<Theme>();
@@ -85,7 +85,7 @@ const PersonalData: React.FC<iProps> = props => {
   const [kotaKabupaten, setKotaKabupaten] = React.useState<any | []>([])
   const [kecamatan, setKecamatan] = React.useState<any | []>([])
   const [kelurahanDesa, setKelurahanDesa] = React.useState<any | []>([])
-  const [negaraSaatIni, setNegaraSaatIni] = React.useState<any | []>([{label: 'Indonesia', value: 1}])
+  const [negaraSaatIni, setNegaraSaatIni] = React.useState<any | []>([{ label: 'Indonesia', value: 1 }])
   const [agama, setAgama] = React.useState<any | []>([])
   const [statusPerkawinan, setStatusPerkawinan] = React.useState<any | []>([])
   const [pekerjaan, setPekerjaan] = React.useState<any | []>([])
@@ -95,9 +95,9 @@ const PersonalData: React.FC<iProps> = props => {
   const [kotaKabupatenValue, setKotaKabupatenValue] = React.useState<string | null>(null);
   const [kecamatanValue, setKecamatanValue] = React.useState<string | null>(null);
   const [kelurahanDesaValue, setKelurahanDesaValue] = React.useState<string | null>(null);
-  
+
   const normalizeDropdown = (arrayObj: any, keyValue: string) => {
-    for(let i = 0; i < arrayObj.length; i++){
+    for (let i = 0; i < arrayObj.length; i++) {
       arrayObj[i].label = arrayObj[i][keyValue];
       arrayObj[i].value = arrayObj[i]['id'];
     }
@@ -139,7 +139,7 @@ const PersonalData: React.FC<iProps> = props => {
     setGolonganDarah(normalizeDropdown(golonganDarah, 'blood'));
   }
 
-  const _hanldeGetCities = async(provincyId: string) => {
+  const _hanldeGetCities = async (provincyId: string) => {
     const { data: kotaKabupaten } = await getCities(provincyId);
     setKotaKabupaten(normalizeDropdown(kotaKabupaten, 'name'));
   }
@@ -154,19 +154,19 @@ const PersonalData: React.FC<iProps> = props => {
     setKelurahanDesa(normalizeDropdown(kelurahanDesa, 'name'));
   }
 
-  React.useEffect(()=>{
-    if(provinsiValue !== null)_hanldeGetCities(provinsiValue)
-  },[provinsiValue])
+  React.useEffect(() => {
+    if (provinsiValue !== null) _hanldeGetCities(provinsiValue)
+  }, [provinsiValue])
 
-  React.useEffect(()=>{ 
-    if(kotaKabupatenValue !== null)_hanldeGetDistricts(kotaKabupatenValue)
-  },[kotaKabupatenValue])
+  React.useEffect(() => {
+    if (kotaKabupatenValue !== null) _hanldeGetDistricts(kotaKabupatenValue)
+  }, [kotaKabupatenValue])
 
-  React.useEffect(()=>{
-    if(kecamatanValue !== null)_hanldeGetSubDistricts(kecamatanValue)
-  },[kecamatanValue])
+  React.useEffect(() => {
+    if (kecamatanValue !== null) _hanldeGetSubDistricts(kecamatanValue)
+  }, [kecamatanValue])
 
-  useDidMount(()=>{
+  useDidMount(() => {
     _handleGetGenders();
     _handleGetProvinces();
     _handleGetReligions();
@@ -254,7 +254,7 @@ const PersonalData: React.FC<iProps> = props => {
       return <RegisterFailed />;
     }
     if (state === 'success') {
-      return <RegisterSuccess onNewForm={()=>setState('default')} />;
+      return <RegisterSuccess onNewForm={() => setState('default')} />;
     }
     return (
       <form css={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -903,12 +903,12 @@ const PersonalData: React.FC<iProps> = props => {
     );
   };
 
-    return (
-        <Card>
-          {/* Form */}
-          {getChildren()}
-        </Card>
-    )
+  return (
+    <Card>
+      {/* Form */}
+      {getChildren()}
+    </Card>
+  )
 }
 
 export default PersonalData
