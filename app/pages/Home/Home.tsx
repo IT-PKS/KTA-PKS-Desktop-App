@@ -12,10 +12,10 @@ const Home: React.FC = () => {
 
     const { payloadRest, payloadLocal } = normalizePayload(payload);
 
-    const reslocal = await saveToLocal(payloadLocal);
+    // const reslocal = await saveToLocal(payloadLocal);
     const res = await postMembersRegistration(payloadRest);
 
-    if (reslocal && res.message === 'Success') {
+    if (res.message === 'Success') { //reslocal && 
       setLoading(true);
       setState('success');
     } else {
