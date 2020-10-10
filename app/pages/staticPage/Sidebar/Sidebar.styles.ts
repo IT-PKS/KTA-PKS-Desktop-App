@@ -7,7 +7,7 @@ const createStyles = (t: Theme) => {
       padding: 10px;
       position: absolute;
       box-shadow: 6px 0px 10px rgba(0, 0, 0, 0.05);
-      width: 300px;
+      width: 208px;
       background-color: ${t.color.lightPrimary};
       top: 92px;
       left: 0px;
@@ -20,12 +20,12 @@ const createStyles = (t: Theme) => {
       padding: 0px;
     }`,
     sidebar_menus__responsive: css`
-      @media screen and (min-width: 320px) and (max-width: 1024px) {
+      @media screen and (min-width: 320px) and (max-width: 999px) {
         width: 50px;
         padding: 0px;
     }`,
     sidebar_minimize__responsive: css`
-      @media screen and (min-width: 320px) and (max-width: 1024px) {
+      @media screen and (min-width: 320px) and (max-width: 999px) {
         display: none;
     }`,
     menu: css`
@@ -91,7 +91,7 @@ const createStyles = (t: Theme) => {
       }
     `,
     menu__responsive: css`
-      @media screen and (min-width: 320px) and (max-width: 1024px) {
+      @media screen and (min-width: 320px) and (max-width: 999px) {
         padding-left: 5px;
         div{
           position: relative;
@@ -132,7 +132,7 @@ const createStyles = (t: Theme) => {
       height: 32px;
       border-radius: 50%;
       top:400px;
-      left: 285px;
+      left: 190px;
       cursor: pointer; 
       transition: all 0.5s;
       &:hover {

@@ -20,16 +20,32 @@ const Ringkasan = () => {
                 </div>
                 <div css={[styles.white__card__custom]}>
                     <h1 css={[styles.heading]}>Sebaran Domisili</h1>
-                    <div>
-                        <p>{`<30`}</p>
-                        <p>4.738.035</p>
+                    <div css={[styles.odd__row]}>
+                        <div>DKI Jakarta</div>
+                        <div>4.738.035</div>
+                    </div>
+                    <div css={[styles.even__row]}>
+                        <div>Aceh</div>
+                        <div>4.738.035</div>
+                    </div>
+                    <div css={[styles.odd__row]}>
+                        <div>Jawa Tengah</div>
+                        <div>4.738.035</div>
                     </div>
                 </div>
                 <div css={[styles.white__card__custom]}>
                     <h1 css={[styles.heading]}>Sebaran Usia</h1>
-                    <div>
-                        <p>DKI Jakarta</p>
-                        <p>12.603.549</p>
+                    <div css={[styles.odd__row]}>
+                        <div>{`< 30`}</div>
+                        <div>12.603.549</div>
+                    </div>
+                    <div css={[styles.even__row]}>
+                        <div>{`20 - 29`}</div>
+                        <div>12.603.549</div>
+                    </div>
+                    <div css={[styles.odd__row]}>
+                        <div>{`30 - 39`}</div>
+                        <div>12.603.549</div>
                     </div>
                 </div>
                 <div css={[styles.white__card__custom]}>

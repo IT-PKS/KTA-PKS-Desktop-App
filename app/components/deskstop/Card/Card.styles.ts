@@ -31,7 +31,7 @@ const createStyles = (t: Theme) => {
         flex-direction: column;
         border-radius: 4px;
         margin-bottom: 40px;
-        left: 340px;
+        left: 252px;
         top: 126px;
         position: absolute;
         right: 40px;     
@@ -39,7 +39,7 @@ const createStyles = (t: Theme) => {
         padding-right: 50px;
         padding-left: 40px;
         transition: all 0.5s;
-        @media screen and (min-width: 320px) and (max-width: 1024px) {
+        @media screen and (min-width: 320px) and (max-width: 999px) {
           left: 90px;
         }
     `,

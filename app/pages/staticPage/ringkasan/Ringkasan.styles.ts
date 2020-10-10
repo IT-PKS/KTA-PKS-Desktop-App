@@ -13,7 +13,7 @@ const createStyles = (t: Theme) => {
       padding: 20px;
       border-radius: 4px;
       width: 337px;
-      margin: 0px 40px 40px 0px;
+      margin: 0px 0px 40px 20px;
     `,
     heading: css`
       color: ${t.color.lightSecondary};
@@ -33,6 +33,24 @@ const createStyles = (t: Theme) => {
     se__indonesia: css`
       color: ${t.color.lightSecondary};
       display: block;
+    `,
+    odd__row: css`
+      display: flex;
+      justify-content: space-between;
+      background-color: rgba(250, 203, 0, 0.1);
+      padding: 10px;
+      width: 297px;
+      heigth: 41px;
+      color: black;
+    `,
+    even__row: css`
+      display: flex;
+      justify-content: space-between;
+      background-color: white;
+      padding: 10px;
+      width: 297px;
+      heigth: 41px;
+      color: black;
     `,
   };
 };
