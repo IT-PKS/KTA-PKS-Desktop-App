@@ -6,7 +6,11 @@ import createStyles from './Card.styles'
 import { Theme } from '../../base/src/theme';
 import { useTemplateDataContext } from '../../contextual/TemplateDataProvider'
 
-const Card: React.FC = (props) => {
+type iProps = {
+    transparent: boolean
+}
+
+const Card: React.FC<iProps> = (props) => {
     const { children, transparent } = props
     const { isOpenMenu } = useTemplateDataContext()
     const theme = useTheme<Theme>();

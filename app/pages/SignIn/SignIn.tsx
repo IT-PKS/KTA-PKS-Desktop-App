@@ -1,5 +1,5 @@
 import React from 'react';
-import { Login } from 'kta-ui-components'
+import Login from '../../components/base/src/staticPages/Login/Login'
 import { useAuthDataContext } from 'utils/AuthDataProvider';
 
 const SignIn: React.FC = () => {
