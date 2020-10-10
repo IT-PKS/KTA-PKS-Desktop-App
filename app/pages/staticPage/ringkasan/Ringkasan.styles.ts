@@ -13,7 +13,7 @@ const createStyles = (t: Theme) => {
       padding: 20px;
       border-radius: 4px;
       width: 337px;
-      margin: 0px 0px 40px 20px;
+      margin: 0px 0px 40px 40px;
     `,
     heading: css`
       color: ${t.color.lightSecondary};
@@ -51,6 +51,41 @@ const createStyles = (t: Theme) => {
       width: 297px;
       heigth: 41px;
       color: black;
+    `,
+    odd__row__jenis_kelamin: css`
+      display: flex;
+      align-items: center;
+      font-size: 24px;
+      flex-direction: column;
+      background-color: rgba(250, 203, 0, 0.1);
+      padding: 10px;
+      width: 297px;
+      heigth: 41px;
+      color: black;
+    `,
+    even__row__jenis__kelamin: css`
+      font-size: 36px;
+      display: flex;
+      justify-content: center;
+      background-color: white;
+      padding: 10px;
+      width: 297px;
+      heigth: 41px;
+      color: black;
+    `,
+    angka__laki__laki__typography: css`
+      font-size: 24px;
+    `,
+    laki__laki__typography: css`
+      color: ${t.color.lightSecondary};
+      font-size: 14px;
+    `,
+    angka__perempuan__typography: css`
+      font-size: 24px;
+    `,
+    perempuan__typography: css`
+      color: ${t.color.lightSecondary};
+      font-size: 14px;
     `,
   };
 };
