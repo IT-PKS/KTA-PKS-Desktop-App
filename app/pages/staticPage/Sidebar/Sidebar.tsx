@@ -42,7 +42,7 @@ const Sidebar: React.FC<iProps> = (props) => {
                             <Link to={v.path} >
                                 <li
                                     key={i} className={`${location.pathname === v.path && 'active'}`} css={[styles.menu, isOpenMenu || styles.menu__close, styles.menu__responsive]}>
-                                    <Icon icon={`${v.icon}`} size="2x" />
+                                    <Icon icon={{ name: `${v.icon}` }} size="2x" />
                                     <div>
                                         <p>{v.title}</p>
                                     </div>

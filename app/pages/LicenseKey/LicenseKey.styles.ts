@@ -1,6 +1,7 @@
 import { css } from '@emotion/core';
 import { Theme } from '../../components/base/src/theme';
 import { safeCssUrl } from '../../components/base/src/utils';
+import { rgba } from 'polished';
 
 // Images
 import bgImg from '../../components/base/src/img/bg.png';
@@ -34,12 +35,14 @@ const createStyles = (t: Theme) => {
       width: 100%;
       height: 100%;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
     `,
     panel: css`
       width: 100%;
       max-width: 360px;
+      margin-right: ${t.spacing.ml}px;
+      margin-left: ${t.spacing.ml}px;
       padding: 0;
     `,
     header: css`
@@ -70,6 +73,11 @@ const createStyles = (t: Theme) => {
         background-color: ${t.color.darkPrimary};
         z-index: 0;
       }
+
+      img {
+        width: auto;
+        height: 100px;
+      }
     `,
     headerText: css`
       margin-left: ${t.spacing.s}px;
@@ -81,9 +89,22 @@ const createStyles = (t: Theme) => {
     form: css`
       padding: ${t.spacing.ml}px;
     `,
+    forgetPasswordColumn: css`
+      text-align: right;
+
+      a {
+        font-size: ${t.typography.size.small}px;
+        color: ${t.color.darkPrimary};
+
+        &:hover {
+          color: ${rgba(t.color.darkPrimary, t.opacity.obscure)};
+          text-decoration: none;
+        }
+      }
+    `,
     buttonContainer: css`
       margin-top: ${t.spacing.xl}px;
-      text-align: center;
+      text-align: left;
     `,
   };
 };
