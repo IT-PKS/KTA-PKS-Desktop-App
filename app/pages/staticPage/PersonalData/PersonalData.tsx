@@ -893,8 +893,8 @@ const PersonalData: React.FC<iProps> = props => {
         </FormGroup>
 
         {/* Kirim Data */}
-        <div css={styles.buttonContainer}>
-          <Button icon="paper-plane" type="submit" loading={loading}>
+        <div css={styles.button_section}>
+          <Button icon={{ name: 'paper-plane' }} type="submit" loading={loading}>
             Kirim Data
           </Button>
         </div>

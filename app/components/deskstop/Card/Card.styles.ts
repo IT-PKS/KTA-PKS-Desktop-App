@@ -17,11 +17,14 @@ const createStyles = (t: Theme) => {
         z-index: -200;
         overflow-x: auto;
       `,
-    content__transparent: css`
-      background-color: transparent;
-    `,
     content__bg__white: css`
       background-color: white;
+    `,
+    content__transparent: css`
+      background-color: transparent;
+      padding: 0px;
+      padding-right: 0px;
+      padding-left: 0px;
     `,
     content: css`
         display: flex;
@@ -31,7 +34,7 @@ const createStyles = (t: Theme) => {
         left: 340px;
         top: 126px;
         position: absolute;
-        right: 40px;
+        right: 40px;     
         padding: 50px;
         padding-right: 50px;
         padding-left: 40px;

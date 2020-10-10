@@ -56,7 +56,7 @@ const createStyles = (t: Theme) => {
     button_section: css`
       display: flex;
       justify-content: center;
-    `
+    `,
   };
 };
 

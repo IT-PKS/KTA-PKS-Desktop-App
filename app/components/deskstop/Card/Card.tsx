@@ -11,12 +11,12 @@ type iProps = {
 }
 
 const Card: React.FC<iProps> = (props) => {
-    const { children, transparent } = props
+    const { children, transparent = false } = props
     const { isOpenMenu } = useTemplateDataContext()
     const theme = useTheme<Theme>();
     const styles = createStyles(theme);
     return (
-        <div css={[styles.content__bacground]}>
+        <div css={[styles.content__bacground, transparent || styles.content__no_transparent]}>
             <div css={[
                 styles.content, isOpenMenu || styles.content__minimize,
                 transparent ? styles.content__transparent : styles.content__bg__white
