@@ -42,7 +42,7 @@ const Sidebar: React.FC<iProps> = (props) => {
                             <Link to={v.path} >
                                 <li
                                     key={i} className={`${location.pathname === v.path && 'active'}`} css={[styles.menu, isOpenMenu || styles.menu__close, styles.menu__responsive]}>
-                                    <Icon icon={{ name: `${v.icon}` }} size="2x" />
+                                    <Icon name={`${v.icon}`} size="2x" />
                                     <div>
                                         <p>{v.title}</p>
                                     </div>
@@ -52,7 +52,7 @@ const Sidebar: React.FC<iProps> = (props) => {
                     })
                 }
                 <div css={[styles.sidebar_minimize, isOpenMenu || styles.sidebar_minimize__close, styles.sidebar_minimize__responsive]} onClick={_handleMinimizeMenu}>
-                    <Icon icon={isOpenMenu ? 'chevron-left' : 'chevron-right'} css={[styles.icon_chevron_left]} />
+                    <Icon name={isOpenMenu ? 'chevron-left' : 'chevron-right'} css={[styles.icon_chevron_left]} />
                 </div>
             </ul>
         </Fragment>

@@ -30,7 +30,6 @@ import {
   getBloodType,
 } from 'client/AdminClient';
 import useDidMount from '../../../components/base/src/utils/hooks/useDidMount'
-import useDidUpdate from '../../../components/base/src/utils/hooks/useDidUpdate'
 
 import createStyles from './PersonalData.styles';
 

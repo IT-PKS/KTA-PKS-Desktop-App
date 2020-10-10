@@ -1,5 +1,4 @@
 import { css } from '@emotion/core';
-import { Theme } from '../../theme';
 import loginBackground from '../../resources/loginBackground.png'
 
 const createStyles = (t: Theme) => {
@@ -43,6 +42,19 @@ const createStyles = (t: Theme) => {
       right: 0;
       bottom: -6px;
       border-bottom: 6px solid ${t.color.darkPrimary};
+    `,
+
+    user__icon__container: css`
+      position: absolute;
+      top: 25px;
+      right: 160px;
+      color: ${t.color.redPrimary};
+    `,
+    user__name__container: css`
+      position: absolute;
+      top: 33px;
+      right: 25px;
+      color: black;
     `,
   };
 };
