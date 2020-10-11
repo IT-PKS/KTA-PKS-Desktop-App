@@ -83,6 +83,7 @@ const ForgotPassword: React.FC<iProps> = (props) => {
                 })}
                 type="email"
                 name="email"
+                placeHolder="Email yang terdaftar sebagai admin"
                 autoComplete="on"
                 errorMessage={errors.email && errors.email.message}
               />

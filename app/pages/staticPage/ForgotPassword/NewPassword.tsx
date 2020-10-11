@@ -85,6 +85,7 @@ const NewPassword: React.FC<iProps> = (props) => {
                 })}
                 type="text"
                 name="new_password"
+                placeHolder="Password Baru"
                 autoComplete="on"
                 errorMessage={errors.email && errors.email.message}
               />
