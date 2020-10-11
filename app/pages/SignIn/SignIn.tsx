@@ -1,5 +1,5 @@
 import React from 'react';
-import Login from '../../components/base/src/staticPages/Login/Login'
+import Login from '../staticPage/Login/Login'
 import { useAuthDataContext } from 'utils/AuthDataProvider';
 
 const SignIn: React.FC = () => {

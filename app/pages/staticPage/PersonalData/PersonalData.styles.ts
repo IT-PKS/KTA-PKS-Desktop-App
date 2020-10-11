@@ -57,6 +57,13 @@ const createStyles = (t: Theme) => {
       display: flex;
       justify-content: center;
     `,
+    white__card__custom: css`
+      background-color: #fff;
+      border-radius: 4px;
+      width: cal(100vh-208px);
+      padding: 50px 46px 50px 50px;
+      margin-top: 20px;
+    `,
   };
 };
 

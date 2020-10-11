@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useForm } from 'react-hook-form';
 import { Global, jsx } from '@emotion/core';
 import { useTheme } from 'emotion-theming';
@@ -903,10 +903,23 @@ const PersonalData: React.FC<iProps> = props => {
   };
 
   return (
-    <Card>
-      {/* Form */}
-      {getChildren()}
-    </Card>
+    <Fragment>
+      <Card transparent>
+        <div>
+          <Button icon={{ name: 'user-plus' }} type="submit" style={{ width: '211px', height: '51px' }}>
+            Tambah Satu Data
+          </Button>
+          <Button variant="light" icon={{ name: 'users' }} type="submit" style={{ width: '211px', height: '51px', marginLeft: '10px' }}>
+            Tambah Banyak Data
+        </Button>
+        </div>
+
+        <div css={[styles.white__card__custom]}>
+          {/* Form */}
+          {getChildren()}
+        </div>
+      </Card>
+    </Fragment>
   )
 }
 
