@@ -131,7 +131,7 @@ const createStyles = (t: Theme) => {
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      top:400px;
+      top: calc(100% - 50%);
       left: 190px;
       cursor: pointer; 
       transition: all 0.5s;
