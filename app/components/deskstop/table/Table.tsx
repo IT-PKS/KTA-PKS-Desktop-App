@@ -5,6 +5,11 @@ import { useTheme } from 'emotion-theming';
 import createStyles from './Table.styles'
 import { Theme } from '../../base/src/theme';
 
+// Components
+import {
+    Checkbox,
+} from 'kta-ui-components';
+
 type iProps = {
     dataDomains: Array
 }
@@ -19,6 +24,9 @@ const Table: React.FC<iProps> = (props) => {
             <table css={[styles.table]}>
                 <thead css={[styles.table__thead]}>
                     <tr>
+                        <th className="col-domain">
+                            <Checkbox name="bukanPengurus" />
+                        </th>
                         <th className="col-domain">
                             <a className="nc-grid-ordering" href="#">NIK</a>
                         </th>
