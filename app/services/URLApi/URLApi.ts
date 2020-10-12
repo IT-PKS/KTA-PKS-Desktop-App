@@ -12,7 +12,7 @@ const ROOT_API = axios.create({
     }
 })
 
-export const clientGet = async (endPoint: string,  params:object ) => {
+export const clientGet = async (endPoint: string, params: object) => {
     try {
         let getData = await ROOT_API.get(endPoint, params)
         if (getData.status === 200) return getData.data
@@ -21,16 +21,17 @@ export const clientGet = async (endPoint: string,  params:object ) => {
     }
 }
 
-export const clientPost = async (endPoint:string, body:object) => {
+export const clientPost = async (endPoint: string, body: object) => {
     try {
         let res = await ROOT_API.post(endPoint, body)
         return res.data
     } catch (e) {
-        alert(e.message)
+        const { data } = e.response;
+        return { error: data }
     }
 }
 
-export const clientDelete = async (endPoint:string, params:object) => {
+export const clientDelete = async (endPoint: string, params: object) => {
     try {
         let getData = await ROOT_API.delete(endPoint, params)
 
@@ -41,7 +42,7 @@ export const clientDelete = async (endPoint:string, params:object) => {
 }
 
 
-export const clientPatch = async (endPoint:string, body:object ) => {
+export const clientPatch = async (endPoint: string, body: object) => {
     try {
         let getData = await ROOT_API.patch(endPoint, body)
 
