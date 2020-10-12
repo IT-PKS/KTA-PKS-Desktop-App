@@ -379,7 +379,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.jenisKelamin && errors.jenisKelamin.message}
-                placeHolder="Laki-laki / Perempuan"
+                placeholder="Laki-laki / Perempuan"
               />
             </FormGroup>
           </Column>
@@ -403,7 +403,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.golonganDarah && errors.golonganDarah.message}
-                placeHolder="A / B / AB / O"
+                placeholder="A / B / AB / O"
               />
             </FormGroup>
           </Column>
@@ -437,7 +437,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.provinsi && errors.provinsi.message}
-                placeHolder="Pilih Provinsi"
+                placeholder="Pilih Provinsi"
               />
             </FormGroup>
           </Column>
@@ -465,7 +465,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.kotaKabupaten && errors.kotaKabupaten.message}
-                placeHolder="Pilih Kota / Kabupaten"
+                placeholder="Pilih Kota / Kabupaten"
                 disabled={isNull(provinsiValue)}
               />
             </FormGroup>
@@ -497,7 +497,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.kecamatan && errors.kecamatan.message}
-                placeHolder="Pilih Kecamatan"
+                placeholder="Pilih Kecamatan"
                 disabled={isNull(provinsiValue) || isNull(kotaKabupatenValue)}
               />
             </FormGroup>
@@ -526,7 +526,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.kelurahanDesa && errors.kelurahanDesa.message}
-                placeHolder="Pilih Kelurahan / Desa"
+                placeholder="Pilih Kelurahan / Desa"
                 disabled={
                   isNull(provinsiValue) || isNull(kotaKabupatenValue) || isNull(kecamatanValue)
                 }
@@ -620,7 +620,7 @@ const PersonalData: React.FC<iProps> = props => {
             onChange={handleSelectOnChange('negaraSaatIni')}
             innerRef={() => register({ name: 'negaraSaatIni' })}
             errorMessage={errors.negaraSaatIni && errors.negaraSaatIni.message}
-            placeHolder="Pilih Negara"
+            placeholder="Pilih Negara"
           />
         </FormGroup>
 
@@ -648,7 +648,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.agama && errors.agama.message}
-                placeHolder="Agama"
+                placeholder="Agama"
               />
             </FormGroup>
           </Column>
@@ -672,7 +672,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.statusPerkawinan && errors.statusPerkawinan.message}
-                placeHolder="Kawin / Belum Kawin"
+                placeholder="Kawin / Belum Kawin"
               />
             </FormGroup>
           </Column>
@@ -699,7 +699,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.pekerjaan && errors.pekerjaan.message}
-                placeHolder="Pekerjaan"
+                placeholder="Pekerjaan"
               />
             </FormGroup>
           </Column>
@@ -723,7 +723,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.pendidikanTerakhir && errors.pendidikanTerakhir.message}
-                placeHolder="Jenjang Pendidikan"
+                placeholder="Jenjang Pendidikan"
               />
             </FormGroup>
           </Column>
@@ -799,9 +799,9 @@ const PersonalData: React.FC<iProps> = props => {
                     setValue('fotoScanKTP', files, { shouldValidate: formState.isSubmitted });
                   }
                 }}
-                placeHolder={
+                placeholder={
                   <span>
-                    <Icon icon="camera" />
+                    <Icon name="camera" />
                     &nbsp;&nbsp;Unggah Foto/Scan KTP
                   </span>
                 }
@@ -840,9 +840,9 @@ const PersonalData: React.FC<iProps> = props => {
                     setValue('fotoDiri', files, { shouldValidate: formState.isSubmitted });
                   }
                 }}
-                placeHolder={
+                placeholder={
                   <span>
-                    <Icon icon="camera" />
+                    <Icon name="camera" />
                     &nbsp;&nbsp;Unggah Foto Anda
                   </span>
                 }
