@@ -84,6 +84,7 @@
       "lodash": "^4.17.20",
       "mysql": "^2.14.1",
       "polished": "^3.6.5",
+      "rc-table": "^7.10.2",
       "react": "^16.13.1",
       "react-dom": "^16.13.1",
       "react-hook-form": "^6.8.4",

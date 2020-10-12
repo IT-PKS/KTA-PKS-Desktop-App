@@ -17,7 +17,8 @@ export const clientGet = async (endPoint: string, params: object) => {
         let getData = await ROOT_API.get(endPoint, params)
         if (getData.status === 200) return getData.data
     } catch (e) {
-        alert(e.message)
+        const { data } = e.response;
+        return { error: data }
     }
 }
 
@@ -37,7 +38,8 @@ export const clientDelete = async (endPoint: string, params: object) => {
 
         if (getData.status === 200) return getData.data
     } catch (e) {
-        alert(e.message)
+        const { data } = e.response;
+        return { error: data }
     }
 }
 
@@ -48,6 +50,7 @@ export const clientPatch = async (endPoint: string, body: object) => {
 
         if (getData.status === 200) return getData.data
     } catch (e) {
-        alert(e.message)
+        const { data } = e.response;
+        return { error: data }
     }
 }
