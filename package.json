@@ -33,6 +33,12 @@
          "buildResources": "resources",
          "output": "release"
       },
+      "publish": [
+         {
+         "provider": "github",
+         "repo": "kta-desktop"
+         }
+      ],
       "files": [
          "dist",
          "!dist/dll",
@@ -54,9 +60,15 @@
          ]
       },
       "win": {
-         "target": "nsis"
+         "target": "nsis",
+         "publish": [
+            "github"
+         ]
       },
       "linux": {
+         "publish": [
+            "github"
+         ],
          "target": [
             "deb",
             "AppImage"
