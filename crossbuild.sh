@@ -1,5 +1,6 @@
 #!/bin/bash 
  docker run --rm \
+ --env GH_TOKEN=4bb8e15c342c73cb9abbaa08734949c66995c6e9 \
  --env ELECTRON_CACHE="/root/.cache/electron" \
  --env ELECTRON_BUILDER_CACHE="/root/.cache/electron-builder" \
  -v ${PWD}:/project \

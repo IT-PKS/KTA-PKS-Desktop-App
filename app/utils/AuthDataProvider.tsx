@@ -70,14 +70,13 @@ const AuthDataProvider: React.FC = props => {
   }
 
   const onLogin = async (newAuthData: AuthData) => {
-    setAuthData({ ...authData, loading: true })
-    const { data, error } = await _postAuthLogin(newAuthData)
-    console.log("onLogin -> error", error)
+    // setAuthData({ ...authData, loading: true })
+    const { error } = await _postAuthLogin(newAuthData)
     if (error) {
+      console.log("onLogin -> error", error)
       setAuthData({ ...authData, loading: false })
-      alert(`${error.message}: ${error.error}`)
-    }
-    if (data) {
+      alert(error.error._general_)
+    } else {
       localStorage.setItem("user", JSON.stringify(newAuthData.email))
       setAuthData({ ...authData, user: newAuthData.email, loading: false });
     }

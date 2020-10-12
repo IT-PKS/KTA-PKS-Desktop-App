@@ -866,39 +866,6 @@ const PersonalData: React.FC<iProps> = props => {
             </FormGroup>
           </Column>
         </Row>
-
-        {/* Bukan Pengurus */}
-        <FormGroup>
-          <Checkbox
-            label="Dengan ini saya menyatakan bahwa saya bukan merupakan pengurus dari partai politik lain."
-            name="bukanPengurus"
-            innerRef={register({
-              required: {
-                value: true,
-                message: errorMessages.bukanPengurus.required,
-              },
-            })}
-          />
-          <FormErrorMessage>
-            {errors.bukanPengurus && errors.bukanPengurus.message}
-          </FormErrorMessage>
-        </FormGroup>
-
-        {/* Setuju */}
-        <FormGroup>
-          <Checkbox
-            label="Saya menyatakan bahwa semua data yang tertulis di atas ini adalah benar dan saya bertanggung jawab penuh atas keabsahan data tersebut."
-            name="setuju"
-            innerRef={register({
-              required: {
-                value: true,
-                message: errorMessages.setuju.required,
-              },
-            })}
-          />
-          <FormErrorMessage>{errors.setuju && errors.setuju.message}</FormErrorMessage>
-        </FormGroup>
-
         {/* Kirim Data */}
         <div css={styles.button_section}>
           <Button icon={{ name: 'paper-plane' }} type="submit" loading={loading}>
