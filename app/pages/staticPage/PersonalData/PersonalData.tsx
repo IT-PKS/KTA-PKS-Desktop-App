@@ -275,7 +275,7 @@ const PersonalData: React.FC<iProps> = props => {
               errors.nik && errors.nik.type === 'required' && errorMessages.nik.required
             }
             type="text"
-            placeholder="Nomer Induk Kependudukan anda"
+            placeHolder="Nomer Induk Kependudukan anda"
           />
         </FormGroup>
 
@@ -294,7 +294,7 @@ const PersonalData: React.FC<iProps> = props => {
                 name="namaLengkap"
                 errorMessage={errors.namaLengkap && errors.namaLengkap.message}
                 type="text"
-                placeholder="Sesuai tertera di KTP"
+                placeHolder="Sesuai tertera di KTP"
               />
             </FormGroup>
           </Column>
@@ -306,7 +306,7 @@ const PersonalData: React.FC<iProps> = props => {
                 innerRef={register}
                 name="namaPanggilan"
                 type="text"
-                placeholder="Akrab dipanggil dengan nama..."
+                placeHolder="Akrab dipanggil dengan nama..."
               />
             </FormGroup>
           </Column>
@@ -327,7 +327,7 @@ const PersonalData: React.FC<iProps> = props => {
                 name="tempatLahir"
                 errorMessage={errors.tempatLahir && errors.tempatLahir.message}
                 type="text"
-                placeholder="Nama kota"
+                placeHolder="Nama kota"
               />
             </FormGroup>
           </Column>
@@ -352,7 +352,7 @@ const PersonalData: React.FC<iProps> = props => {
                 name="tanggalLahir"
                 errorMessage={getTanggalLahirErrorMessage()}
                 type="text"
-                placeholder="Dalam format dd/mm/yyyy"
+                placeHolder="Dalam format dd/mm/yyyy"
               />
             </FormGroup>
           </Column>
@@ -379,7 +379,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.jenisKelamin && errors.jenisKelamin.message}
-                placeholder="Laki-laki / Perempuan"
+                placeHolder="Laki-laki / Perempuan"
               />
             </FormGroup>
           </Column>
@@ -403,7 +403,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.golonganDarah && errors.golonganDarah.message}
-                placeholder="A / B / AB / O"
+                placeHolder="A / B / AB / O"
               />
             </FormGroup>
           </Column>
@@ -437,7 +437,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.provinsi && errors.provinsi.message}
-                placeholder="Pilih Provinsi"
+                placeHolder="Pilih Provinsi"
               />
             </FormGroup>
           </Column>
@@ -465,7 +465,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.kotaKabupaten && errors.kotaKabupaten.message}
-                placeholder="Pilih Kota / Kabupaten"
+                placeHolder="Pilih Kota / Kabupaten"
                 disabled={isNull(provinsiValue)}
               />
             </FormGroup>
@@ -497,7 +497,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.kecamatan && errors.kecamatan.message}
-                placeholder="Pilih Kecamatan"
+                placeHolder="Pilih Kecamatan"
                 disabled={isNull(provinsiValue) || isNull(kotaKabupatenValue)}
               />
             </FormGroup>
@@ -526,7 +526,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.kelurahanDesa && errors.kelurahanDesa.message}
-                placeholder="Pilih Kelurahan / Desa"
+                placeHolder="Pilih Kelurahan / Desa"
                 disabled={
                   isNull(provinsiValue) || isNull(kotaKabupatenValue) || isNull(kecamatanValue)
                 }
@@ -550,7 +550,7 @@ const PersonalData: React.FC<iProps> = props => {
                 name="alamat"
                 errorMessage={errors.alamat && errors.alamat.message}
                 type="text"
-                placeholder="Contoh: Jalan A Perum B No. 1111"
+                placeHolder="Contoh: Jalan A Perum B No. 1111"
               />
             </FormGroup>
           </Column>
@@ -570,7 +570,7 @@ const PersonalData: React.FC<iProps> = props => {
                   errors.rt && errors.rt.type === 'required' && errorMessages.rt.required
                 }
                 type="text"
-                placeholder="RT"
+                placeHolder="RT"
               />
             </FormGroup>
           </Column>
@@ -586,7 +586,7 @@ const PersonalData: React.FC<iProps> = props => {
                 name="rw"
                 errorMessage={errors.rw && errorMessages.rw.required}
                 type="text"
-                placeholder="RW"
+                placeHolder="RW"
               />
             </FormGroup>
           </Column>
@@ -601,7 +601,7 @@ const PersonalData: React.FC<iProps> = props => {
           <Textarea
             innerRef={register}
             name="alamatSaatIni"
-            placeholder="Isi apabila saat ini anda tidak tinggal di alamat yang tertera pada KTP"
+            placeHolder="Isi apabila saat ini anda tidak tinggal di alamat yang tertera pada KTP"
             css={styles.alamatTextarea}
           />
           <LeafletMapPicker
@@ -620,7 +620,7 @@ const PersonalData: React.FC<iProps> = props => {
             onChange={handleSelectOnChange('negaraSaatIni')}
             innerRef={() => register({ name: 'negaraSaatIni' })}
             errorMessage={errors.negaraSaatIni && errors.negaraSaatIni.message}
-            placeholder="Pilih Negara"
+            placeHolder="Pilih Negara"
           />
         </FormGroup>
 
@@ -648,7 +648,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.agama && errors.agama.message}
-                placeholder="Agama"
+                placeHolder="Agama"
               />
             </FormGroup>
           </Column>
@@ -672,7 +672,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.statusPerkawinan && errors.statusPerkawinan.message}
-                placeholder="Kawin / Belum Kawin"
+                placeHolder="Kawin / Belum Kawin"
               />
             </FormGroup>
           </Column>
@@ -699,7 +699,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.pekerjaan && errors.pekerjaan.message}
-                placeholder="Pekerjaan"
+                placeHolder="Pekerjaan"
               />
             </FormGroup>
           </Column>
@@ -723,7 +723,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.pendidikanTerakhir && errors.pendidikanTerakhir.message}
-                placeholder="Jenjang Pendidikan"
+                placeHolder="Jenjang Pendidikan"
               />
             </FormGroup>
           </Column>
@@ -748,7 +748,7 @@ const PersonalData: React.FC<iProps> = props => {
                 name="email"
                 errorMessage={errors.email && errors.email.message}
                 type="text"
-                placeholder="Contoh: email@website.com"
+                placeHolder="Contoh: email@website.com"
               />
             </FormGroup>
           </Column>
@@ -770,7 +770,7 @@ const PersonalData: React.FC<iProps> = props => {
                   errorMessages.noTelp.required
                 }
                 type="text"
-                placeholder="Contoh: 080011112222"
+                placeHolder="Contoh: 080011112222"
               />
             </FormGroup>
           </Column>
@@ -799,7 +799,7 @@ const PersonalData: React.FC<iProps> = props => {
                     setValue('fotoScanKTP', files, { shouldValidate: formState.isSubmitted });
                   }
                 }}
-                placeholder={
+                placeHolder={
                   <span>
                     <Icon icon="camera" />
                     &nbsp;&nbsp;Unggah Foto/Scan KTP
@@ -840,7 +840,7 @@ const PersonalData: React.FC<iProps> = props => {
                     setValue('fotoDiri', files, { shouldValidate: formState.isSubmitted });
                   }
                 }}
-                placeholder={
+                placeHolder={
                   <span>
                     <Icon icon="camera" />
                     &nbsp;&nbsp;Unggah Foto Anda
