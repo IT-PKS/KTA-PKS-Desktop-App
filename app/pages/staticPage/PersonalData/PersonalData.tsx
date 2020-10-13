@@ -111,7 +111,6 @@ const PersonalData: React.FC<iProps> = props => {
 
   const _handleGetCountries = async () => {
     const { data: countries } = await getCountries();
-    console.log("_handleGetCountries -> countries", countries)
     setNegaraSaatIni(normalizeDropdown(countries, 'name'),);
   }
 
