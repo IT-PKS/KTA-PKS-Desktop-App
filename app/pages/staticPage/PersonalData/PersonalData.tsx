@@ -257,7 +257,7 @@ const PersonalData: React.FC<iProps> = props => {
 
   const getChildren = () => {
     if (state === 'failed') {
-      return <RegisterFailed />;
+      return <RegisterFailed onResend={() => onSubmit} />;
     }
     if (state === 'success') {
       return <RegisterSuccess onNewForm={() => setState('default')} />;

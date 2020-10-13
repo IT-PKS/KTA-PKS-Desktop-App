@@ -14,7 +14,7 @@ export const normalizePayload = (payload: any) => {
   dataFile.append('job', payload.pekerjaan);
   dataFile.append('last_education', payload.pendidikanTerakhir);
   dataFile.append('blood_type', payload.golonganDarah);
-  dataFile.append('country_id', payload.negaraSaatIni);
+  dataFile.append('country_id', payload.negaraSaatIni || 0);
   dataFile.append('province_id', payload.provinsi);
   dataFile.append('city_id', payload.kotaKabupaten);
   dataFile.append('district_id', payload.kecamatan);

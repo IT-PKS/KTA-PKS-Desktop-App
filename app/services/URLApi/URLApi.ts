@@ -23,11 +23,9 @@ export const clientGet = async (endPoint: string, params: object) => {
 }
 
 export const clientPost = async (endPoint: string, body: object) => {
-    console.log(localStorage.getItem("token"))
-
     try {
         let res = await ROOT_API.post(endPoint, body)
-        return res.data
+        return { data: res.data }
     } catch (e) {
         const { data } = e.response;
         return { error: data }

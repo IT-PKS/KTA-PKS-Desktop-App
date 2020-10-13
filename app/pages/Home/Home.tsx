@@ -8,18 +8,19 @@ const Home: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const _hanldeOnSubmit = async (payload: any) => {
-    setLoading(false);
+    setLoading(true);
 
     const { payloadRest, payloadLocal } = normalizePayload(payload);
 
     // const reslocal = await saveToLocal(payloadLocal);
-    const res = await postMembersRegistration(payloadRest);
+    const { data, error } = await postMembersRegistration(payloadRest);
 
-    if (res.message === 'Success') { //reslocal && 
-      setLoading(true);
+    if (data) { //reslocal && 
       setState('success');
+      setLoading(false);
     } else {
-      setLoading(true);
+      alert(`${error.message} - ${JSON.stringify(error.error)}`)
+      setLoading(false);
     }
   };
 
