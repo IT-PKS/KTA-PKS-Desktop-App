@@ -83,7 +83,7 @@ const Login: React.FC<iProps> = (props) => {
                 type="email"
                 name="email"
                 autoComplete="on"
-                placeholder="Email yang terdaftar sebagai admin"
+                placeHolder="Email yang terdaftar sebagai admin"
                 errorMessage={errors.email && errors.email.message}
               />
             </FormGroup>
@@ -99,7 +99,7 @@ const Login: React.FC<iProps> = (props) => {
                 })}
                 type="password"
                 name="password"
-                placeholder="Password admin anda"
+                placeHolder="Password admin anda"
                 errorMessage={errors.password && errors.password.message}
               />
             </FormGroup>
