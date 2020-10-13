@@ -28,6 +28,7 @@ import {
   getEducations,
   getMarital,
   getBloodType,
+  getCountries
 } from 'client/AdminClient';
 import useDidMount from '../../../components/base/src/utils/hooks/useDidMount'
 
@@ -49,7 +50,6 @@ import {
   Select,
   Textarea,
   UploadBox,
-  getCountries,
 } from 'kta-ui-components';
 
 import RegisterFailed from '../../../components/base/src/staticPages/Register/RegisterFailed';
@@ -85,7 +85,7 @@ const PersonalData: React.FC<iProps> = props => {
   const [kotaKabupaten, setKotaKabupaten] = React.useState<any | []>([])
   const [kecamatan, setKecamatan] = React.useState<any | []>([])
   const [kelurahanDesa, setKelurahanDesa] = React.useState<any | []>([])
-  const [negaraSaatIni, setNegaraSaatIni] = React.useState<any | []>([{ label: 'Indonesia', value: 1 }])
+  const [negaraSaatIni, setNegaraSaatIni] = React.useState<any | []>([])
   const [agama, setAgama] = React.useState<any | []>([])
   const [statusPerkawinan, setStatusPerkawinan] = React.useState<any | []>([])
   const [pekerjaan, setPekerjaan] = React.useState<any | []>([])
@@ -111,6 +111,7 @@ const PersonalData: React.FC<iProps> = props => {
 
   const _handleGetCountries = async () => {
     const { data: countries } = await getCountries();
+    console.log("_handleGetCountries -> countries", countries)
     setNegaraSaatIni(normalizeDropdown(countries, 'name'),);
   }
 
