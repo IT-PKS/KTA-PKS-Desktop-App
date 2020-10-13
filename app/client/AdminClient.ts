@@ -9,7 +9,7 @@ export const getBloodType = async () => {
 };
 
 export const getCountries = async () => {
-    return await clientGet('drop-down/place/provinces', {});
+    return await clientGet('drop-down/place/countries', {});
 };
 
 export const getProvinces = async () => {
