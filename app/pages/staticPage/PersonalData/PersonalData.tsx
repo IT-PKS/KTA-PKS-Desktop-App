@@ -49,6 +49,7 @@ import {
   Select,
   Textarea,
   UploadBox,
+  getCountries,
 } from 'kta-ui-components';
 
 import RegisterFailed from '../../../components/base/src/staticPages/Register/RegisterFailed';
@@ -106,6 +107,11 @@ const PersonalData: React.FC<iProps> = props => {
   const _handleGetGenders = async () => {
     const { data: jenisKelamin } = await getGenders();
     setJenisKelamin(normalizeDropdown(jenisKelamin, 'gender'));
+  }
+
+  const _handleGetCountries = async () => {
+    const { data: countries } = await getCountries();
+    setNegaraSaatIni(normalizeDropdown(countries, 'name'),);
   }
 
   const _handleGetProvinces = async () => {
@@ -173,6 +179,7 @@ const PersonalData: React.FC<iProps> = props => {
     _handleGetEducations();
     _handleGetMarital();
     _handleGetBloodType();
+    _handleGetCountries();
   })
 
   const getSelectDefaultValue = (key: SelectKeys) => {
