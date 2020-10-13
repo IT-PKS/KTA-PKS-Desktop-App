@@ -6,7 +6,6 @@ import { jsx } from '@emotion/core';
 import { useTheme } from 'emotion-theming';
 import createStyles from './Validasi.styles';
 import { Theme } from '../../../components/base/src/theme';
-// import Table from '../../../components/deskstop/table/Table';
 import Table from '../../../components/base/src/components/Table/Table'
 
 
@@ -77,19 +76,19 @@ const Validasi: React.FC<iProps> = (props) => {
       title: 'NIK',
       dataIndex: 'nik',
       key: 'nik',
-      width: 100,
+      width: 200,
     },
     {
       title: 'Nama Lengkap',
       dataIndex: 'fullname',
       key: 'fullname',
-      width: 100,
+      width: 250,
     },
     {
       title: 'Alamat',
       dataIndex: 'address',
       key: 'address',
-      width: 200,
+      width: 300,
     },
     {
       title: 'Action',
@@ -166,7 +165,7 @@ const Validasi: React.FC<iProps> = (props) => {
                   )
                 }
                 errorMessage={errors.golonganDarah && errors.golonganDarah.message}
-                placeHolder="Tindakan masal"
+                placeholder="Tindakan masal"
               />
             </FormGroup>
           </Column>

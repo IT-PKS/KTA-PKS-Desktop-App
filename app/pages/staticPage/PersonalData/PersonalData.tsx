@@ -28,6 +28,7 @@ import {
   getEducations,
   getMarital,
   getBloodType,
+  getCountries
 } from 'client/AdminClient';
 import useDidMount from '../../../components/base/src/utils/hooks/useDidMount'
 
@@ -84,7 +85,7 @@ const PersonalData: React.FC<iProps> = props => {
   const [kotaKabupaten, setKotaKabupaten] = React.useState<any | []>([])
   const [kecamatan, setKecamatan] = React.useState<any | []>([])
   const [kelurahanDesa, setKelurahanDesa] = React.useState<any | []>([])
-  const [negaraSaatIni, setNegaraSaatIni] = React.useState<any | []>([{ label: 'Indonesia', value: 1 }])
+  const [negaraSaatIni, setNegaraSaatIni] = React.useState<any | []>([])
   const [agama, setAgama] = React.useState<any | []>([])
   const [statusPerkawinan, setStatusPerkawinan] = React.useState<any | []>([])
   const [pekerjaan, setPekerjaan] = React.useState<any | []>([])
@@ -106,6 +107,11 @@ const PersonalData: React.FC<iProps> = props => {
   const _handleGetGenders = async () => {
     const { data: jenisKelamin } = await getGenders();
     setJenisKelamin(normalizeDropdown(jenisKelamin, 'gender'));
+  }
+
+  const _handleGetCountries = async () => {
+    const { data: countries } = await getCountries();
+    setNegaraSaatIni(normalizeDropdown(countries, 'name'),);
   }
 
   const _handleGetProvinces = async () => {
@@ -173,6 +179,7 @@ const PersonalData: React.FC<iProps> = props => {
     _handleGetEducations();
     _handleGetMarital();
     _handleGetBloodType();
+    _handleGetCountries();
   })
 
   const getSelectDefaultValue = (key: SelectKeys) => {
@@ -379,7 +386,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.jenisKelamin && errors.jenisKelamin.message}
-                placeHolder="Laki-laki / Perempuan"
+                placeholder="Laki-laki / Perempuan"
               />
             </FormGroup>
           </Column>
@@ -403,7 +410,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.golonganDarah && errors.golonganDarah.message}
-                placeHolder="A / B / AB / O"
+                placeholder="A / B / AB / O"
               />
             </FormGroup>
           </Column>
@@ -437,7 +444,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.provinsi && errors.provinsi.message}
-                placeHolder="Pilih Provinsi"
+                placeholder="Pilih Provinsi"
               />
             </FormGroup>
           </Column>
@@ -465,7 +472,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.kotaKabupaten && errors.kotaKabupaten.message}
-                placeHolder="Pilih Kota / Kabupaten"
+                placeholder="Pilih Kota / Kabupaten"
                 disabled={isNull(provinsiValue)}
               />
             </FormGroup>
@@ -497,7 +504,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.kecamatan && errors.kecamatan.message}
-                placeHolder="Pilih Kecamatan"
+                placeholder="Pilih Kecamatan"
                 disabled={isNull(provinsiValue) || isNull(kotaKabupatenValue)}
               />
             </FormGroup>
@@ -526,7 +533,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.kelurahanDesa && errors.kelurahanDesa.message}
-                placeHolder="Pilih Kelurahan / Desa"
+                placeholder="Pilih Kelurahan / Desa"
                 disabled={
                   isNull(provinsiValue) || isNull(kotaKabupatenValue) || isNull(kecamatanValue)
                 }
@@ -620,7 +627,7 @@ const PersonalData: React.FC<iProps> = props => {
             onChange={handleSelectOnChange('negaraSaatIni')}
             innerRef={() => register({ name: 'negaraSaatIni' })}
             errorMessage={errors.negaraSaatIni && errors.negaraSaatIni.message}
-            placeHolder="Pilih Negara"
+            placeholder="Pilih Negara"
           />
         </FormGroup>
 
@@ -648,7 +655,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.agama && errors.agama.message}
-                placeHolder="Agama"
+                placeholder="Agama"
               />
             </FormGroup>
           </Column>
@@ -672,7 +679,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.statusPerkawinan && errors.statusPerkawinan.message}
-                placeHolder="Kawin / Belum Kawin"
+                placeholder="Kawin / Belum Kawin"
               />
             </FormGroup>
           </Column>
@@ -699,7 +706,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.pekerjaan && errors.pekerjaan.message}
-                placeHolder="Pekerjaan"
+                placeholder="Pekerjaan"
               />
             </FormGroup>
           </Column>
@@ -723,7 +730,7 @@ const PersonalData: React.FC<iProps> = props => {
                   )
                 }
                 errorMessage={errors.pendidikanTerakhir && errors.pendidikanTerakhir.message}
-                placeHolder="Jenjang Pendidikan"
+                placeholder="Jenjang Pendidikan"
               />
             </FormGroup>
           </Column>
@@ -799,9 +806,9 @@ const PersonalData: React.FC<iProps> = props => {
                     setValue('fotoScanKTP', files, { shouldValidate: formState.isSubmitted });
                   }
                 }}
-                placeHolder={
+                placeholder={
                   <span>
-                    <Icon icon="camera" />
+                    <Icon name="camera" />
                     &nbsp;&nbsp;Unggah Foto/Scan KTP
                   </span>
                 }
@@ -840,9 +847,9 @@ const PersonalData: React.FC<iProps> = props => {
                     setValue('fotoDiri', files, { shouldValidate: formState.isSubmitted });
                   }
                 }}
-                placeHolder={
+                placeholder={
                   <span>
-                    <Icon icon="camera" />
+                    <Icon name="camera" />
                     &nbsp;&nbsp;Unggah Foto Anda
                   </span>
                 }
@@ -859,39 +866,6 @@ const PersonalData: React.FC<iProps> = props => {
             </FormGroup>
           </Column>
         </Row>
-
-        {/* Bukan Pengurus */}
-        <FormGroup>
-          <Checkbox
-            label="Dengan ini saya menyatakan bahwa saya bukan merupakan pengurus dari partai politik lain."
-            name="bukanPengurus"
-            innerRef={register({
-              required: {
-                value: true,
-                message: errorMessages.bukanPengurus.required,
-              },
-            })}
-          />
-          <FormErrorMessage>
-            {errors.bukanPengurus && errors.bukanPengurus.message}
-          </FormErrorMessage>
-        </FormGroup>
-
-        {/* Setuju */}
-        <FormGroup>
-          <Checkbox
-            label="Saya menyatakan bahwa semua data yang tertulis di atas ini adalah benar dan saya bertanggung jawab penuh atas keabsahan data tersebut."
-            name="setuju"
-            innerRef={register({
-              required: {
-                value: true,
-                message: errorMessages.setuju.required,
-              },
-            })}
-          />
-          <FormErrorMessage>{errors.setuju && errors.setuju.message}</FormErrorMessage>
-        </FormGroup>
-
         {/* Kirim Data */}
         <div css={styles.button_section}>
           <Button icon={{ name: 'paper-plane' }} type="submit" loading={loading}>

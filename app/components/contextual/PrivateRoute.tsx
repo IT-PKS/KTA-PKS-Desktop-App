@@ -36,7 +36,7 @@ const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }) => {
   return (
     <TemplateDataProvider>
       {
-        !user ? <WithTemplate /> : <Route {...rest} component={finalComponent} />
+        user ? <WithTemplate /> : <Route {...rest} component={finalComponent} />
       }
     </TemplateDataProvider>
   )
