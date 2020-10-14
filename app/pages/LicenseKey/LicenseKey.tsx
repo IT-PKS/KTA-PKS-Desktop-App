@@ -11,7 +11,7 @@ import createStyles from './LicenseKey.styles';
 import { Button, Input, Label, Panel, FormGroup, Checkbox, Row, Column } from 'kta-ui-components';
 
 // Images
-import logoImg from '../../components/base/src/img/logo.svg';
+import logoImg from '../../components/base/src/img/logo-71x100.png';
 
 type LoginFormData = {
   email: string;

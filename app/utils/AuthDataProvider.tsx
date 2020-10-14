@@ -18,7 +18,7 @@ export interface AuthDataContextType extends AuthData {
 
 const initialAuthData: AuthData = {
   user: JSON.parse(localStorage.getItem("user")) || '',
-  serialKey: '',
+  serialKey: JSON.parse(localStorage.getItem("serialKey")) || '',
   email: JSON.parse(localStorage.getItem("email")) || '',
   finishChecking: false,
   loading: false,
@@ -52,17 +52,20 @@ const AuthDataProvider: React.FC = props => {
    * the localStorage.
    */
   React.useEffect(() => {
-    const fetchSerialKey = async () => {
-      const sk = await serialKey()
-      setAuthData({ ...authData, serialKey: sk });
-    }
-    const fetchData = async () => {
-      const currentAuthData = await getAuthData();
-      setAuthData({ ...currentAuthData, finishChecking: true });
-    };
     fetchSerialKey()
     fetchData();
   }, []);
+
+  const fetchData = async () => {
+    const currentAuthData = await getAuthData();
+    setAuthData({ ...currentAuthData, finishChecking: true });
+  };
+
+  const fetchSerialKey = async () => {
+    const sk = await serialKey()
+    localStorage.setItem("serialKey", JSON.stringify(sk))
+    setAuthData({ ...authData, serialKey: sk });
+  }
 
   const onLogout = () => {
     localStorage.clear();
@@ -82,12 +85,12 @@ const AuthDataProvider: React.FC = props => {
     }
   }
 
-
   const authDataValue = React.useMemo(() => {
     return {
       ...authData,
       onLogin,
       onLogout,
+      fetchSerialKey,
     };
   }, [authData]);
 

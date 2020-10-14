@@ -12,7 +12,7 @@ const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }) => {
   const { user, serialKey, finishChecking, onLogout } = useAuthDataContext();
 
   const alReadyHaveSerialKey = user ? component : SignInPage;
-  const finalComponent = serialKey ? LicenseKey : alReadyHaveSerialKey;
+  const finalComponent = serialKey ? alReadyHaveSerialKey : LicenseKey;
 
   if (finishChecking === false) {
     return <div>Authenticating..</div>;
