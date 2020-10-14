@@ -38,7 +38,7 @@ const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }) => {
   return (
     <TemplateDataProvider>
       {
-        user ? <WithTemplate /> : <Route {...rest} component={finalComponent} />
+        serialKey && user ? <WithTemplate /> : <Route {...rest} component={finalComponent} />
       }
     </TemplateDataProvider>
   )
