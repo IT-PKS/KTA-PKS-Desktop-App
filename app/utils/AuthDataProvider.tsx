@@ -56,7 +56,7 @@ export const useAuthDataContext = () => {
       setAuthData({ ...authData, loading: false })
       alert(error.error._general_)
     } else {
-      localStorage.setItem("token", JSON.stringify(data.token))
+      localStorage.setItem("token", JSON.stringify(data.access_token))
       localStorage.setItem("user", JSON.stringify(newAuthData.email))
       setAuthData({ ...authData, user: newAuthData.email, loading: false });
     }
