@@ -39,9 +39,9 @@ const Sidebar: React.FC<iProps> = (props) => {
                 {
                     menus.map((v, i) => {
                         return (
-                            <Link to={v.path} >
+                            <Link key={i} to={v.path} >
                                 <li
-                                    key={i} className={`${location.pathname === v.path && 'active'}`} css={[styles.menu, isOpenMenu || styles.menu__close, styles.menu__responsive]}>
+                                    className={`${location.pathname === v.path && 'active'}`} css={[styles.menu, isOpenMenu || styles.menu__close, styles.menu__responsive]}>
                                     <Icon name={`${v.icon}`} size="2x" />
                                     <div>
                                         <p>{v.title}</p>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, RouteProps } from 'react-router-dom';
 import { useAuthDataContext } from 'utils/AuthDataProvider';
 import SignInPage from 'pages/SignIn/SignIn';
@@ -9,10 +9,15 @@ import TemplateDataProvider from './TemplateDataProvider';
 
 
 const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }) => {
-  const { user, serialKey, onLogout } = useAuthDataContext();
+  const { user, serialKey, finishChecking, onLogout } = useAuthDataContext();
+  console.log("serialKey", serialKey)
 
   const alReadyHaveSerialKey = user ? component : SignInPage;
   const finalComponent = serialKey ? alReadyHaveSerialKey : LicenseKey;
+
+  if (finishChecking === false) {
+    return <div>Authenticating..</div>;
+  }
 
   const Template = (props: any) => (
     <Header>
@@ -28,6 +33,7 @@ const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }) => {
       </Template>
     )
   }
+
 
   return (
     <TemplateDataProvider>

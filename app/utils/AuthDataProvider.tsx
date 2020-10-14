@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, useState, useEffect } from "react"
 import { _postAuthLogin, serialKey } from '../client/AuthClient'
 
 export type AuthData = {
@@ -41,7 +41,7 @@ export const useAuthDataContext = () => {
 
   const fetchSerialKey = async () => {
     const sk = await serialKey()
-    setAuthData({ ...authData, serialKey: sk });
+    setAuthData({ ...authData, serialKey: sk, finishChecking: true });
   }
 
   const onLogout = () => {
@@ -62,7 +62,7 @@ export const useAuthDataContext = () => {
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchSerialKey()
   }, [])
 
