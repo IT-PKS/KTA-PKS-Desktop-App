@@ -9,14 +9,10 @@ import TemplateDataProvider from './TemplateDataProvider';
 
 
 const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }) => {
-  const { user, serialKey, finishChecking, onLogout } = useAuthDataContext();
+  const { user, serialKey, onLogout } = useAuthDataContext();
 
   const alReadyHaveSerialKey = user ? component : SignInPage;
   const finalComponent = serialKey ? alReadyHaveSerialKey : LicenseKey;
-
-  if (finishChecking === false) {
-    return <div>Authenticating..</div>;
-  }
 
   const Template = (props: any) => (
     <Header>

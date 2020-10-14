@@ -1,7 +1,5 @@
-import React from 'react';
-import { _postAuthLogin } from '../client/AuthClient'
-import { serialKey } from '../client/AuthClient'
-
+import React, { createContext, useState } from "react"
+import { _postAuthLogin, serialKey } from '../client/AuthClient'
 
 export type AuthData = {
   user: string | null;
@@ -14,56 +12,35 @@ export type AuthData = {
 export interface AuthDataContextType extends AuthData {
   onLogin: (newAuthData: AuthData) => void;
   onLogout: () => void;
+  fetchSerialKey: () => void;
 }
 
 const initialAuthData: AuthData = {
   user: JSON.parse(localStorage.getItem("user")) || '',
-  serialKey: JSON.parse(localStorage.getItem("serialKey")) || '',
+  serialKey: '',
   email: JSON.parse(localStorage.getItem("email")) || '',
   finishChecking: false,
   loading: false,
-};
+}
 
-
-export const AuthDataContext = React.createContext<AuthDataContextType>({
+export const AuthDataContext = createContext<AuthDataContextType>({
   ...initialAuthData,
   onLogin: () => { },
   onLogout: () => { },
+  fetchSerialKey: () => { }
 });
 
-// Hooks
-export const useAuthDataContext = () => React.useContext(AuthDataContext);
+const AuthDataProvider: React.FC = (props) => {
+  const [state, setState] = useState<AuthData>(initialAuthData);
+  const contextValue = [state, setState];
+  return <AuthDataContext.Provider value={contextValue} {...props} />;
+}
 
-// Dummy auth manager
-const getAuthData = () =>
-  new Promise<AuthData>((resolve, reject) => {
-    setTimeout(() => {
-      resolve({
-        ...initialAuthData,
-      });
-    }, 1000);
-  });
-
-const AuthDataProvider: React.FC = props => {
-  const [authData, setAuthData] = React.useState<AuthData>(initialAuthData);
-
-  /* The first time the component is rendered, it tries to
-   * fetch the auth data from a source, like a cookie or
-   * the localStorage.
-   */
-  React.useEffect(() => {
-    fetchSerialKey()
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    const currentAuthData = await getAuthData();
-    setAuthData({ ...currentAuthData, finishChecking: true });
-  };
+export const useAuthDataContext = () => {
+  const [authData, setAuthData] = React.useContext(AuthDataContext);
 
   const fetchSerialKey = async () => {
     const sk = await serialKey()
-    localStorage.setItem("serialKey", JSON.stringify(sk))
     setAuthData({ ...authData, serialKey: sk });
   }
 
@@ -73,7 +50,7 @@ const AuthDataProvider: React.FC = props => {
   }
 
   const onLogin = async (newAuthData: AuthData) => {
-    // setAuthData({ ...authData, loading: true })
+    setAuthData({ ...authData, loading: true })
     const { data, error } = await _postAuthLogin(newAuthData)
     if (error) {
       setAuthData({ ...authData, loading: false })
@@ -85,18 +62,16 @@ const AuthDataProvider: React.FC = props => {
     }
   }
 
-  const authDataValue = React.useMemo(() => {
-    return {
-      ...authData,
-      onLogin,
-      onLogout,
-      fetchSerialKey,
-    };
-  }, [authData]);
+  React.useEffect(() => {
+    fetchSerialKey()
+  }, [])
 
-  return <AuthDataContext.Provider value={authDataValue} {...props} />;
-};
-
-
+  return {
+    ...authData,
+    fetchSerialKey,
+    onLogout,
+    onLogin,
+  };
+}
 
 export default AuthDataProvider;
