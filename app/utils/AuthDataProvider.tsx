@@ -13,6 +13,7 @@ export interface AuthDataContextType extends AuthData {
   onLogin: (newAuthData: AuthData) => void;
   onLogout: () => void;
   fetchSerialKey: () => void;
+  onSubmitLicense: () => void;
 }
 
 const initialAuthData: AuthData = {
@@ -27,7 +28,8 @@ export const AuthDataContext = createContext<AuthDataContextType>({
   ...initialAuthData,
   onLogin: () => { },
   onLogout: () => { },
-  fetchSerialKey: () => { }
+  fetchSerialKey: () => { },
+  onSubmitLicense: () => { },
 });
 
 const AuthDataProvider: React.FC = (props) => {
