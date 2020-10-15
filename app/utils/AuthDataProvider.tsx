@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react"
-import { _postAuthLogin, serialKey } from '../client/AuthClient'
+import { _postAuthLogin, serialKey, addLocalUser } from '../client/AuthClient'
 
 export type AuthData = {
   user: string | null;
@@ -62,6 +62,11 @@ export const useAuthDataContext = () => {
     }
   }
 
+  const onSubmitLicense = async (formData: any) => {
+    await addLocalUser(formData)
+    await fetchSerialKey()
+  }
+
   useEffect(() => {
     fetchSerialKey()
   }, [])
@@ -71,6 +76,7 @@ export const useAuthDataContext = () => {
     fetchSerialKey,
     onLogout,
     onLogin,
+    onSubmitLicense
   };
 }
 

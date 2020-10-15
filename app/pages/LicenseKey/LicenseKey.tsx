@@ -6,10 +6,10 @@ import { Global, jsx } from '@emotion/core';
 import { useTheme } from 'emotion-theming';
 import { Theme } from '../../components/base/src/theme';
 import createStyles from './LicenseKey.styles';
-import { addLocalUser } from '../../client/AuthClient'
+import { useAuthDataContext } from 'utils/AuthDataProvider';
 
 // Components & error messages
-import { Button, Input, Label, Panel, FormGroup, Checkbox, Row, Column } from 'kta-ui-components';
+import { Button, Input, Label, Panel, FormGroup } from 'kta-ui-components';
 
 // Images
 import logoImg from '../../components/base/src/img/logo-71x100.png';
@@ -27,6 +27,7 @@ type ILogin = {
 
 const LicenseKey: React.FC<ILogin> = (props) => {
   const { loading } = props
+  const { onSubmitLicense } = useAuthDataContext();
   const { register, handleSubmit, errors } = useForm<LicenseFormData>();
   const theme = useTheme<Theme>();
   const styles = createStyles(theme);
@@ -36,17 +37,9 @@ const LicenseKey: React.FC<ILogin> = (props) => {
     }
   };
 
-  const submitLicense = async (formData: any) => {
-    // this code is temporary
-    const users = await addLocalUser(formData)
-    console.log("submitLicense -> users", users)
-  }
-
   React.useEffect(() => {
     console.log('errors', errors);
   }, [errors]);
-
-
 
   return (
     <Fragment>
@@ -64,7 +57,7 @@ const LicenseKey: React.FC<ILogin> = (props) => {
             </div>
           </div>
 
-          <form css={styles.form} onSubmit={handleSubmit(submitLicense)} noValidate>
+          <form css={styles.form} onSubmit={handleSubmit(onSubmitLicense)} noValidate>
             <h4>Masukkan Lisensi</h4>
             <p>Masukkan lisensi untuk membuka kunci aplikasi admin Kartu Tanda Anggota PKS</p>
             <FormGroup>
