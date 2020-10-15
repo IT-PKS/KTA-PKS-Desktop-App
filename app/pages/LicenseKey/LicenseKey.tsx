@@ -6,6 +6,7 @@ import { Global, jsx } from '@emotion/core';
 import { useTheme } from 'emotion-theming';
 import { Theme } from '../../components/base/src/theme';
 import createStyles from './LicenseKey.styles';
+import { addLocalUser } from '../../client/AuthClient'
 
 // Components & error messages
 import { Button, Input, Label, Panel, FormGroup, Checkbox, Row, Column } from 'kta-ui-components';
@@ -13,10 +14,8 @@ import { Button, Input, Label, Panel, FormGroup, Checkbox, Row, Column } from 'k
 // Images
 import logoImg from '../../components/base/src/img/logo-71x100.png';
 
-type LoginFormData = {
-  email: string;
-  password: string;
-  remember_me: boolean;
+type LicenseFormData = {
+  license: string;
 };
 
 type ILogin = {
@@ -25,28 +24,29 @@ type ILogin = {
   loading?: boolean;
 };
 
+
 const LicenseKey: React.FC<ILogin> = (props) => {
-  const { onSubmit, loading } = props
-  const { register, handleSubmit, errors } = useForm<LoginFormData>();
+  const { loading } = props
+  const { register, handleSubmit, errors } = useForm<LicenseFormData>();
   const theme = useTheme<Theme>();
   const styles = createStyles(theme);
-  const pattern = {
-    // https://regexlib.com/REDetails.aspx?regexp_id=26
-    email: /^([a-zA-Z0-9_\-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/,
-  };
   const errorMessages = {
-    email: {
-      required: 'Email tidak boleh kosong',
-      pattern: 'Format email yang anda masukan salah',
-    },
-    password: {
-      required: 'Password tidak boleh kosong',
-    },
+    license: {
+      required: 'License Key tidak boleh kosong',
+    }
   };
+
+  const submitLicense = async (formData: any) => {
+    // this code is temporary
+    const users = await addLocalUser(formData)
+    console.log("submitLicense -> users", users)
+  }
 
   React.useEffect(() => {
     console.log('errors', errors);
   }, [errors]);
+
+
 
   return (
     <Fragment>
@@ -64,26 +64,20 @@ const LicenseKey: React.FC<ILogin> = (props) => {
             </div>
           </div>
 
-          <form css={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
+          <form css={styles.form} onSubmit={handleSubmit(submitLicense)} noValidate>
             <h4>Masukkan Lisensi</h4>
             <p>Masukkan lisensi untuk membuka kunci aplikasi admin Kartu Tanda Anggota PKS</p>
             <FormGroup>
-              <Label required>Licensi</Label>
+              <Label required>License</Label>
               <Input
                 innerRef={register({
                   required: {
                     value: true,
-                    message: errorMessages.email.required,
-                  },
-                  pattern: {
-                    value: pattern.email,
-                    message: errorMessages.email.pattern,
+                    message: errorMessages.license.required,
                   },
                 })}
-                type="email"
-                name="email"
-                autoComplete="on"
-                errorMessage={errors.email && errors.email.message}
+                name="license"
+                errorMessage={errors.license && errors.license.message}
               />
             </FormGroup>
 

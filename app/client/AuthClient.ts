@@ -4,21 +4,22 @@ import { User } from "../entity/User";
 import { clientPost } from '../services/URLApi/URLApi';
 
 
-export const clientTest = async () => {
+export const addLocalUser = async (param: any) => {
     const connection = await initSQLite([User])
 
-    const theUser = {
-        "email": "mamen@admin.com",
-        "firstName": "Rahman",
-        "lastName": "Ramdani",
+    let theUser = {
+        "email": "bakti@admin.com",
+        "firstName": "Bakti",
+        "lastName": "Pratama",
         "password": "tes",
-        "serialKey": "LSHDTCRWHSKTYUHS"
+        "serialKey": param.license || "LSHDTCRWHSKTYUHS"
     }
     const user = new User(theUser)
 
     await connection.manager.save(user)
     const users = await connection.manager.find(User)
     connection.close()
+    return users
 }
 
 export const serialKey = async () => {
