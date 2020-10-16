@@ -11,7 +11,6 @@ import TemplateDataProvider from './TemplateDataProvider';
 const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }) => {
   const { user, serialKey, finishChecking, onLogout } = useAuthDataContext();
   console.log("serialKey", serialKey)
-
   const alReadyHaveSerialKey = user ? component : SignInPage;
   const finalComponent = serialKey ? alReadyHaveSerialKey : LicenseKey;
 

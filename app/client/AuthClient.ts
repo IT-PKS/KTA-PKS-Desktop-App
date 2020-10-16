@@ -5,7 +5,7 @@ import { clientPost } from '../services/URLApi/URLApi';
 
 
 export const addLocalUser = async (param: any) => {
-    const connection = await initSQLite([User])
+    const connection: any = await initSQLite([User])
 
     let theUser = {
         "email": "bakti@admin.com",
@@ -17,9 +17,9 @@ export const addLocalUser = async (param: any) => {
     const user = new User(theUser)
 
     await connection.manager.save(user)
-    const users = await connection.manager.find(User)
+    // const users = await connection.manager.find(User)
     connection.close()
-    return users
+    return user
 }
 
 export const serialKey = async () => {
