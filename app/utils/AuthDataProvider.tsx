@@ -66,9 +66,7 @@ export const useAuthDataContext = () => {
 
   const onSubmitLicense = async (formData: any) => {
     const data = await addLocalUser(formData)
-    if (data) {
-      setAuthData({ ...authData, serialKey: 'ada' });
-    }
+    if (data) setAuthData({ ...authData, serialKey: 'ada' });
   }
 
   useEffect(() => {
