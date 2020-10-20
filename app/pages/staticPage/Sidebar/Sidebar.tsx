@@ -9,12 +9,7 @@ import { useTemplateDataContext } from '../../../components/contextual/TemplateD
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
-type iProps = {
-    onLogout(): any
-}
-
-const Sidebar: React.FC<iProps> = (props) => {
-    const { onLogout } = props;
+const Sidebar: React.FC = (props) => {
     const location = useLocation()
     const { isOpenMenu, onMinimizeMenu } = useTemplateDataContext()
     const theme = useTheme<Theme>();

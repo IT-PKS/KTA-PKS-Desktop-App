@@ -55,7 +55,30 @@ const createStyles = (t: Theme) => {
       top: 33px;
       right: 25px;
       color: black;
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
     `,
+    dropdown: css`
+      position: relative;
+      display: inline-block;
+    `,
+    dropdown__content: css`
+      display: none;
+      position: absolute;
+      background-color: #fff;
+      min-width: 120px;
+      min-heigth: 40px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      padding: 10px 16px;
+      z-index: 1;
+      cursor: pointer;
+      &:hover{
+        background-color:  ${t.color.gray};
+        color:  ${t.color.yellowDark};
+      }
+    `
   };
 };
 

@@ -7,7 +7,12 @@ import { Theme } from '../../../components/base/src/theme';
 import pksLogo from '../../../components/base/src/img/logo-71x100.png'
 import { Icon } from 'kta-ui-components'
 
-const Header: React.FC = (props) => {
+type iProps = {
+    onLogout(): any
+}
+
+const Header: React.FC<iProps> = (props) => {
+    const { onLogout } = props
     const theme = useTheme<Theme>();
     const styles = createStyles(theme);
     const { children } = props
@@ -21,9 +26,14 @@ const Header: React.FC = (props) => {
                     <Icon name="user-circle" size="3x" />&nbsp;&nbsp;
                 </div>
                 <div css={[styles.user__name__container]}>
-                    <span>
-                        {localStorage.getItem('user')?.replace(/"/g, '')}
-                    </span>
+                    <div css={[styles.dropdown]} className="dropdown">
+                        <span>
+                            {localStorage.getItem('user')?.replace(/"/g, '')}
+                        </span>
+                        <div css={[styles.dropdown__content]} className="dropdown-content">
+                            <p onClick={onLogout}>logout</p>
+                        </div>
+                    </div>
                 </div>
             </header>
             {children}

@@ -20,8 +20,8 @@ const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }) => {
   }
 
   const Template = (props: any) => (
-    <Header>
-      <Sidebar onLogout={onLogout} />
+    <Header onLogout={onLogout} >
+      <Sidebar />
       {props.children}
     </Header>
   )
