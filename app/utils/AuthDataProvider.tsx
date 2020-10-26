@@ -60,6 +60,7 @@ export const useAuthDataContext = () => {
     } else {
       localStorage.setItem("token", JSON.stringify(data.access_token))
       localStorage.setItem("user", JSON.stringify(newAuthData.email))
+      localStorage.setItem("role", 'super_admin')
       setAuthData({ ...authData, user: newAuthData.email, loading: false });
     }
   }

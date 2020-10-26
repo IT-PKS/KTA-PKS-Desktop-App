@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React from 'react';
+import React, { Fragment } from 'react';
 import Card from 'components/deskstop/Card/Card'
 import { useForm } from 'react-hook-form';
 import { jsx } from '@emotion/core';
@@ -73,6 +73,12 @@ const Validasi: React.FC<iProps> = (props) => {
 
   const columns = [
     {
+      title: 'Tanggal Registrasi',
+      dataIndex: 'registrationDate',
+      key: 'registrationDate',
+      width: 120,
+    },
+    {
       title: 'NIK',
       dataIndex: 'nik',
       key: 'nik',
@@ -85,22 +91,28 @@ const Validasi: React.FC<iProps> = (props) => {
       width: 250,
     },
     {
-      title: 'Alamat',
-      dataIndex: 'address',
-      key: 'address',
-      width: 300,
+      title: 'Kode Registrasi',
+      dataIndex: 'registrationCode',
+      key: 'registrationCode',
+      width: 200,
     },
     {
-      title: 'Action',
+      title: 'Tindakan',
       dataIndex: 'action',
       key: 'action',
-      render: () => <a href="#">verify</a>,
+      render: () => (
+        <Fragment>
+          <a href="#">Lihat</a><br />
+          <a href="#">Validasi</a><br />
+          <a href="#">Hapus</a>
+        </Fragment>
+      )
     },
   ];
 
   const data = [
-    { nik: 'Jack', fullname: 28, address: 'some where', key: '1' },
-    { nik: 'Rose', fullname: 36, address: 'some where', key: '2' },
+    { registrationDate: '2020/10/10', nik: 'Jack', fullname: 28, registrationCode: 'some where', key: '1' },
+    { registrationDate: '2020/10/10', nik: 'Rose', fullname: 36, registrationCode: 'some where', key: '2' },
   ];
 
 
