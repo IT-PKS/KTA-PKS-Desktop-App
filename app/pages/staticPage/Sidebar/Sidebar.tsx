@@ -20,8 +20,7 @@ const Sidebar: React.FC = (props) => {
         { title: 'Tambah Data', icon: "plus-circle", active: false, path: '/' },
         { title: 'Validasi', icon: "check-circle", active: false, path: '/validasi' },
         { title: 'Data KTA', icon: "id-card", active: false, path: '/data-kta' },
-        { title: 'Laporan', icon: "chart-line", active: false, path: '/laporan' },
-        { title: 'Pengaturan', icon: "cog", active: false, path: '/pengaturan' },
+        { title: 'Laporan', icon: "chart-line", active: false, path: '/laporan' }
     ]
 
     const _handleMinimizeMenu = () => {
