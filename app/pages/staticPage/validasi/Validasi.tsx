@@ -124,8 +124,8 @@ const Validasi: React.FC<iProps> = (props) => {
   ];
 
   const data = [
-    { registrationDate: '2020/10/10', nik: 'Jack', fullname: 28, registrationCode: 'some where', key: '1' },
-    { registrationDate: '2020/10/10', nik: 'Rose', fullname: 36, registrationCode: 'some where', key: '2' },
+    { registrationDate: '2020/10/10', nik: 'Jack', fullname: 28, registrationCode: '1234-5678-9012', key: '1' },
+    { registrationDate: '2020/10/10', nik: 'Rose', fullname: 36, registrationCode: '1234-5678-9012', key: '2' },
   ];
 
   const Content = () => {
