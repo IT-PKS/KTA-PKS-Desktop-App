@@ -19,7 +19,6 @@ const Ringkasan = () => {
 
     const _handleGetRingkasan = async () => {
         const { data } = await getRingkasan()
-        console.log("Ringkasan -> data", data)
         setDatas(data)
         setTotal(data.total)
         setAge(toArray(data.age))
@@ -29,7 +28,6 @@ const Ringkasan = () => {
     useEffect(() => {
         _handleGetRingkasan()
     }, [])
-
 
     return (
         <Card transparent>

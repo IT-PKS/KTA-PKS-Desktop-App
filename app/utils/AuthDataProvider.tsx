@@ -54,6 +54,7 @@ export const useAuthDataContext = () => {
   const onLogin = async (newAuthData: AuthData) => {
     setAuthData({ ...authData, loading: true })
     const { data, error } = await _postAuthLogin(newAuthData)
+    console.log("useAuthDataContext -> data", data)
     if (error) {
       setAuthData({ ...authData, loading: false })
       alert(error.error._general_)
