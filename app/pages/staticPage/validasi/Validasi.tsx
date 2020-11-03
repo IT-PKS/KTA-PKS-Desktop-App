@@ -24,7 +24,7 @@ import {
   Button,
   Row,
   Select,
-  Label
+  Icon
 } from 'kta-ui-components';
 
 
@@ -118,17 +118,29 @@ const Validasi: React.FC<iProps> = (props) => {
       dataIndex: 'id',
       key: 'id',
       render: (id: any) => {
-        console.log("id", id)
         return (
-          <Fragment>
-            <a onClick={() => _handlePostMembers()}>Lihata</a><br />
-            <a onClick={() => _handlePostMembers(id, "APPROVED")}>Validasi</a><br />
-            <a onClick={() => _handlePostMembers(id, "DELETED")}>Hapus</a>
-          </Fragment>
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
+
+            <a style={{ padding: '5px', backgroundColor: '#000', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
+              onClick={() => _handlePostMembers()}>
+              <Icon name={'address-card'} />&nbsp;
+                Lihat
+            </a><br />
+            <a style={{ padding: '5px', backgroundColor: '#47B920', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
+              onClick={() => _handlePostMembers(id, "APPROVED")}>
+              <Icon name={'check-circle'} />&nbsp;
+                Validasi
+            </a><br />
+            <a style={{ padding: '5px', backgroundColor: '#CE352D', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
+              onClick={() => _handlePostMembers(id, "DELETED")}>
+              <Icon name={'trash'} />&nbsp;
+                Hapus
+            </a>
+
+          </div>
 
         )
       }
-
     },
   ];
 
