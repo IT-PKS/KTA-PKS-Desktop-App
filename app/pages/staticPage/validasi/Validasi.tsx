@@ -22,7 +22,8 @@ import {
   Input,
   Button,
   Row,
-  Select
+  Select,
+  Label
 } from 'kta-ui-components';
 
 
@@ -115,7 +116,8 @@ const Validasi: React.FC<iProps> = (props) => {
       key: 'action',
       render: () => (
         <Fragment>
-          <a href="#">Lihat</a><br />
+          <Label hint={<div>sasa</div>} />
+          <a href="#">Lihata</a><br />
           <a href="#">Validasi</a><br />
           <a href="#">Hapus</a>
         </Fragment>
