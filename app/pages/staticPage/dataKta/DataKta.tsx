@@ -20,6 +20,7 @@ import {
     FormGroup,
     Button,
     Row,
+    Checkbox,
     Select
 } from 'kta-ui-components';
 
@@ -100,9 +101,38 @@ const DataKta: React.FC<iProps> = (props) => {
         { nik: 'Rose', fullname: 36, address: 'some where', key: '2' },
     ];
 
+    const [options, setOptions] = React.useState<any | []>({
+        showEntris: [
+            { label: '10', value: '10', },
+            { label: '25', value: '25', },
+            { label: '50', value: '50', },
+            { label: '10', value: '10', },
+        ]
+    })
+
     return (
         <Card>
-            <h2 css={[styles.heading]}>Data KTA</h2>
+            <Row>
+                <Column>
+                    <h2 css={[styles.heading]}>Data KTA</h2>
+                </Column>
+                <Column>
+                    <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                        <Button icon={{ name: "sync-alt", placement: "left" }}>Sinkronkan Data</Button>
+                    </div>
+                </Column>
+            </Row>
+            <h3>Tampilkan kolom :</h3>
+
+            <Row>
+                <Column col={[1, 1, 1]}>
+                    <Checkbox label="NIK" />
+                </Column>
+                <Column col={[2, 2, 2]}>
+                    <Checkbox label="Nama Lengkap" />
+                </Column>
+            </Row>
+            <br />
             <Row>
                 <Column col={[12, 12, 4]}>
                     {/* Golongan Darah */}
@@ -132,9 +162,36 @@ const DataKta: React.FC<iProps> = (props) => {
                         Eksekusi
                     </Button>
                 </Column>
+                <Column col={[12, 12, 4]} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+                    <span style={{ marginBottom: '15px' }}>Tampilkan</span>&nbsp;&nbsp;
+              <span>
+                        <FormGroup style={{ width: '90px' }}>
+                            <Select<SelectOption>
+                                options={options.showEntris}
+                                defaultValue={[
+                                    { label: '10', value: '10', }
+                                ]}
+                                onChange={handleSelectOnChange('golonganDarah')}
+                                innerRef={() =>
+                                    register(
+                                        { name: 'golonganDarah' },
+                                        {
+                                            required: {
+                                                value: true,
+                                                message: errorMessages.golonganDarah.required,
+                                            },
+                                        },
+                                    )
+                                }
+                                errorMessage={errors.golonganDarah && errors.golonganDarah.message}
+                            />
+                        </FormGroup>
+                    </span>&nbsp;&nbsp;
+              <span style={{ marginBottom: '15px' }}>entri</span>
+                </Column>
             </Row>
             <Table columns={columns} data={data} />
-        </Card>
+        </Card >
     )
 }
 
