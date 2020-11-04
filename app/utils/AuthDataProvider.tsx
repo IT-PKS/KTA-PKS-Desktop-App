@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from "react"
 import { _postAuthLogin, serialKey, addLocalUser } from '../client/AuthClient'
+import { checkInternetConnection } from './utils'
 
 export type AuthData = {
   user: string | null;
@@ -70,8 +71,17 @@ export const useAuthDataContext = () => {
     if (user) setAuthData({ ...authData, serialKey: user.serialKey });
   }
 
+  const checkConnection = async () => {
+    const data = await checkInternetConnection()
+    console.log('====================================');
+    console.log(data);
+    console.log('====================================');
+    return data
+  }
+
   useEffect(() => {
     fetchSerialKey()
+    checkConnection()
   }, [])
 
   return {
