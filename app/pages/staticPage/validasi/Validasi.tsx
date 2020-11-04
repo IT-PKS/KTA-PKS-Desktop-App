@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Card from 'components/deskstop/Card/Card'
 import { useForm } from 'react-hook-form';
 import { jsx } from '@emotion/core';
@@ -7,6 +7,7 @@ import { useTheme } from 'emotion-theming';
 import createStyles from './Validasi.styles';
 import { Theme } from '../../../components/base/src/theme';
 import Table from '../../../components/base/src/components/Table/Table'
+import { getListUnverifiedMembers, postVerifiedMembers } from '../../../client/MemberClient'
 
 import formHelper, {
   RegisterFormData,
@@ -23,7 +24,7 @@ import {
   Button,
   Row,
   Select,
-  Label
+  Icon
 } from 'kta-ui-components';
 
 
@@ -46,6 +47,7 @@ const Validasi: React.FC<iProps> = (props) => {
   const { register, handleSubmit, errors, setValue, formState } = useForm<RegisterFormData>({
     defaultValues,
   });
+
   const theme = useTheme<Theme>();
   const styles = createStyles(theme);
   const { errorMessages, pattern } = formHelper;
@@ -61,7 +63,8 @@ const Validasi: React.FC<iProps> = (props) => {
   })
 
   const [checkInternet, setCheckInternet] = React.useState<Boolean>(true)
-
+  const [datas, setDatas] = useState([])
+  const [messageSubmit, setMessageSubmit] = useState<string>("default")
 
   const getSelectDefaultValue = (key: SelectKeys) => {
     let selectedOption: Array<SelectOption> | undefined;
@@ -88,14 +91,14 @@ const Validasi: React.FC<iProps> = (props) => {
   const columns = [
     {
       title: 'Tanggal Registrasi',
-      dataIndex: 'registrationDate',
-      key: 'registrationDate',
+      dataIndex: 'created_at',
+      key: 'created_at',
       width: 120,
     },
     {
       title: 'NIK',
-      dataIndex: 'nik',
-      key: 'nik',
+      dataIndex: 'id_card',
+      key: 'id_card',
       width: 200,
     },
     {
@@ -106,29 +109,67 @@ const Validasi: React.FC<iProps> = (props) => {
     },
     {
       title: 'Kode Registrasi',
-      dataIndex: 'registrationCode',
-      key: 'registrationCode',
+      dataIndex: 'registration_number',
+      key: 'registration_number',
       width: 200,
     },
     {
       title: 'Tindakan',
-      dataIndex: 'action',
-      key: 'action',
-      render: () => (
-        <Fragment>
-          <Label hint={<div>sasa</div>} />
-          <a href="#">Lihata</a><br />
-          <a href="#">Validasi</a><br />
-          <a href="#">Hapus</a>
-        </Fragment>
-      )
+      dataIndex: 'id',
+      key: 'id',
+      render: (id: any) => {
+        return (
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
+
+            <a style={{ padding: '5px', backgroundColor: '#000', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
+              onClick={() => _handlePostMembers()}>
+              <Icon name={'address-card'} />&nbsp;
+                Lihat
+            </a><br />
+            <a style={{ padding: '5px', backgroundColor: '#47B920', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
+              onClick={() => _handlePostMembers(id, "APPROVED")}>
+              <Icon name={'check-circle'} />&nbsp;
+                Validasi
+            </a><br />
+            <a style={{ padding: '5px', backgroundColor: '#CE352D', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
+              onClick={() => _handlePostMembers(id, "DELETED")}>
+              <Icon name={'trash'} />&nbsp;
+                Hapus
+            </a>
+
+          </div>
+
+        )
+      }
     },
   ];
 
-  const data = [
-    { registrationDate: '2020/10/10', nik: 'Jack', fullname: 28, registrationCode: '1234-5678-9012', key: '1' },
-    { registrationDate: '2020/10/10', nik: 'Rose', fullname: 36, registrationCode: '1234-5678-9012', key: '2' },
-  ];
+  const _handlePostMembers = async (...args: any) => {
+    const [id, status] = args
+    const payload = {
+      member_id: id,
+      status: status
+    }
+    const { data } = await postVerifiedMembers(payload)
+    if (data.message === "Success Approved Member") {
+      setCheckInternet(false)
+      setMessageSubmit("success")
+    } else {
+      setMessageSubmit("failed")
+      setCheckInternet(false)
+    }
+
+  }
+
+
+  const _handleGetListUnverifiedMembers = async () => {
+    const { data } = await getListUnverifiedMembers()
+    setDatas(data)
+  }
+
+  useEffect(() => {
+    _handleGetListUnverifiedMembers()
+  }, [])
 
   const Content = () => {
     return (
@@ -230,7 +271,7 @@ const Validasi: React.FC<iProps> = (props) => {
             </Column>
           </Row>
         </form>
-        <Table columns={columns} data={data} />
+        <Table columns={columns} data={datas} />
       </Fragment>
     )
   }
@@ -242,7 +283,7 @@ const Validasi: React.FC<iProps> = (props) => {
       {
         checkInternet ?
           <Content /> :
-          <ValidasiInternet />
+          <ValidasiInternet state={messageSubmit} onNewValidate={() => setCheckInternet(true)} />
       }
     </Card>
   )

@@ -7,7 +7,7 @@ export const domainApi = 'stagging-api-kta.pks.id'
 const ROOT_API = axios.create({
     baseURL: `${process.env.NODE_ENV === "development" ? developmentHost : productionHost}`,
     headers: {
-        'Authorization': `Bearer ${localStorage.getItem("token")}`,
+        'Authorization': `Bearer ${localStorage.getItem("token")?.replace(/"/g, '')}`,
         'Content-Type': 'application/json',
 
     }
