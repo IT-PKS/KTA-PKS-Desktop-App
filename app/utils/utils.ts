@@ -5,9 +5,9 @@ import * as dns from 'dns'
 
 export const checkInternetConnection = async () => {
     return new Promise((resolve, reject) => {
-        dns.lookup(domainApi, (err, address, family) => {
+        dns.resolve(domainApi, (err) => {
             if (err) reject(err);
-            resolve(address);
+            resolve('connected');
         });
     });
 };
