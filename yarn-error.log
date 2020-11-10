@@ -1,11 +1,11 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js
+  /opt/node-v12.18.3-linux-x64/bin/node /opt/node-v12.18.3-linux-x64/bin/yarn add @types/node-dig-dns
 
 PATH: 
-  C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\nodejs\;C:\Users\SIRCLO\AppData\Local\Microsoft\WindowsApps;;C:\Users\SIRCLO\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\SIRCLO\AppData\Local\Yarn\bin;C:\Users\SIRCLO\AppData\Roaming\npm
+  /opt/node-v12.18.3-linux-x64/bin:/opt/node-v12.18.3-linux-x64/bin:/home/devops/.cargo/bin:/home/devops/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/games:/snap/bin:/usr/local/go/bin:/usr/local/go/bin
 
 Yarn version: 
-  1.22.5
+  1.22.4
 
 Node version: 
   12.19.0
@@ -14,8 +14,17 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: getaddrinfo ENOTFOUND registry.yarnpkg.com
-      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:66:26)
+  Error: https://registry.yarnpkg.com/@types%2fnode-dig-dns: Not found
+      at Request.params.callback [as _callback] (/opt/node-v12.18.3-linux-x64/lib/node_modules/yarn/lib/cli.js:66987:18)
+      at Request.self.callback (/opt/node-v12.18.3-linux-x64/lib/node_modules/yarn/lib/cli.js:140748:22)
+      at Request.emit (events.js:315:20)
+      at Request.<anonymous> (/opt/node-v12.18.3-linux-x64/lib/node_modules/yarn/lib/cli.js:141720:10)
+      at Request.emit (events.js:315:20)
+      at IncomingMessage.<anonymous> (/opt/node-v12.18.3-linux-x64/lib/node_modules/yarn/lib/cli.js:141642:12)
+      at Object.onceWrapper (events.js:421:28)
+      at IncomingMessage.emit (events.js:327:22)
+      at endReadableNT (_stream_readable.js:1220:12)
+      at processTicksAndRejections (internal/process/task_queues.js:84:21)
 
 npm manifest: 
   {
@@ -114,8 +123,10 @@ npm manifest:
         "immer": "^7.0.9",
         "immutability-helper": "^3.1.1",
         "isomorphic-dompurify": "^0.8.0",
+        "js-sha256": "^0.9.0",
         "lodash": "^4.17.20",
         "mysql": "^2.14.1",
+        "node-dig-dns": "^0.2.12",
         "node-machine-id": "^1.1.12",
         "polished": "^3.6.5",
         "qrcode": "^1.4.4",
@@ -1119,6 +1130,13 @@ Lockfile:
     version "7.11.2"
     resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.11.2.tgz#f549c13c754cc40b87644b9fa9f09a6a95fe0736"
     integrity sha512-TeWkU52so0mPtDcaCTxNBI/IHiz0pZgr8VEFqXFtZWpYD08ZB6FaSwVAS8MKRQAP3bYKiVjwysOJgMFY28o6Tw==
+    dependencies:
+      regenerator-runtime "^0.13.4"
+  
+  "@babel/runtime@^7.11.2":
+    version "7.12.1"
+    resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.12.1.tgz#b4116a6b6711d010b2dad3b7b6e43bf1b9954740"
+    integrity sha512-J5AIf3vPj3UwXaAzb5j1xM4WAQDX3EMgemF8rjCP3SoW09LfRKAXQKt6CoVYl230P6iWdRcBbnLDDdnqWxZSCA==
     dependencies:
       regenerator-runtime "^0.13.4"
   
@@ -5407,6 +5425,11 @@ Lockfile:
       filelist "^1.0.1"
       minimatch "^3.0.4"
   
+  js-sha256@^0.9.0:
+    version "0.9.0"
+    resolved "https://registry.yarnpkg.com/js-sha256/-/js-sha256-0.9.0.tgz#0b89ac166583e91ef9123644bd3c5334ce9d0966"
+    integrity sha512-sga3MHh9sgQN2+pJ9VYZ+1LPwXOxuBJBA5nrR5/ofPfuiJBE2hnjsaN8se8JznOmGLN2p49Pe5U/ttafcs/apA==
+  
   "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
     version "4.0.0"
     resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -5690,6 +5713,11 @@ Lockfile:
     integrity sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g==
     dependencies:
       p-locate "^4.1.0"
+  
+  lodash.compact@^3.0.1:
+    version "3.0.1"
+    resolved "https://registry.yarnpkg.com/lodash.compact/-/lodash.compact-3.0.1.tgz#540ce3837745975807471e16b4a2ba21e7256ca5"
+    integrity sha1-VAzjg3dFl1gHRx4WtKK6IeclbKU=
   
   lodash.sortby@^4.7.0:
     version "4.7.0"
@@ -6137,6 +6165,14 @@ Lockfile:
     version "2.0.0"
     resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-2.0.0.tgz#f9afb8d777a91525244b01775ea0ddbe1125483b"
     integrity sha512-ASCL5U13as7HhOExbT6OlWJJUV/lLzL2voOSP1UVehpRD8FbSrSDjfScK/KwAvVTI5AS6r4VwbOMlIqtvRidnA==
+  
+  node-dig-dns@^0.2.12:
+    version "0.2.12"
+    resolved "https://registry.yarnpkg.com/node-dig-dns/-/node-dig-dns-0.2.12.tgz#b08c4d9fe259eceec7ea8f56baf8d627b317c70e"
+    integrity sha512-9JyAW3R7PbuYvmKjYq4yk12VdGGAwssOFEezG1igE9PlH5/3ZKJrKl7Ll90ae3DDyloXAtpuLV3G+5cJREG9UQ==
+    dependencies:
+      "@babel/runtime" "^7.11.2"
+      lodash.compact "^3.0.1"
   
   node-forge@^0.10.0:
     version "0.10.0"

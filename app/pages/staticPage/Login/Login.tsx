@@ -47,7 +47,7 @@ const Login: React.FC<iProps> = (props) => {
   };
 
   React.useEffect(() => {
-    console.log('errors', errors);
+    // console.log('errors', errors);
   }, [errors]);
 
   return (

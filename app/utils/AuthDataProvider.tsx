@@ -1,5 +1,7 @@
+import { log } from "console";
 import React, { createContext, useState, useEffect } from "react"
-import { _postAuthLogin, serialKey, addLocalUser } from '../client/AuthClient'
+import { _postAuthLogin, serialKey, addLocalUser, updatePasswordLocal, loginLocal } from '../client/AuthClient'
+import { checkInternetConnection } from './utils'
 
 export type AuthData = {
   user: string | null;
@@ -7,6 +9,7 @@ export type AuthData = {
   email: string | null;
   finishChecking?: boolean;
   loading?: boolean;
+  password: string | null;
 };
 
 export interface AuthDataContextType extends AuthData {
@@ -53,16 +56,38 @@ export const useAuthDataContext = () => {
 
   const onLogin = async (newAuthData: AuthData) => {
     setAuthData({ ...authData, loading: true })
-    const { data, error } = await _postAuthLogin(newAuthData)
-    console.log("useAuthDataContext -> data", data)
-    if (error) {
-      setAuthData({ ...authData, loading: false })
-      alert(error.error._general_)
-    } else {
-      localStorage.setItem("token", JSON.stringify(data.access_token))
-      localStorage.setItem("user", JSON.stringify(newAuthData.email))
-      localStorage.setItem("role", 'super_admin')
-      setAuthData({ ...authData, user: newAuthData.email, loading: false });
+    try {
+      console.log('====================================');
+      console.log('checking internet connection ...');
+      console.log('====================================');
+      await checkInternetConnection()
+      console.log('====================================');
+      console.log('Finish checking internet connection');
+      console.log('====================================');
+      const { data, error } = await _postAuthLogin(newAuthData)
+      if (error) {
+        setAuthData({ ...authData, loading: false })
+        alert(error.error._general_)
+      } else {
+        await updatePasswordLocal(newAuthData)
+        localStorage.setItem("token", JSON.stringify(data.access_token))
+        localStorage.setItem("user", JSON.stringify(newAuthData.email))
+        localStorage.setItem("role", 'super_admin')
+        setAuthData({ ...authData, user: newAuthData.email, loading: false });
+      }
+    } catch (error) {
+      console.log('logging in locally...')
+      const isLoggedIn = await loginLocal(newAuthData)
+      if (isLoggedIn) {
+        localStorage.setItem("token", "notoken")
+        localStorage.setItem("user", JSON.stringify(newAuthData.email))
+        localStorage.setItem("role", 'super_admin')
+        setAuthData({ ...authData, user: newAuthData.email, loading: false });
+      } else {
+        setAuthData({ ...authData, loading: false })
+        alert("Invalid Credential")
+      }
+
     }
   }
 
