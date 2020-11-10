@@ -14,7 +14,6 @@ const ROOT_API = axios.create({
 })
 
 export const clientGet = async (endPoint: string, params: object) => {
-    console.log("params", params)
     try {
         let getData = await ROOT_API.get(endPoint, { params: params })
         if (getData.status === 200) return getData.data

@@ -9,14 +9,9 @@ import Card from 'components/deskstop/Card/Card'
 import createStyles from './Validasi.styles';
 import Table from '../../../components/base/src/components/Table/Table'
 
-import formHelper, {
-  RegisterFormData,
-  SelectOption
-} from '../../../components/base/src/staticPages/Register/Register.formHelper';
+import { SelectOption } from '../../../components/base/src/staticPages/Register/Register.formHelper';
 
 import ValidasiInternet from './ValidasiInternet'
-
-// Components
 import {
   Column,
   FormGroup,
@@ -29,42 +24,36 @@ import {
 } from 'kta-ui-components';
 
 
-type iProps = {
-  defaultValues?: { [K in keyof RegisterFormData]?: RegisterFormData[K] };
-  state?: 'default' | 'success' | 'failed';
-  onSubmit(): any;
-  /** @default false */
-  loading?: boolean;
-  setState(value: any): any;
+type Inputs = {
+  fullname: string,
+  id_card: string,
 };
 
+const Validasi: React.FC<any> = (props) => {
 
-const Validasi: React.FC<iProps> = (props) => {
-  const { defaultValues = {
-    showEntris: [
-      { label: '10', value: '10', }
-    ]
-  }, state = 'default', onSubmit, loading, setState } = props;
-  const { register, handleSubmit, errors, setValue, formState } = useForm<RegisterFormData>({
-    defaultValues,
-  });
-
+  const { register, handleSubmit } = useForm<Inputs>();
   const theme = useTheme<Theme>();
   const styles = createStyles(theme);
-  const { errorMessages, pattern } = formHelper;
+  const [datas, setDatas] = useState([])
 
-  const [tindakanMasal, setTindakanMasal] = React.useState<any | []>([])
   const [options, setOptions] = React.useState<any | []>({
     showEntris: [
       { label: '10', value: '10', },
       { label: '25', value: '25', },
       { label: '50', value: '50', },
       { label: '100', value: '100', },
+    ],
+    tindakanMasal: [
+      { label: 'Validasi', value: 'APPROVED', },
+      { label: 'Hapus', value: 'DELETED', },
     ]
   })
 
+
+  const [tindakanMasal, setTindankanMasal] = useState([])
+
+
   const [checkInternet, setCheckInternet] = React.useState<Boolean>(true)
-  const [datas, setDatas] = useState([])
   const [messageSubmit, setMessageSubmit] = useState<string>("default")
   const [isTableLoading, setIsTableLoading] = useState<boolean>(false)
   const [page, setPage] = useState<number>(1)
@@ -79,27 +68,24 @@ const Validasi: React.FC<iProps> = (props) => {
   const [total, setTotal] = useState<number>(1)
   const [lastPage, setLastPage] = useState<number>(1)
 
-  const getSelectDefaultValue = (key: SelectKeys) => {
-    let selectedOption: Array<SelectOption> | undefined;
-    const currValue = defaultValues && defaultValues[key];
+  const [defaultValue, setDefaultValue] = useState<any>({
+    showEntris: [{ label: '10', value: '10', }],
+    tindakanMasal: null
+  })
 
-    if (currValue) selectedOption = options[key].filter(option => option.value === currValue);
-
-    return selectedOption;
-  };
-
-  const handleSelectOnChange = (
-    key: keyof RegisterFormData,
-    callback?: (selectedOption: ValueType<SelectOption>) => void,
-  ) => (selectedOption: ValueType<SelectOption>) => {
-    if (selectedOption && 'value' in selectedOption) {
-      setValue(key, selectedOption.value, {
-        shouldValidate: formState.isSubmitted,
-      });
+  const handleSelectOnChange = (e: any, type: string) => {
+    console.log("handleSelectOnChange -> type", type)
+    switch (type) {
+      case 'showEntris':
+        setPerPage(e.value)
+        setDefaultValue({ ...defaultValue, showEntris: e })
+        break;
+      case 'tindakanMasal':
+        setTindankanMasal(e.value)
+        setDefaultValue({ ...defaultValue, tindakanMasal: e })
+        break
     }
-    callback && callback(selectedOption);
-  };
-
+  }
 
   const columns = [
     {
@@ -107,18 +93,22 @@ const Validasi: React.FC<iProps> = (props) => {
       dataIndex: 'created_at',
       key: 'created_at',
       width: 120,
+      sort: true,
     },
     {
       title: 'NIK',
       dataIndex: 'id_card',
       key: 'id_card',
       width: 200,
+      sort: true,
+
     },
     {
       title: 'Nama Lengkap',
       dataIndex: 'fullname',
       key: 'fullname',
       width: 250,
+      sort: true,
     },
     {
       title: 'Kode Registrasi',
@@ -200,31 +190,30 @@ const Validasi: React.FC<iProps> = (props) => {
     setPage(pageNum)
   };
 
+  const _handleSubmitSearch = (data: any) => {
+    setInputName(data.fullname)
+    setInputNik(data.id_card)
+  }
+
   useEffect(() => {
     _getTableData()
   }, [])
 
   useEffect(() => {
     _getTableData()
-  }, [page])
+  }, [page, perPage, inputName, inputNik])
 
   const Content = () => {
     return (
       <Fragment>
-        <form css={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
+        <form onSubmit={handleSubmit(_handleSubmitSearch)} noValidate>
           <Row>
             <Column col={[12, 12, 4]}>
-              {/* Nama Lengkap */}
+              {/* NIK */}
               <FormGroup>
                 <Input
-                  innerRef={register({
-                    required: {
-                      value: true,
-                      message: errorMessages.namaLengkap.required,
-                    },
-                  })}
-                  name="namaLengkap"
-                  errorMessage={errors.namaLengkap && errors.namaLengkap.message}
+                  name="id_card"
+                  innerRef={register}
                   type="text"
                   placeHolder="Cari Berdasarkan NIK"
                 />
@@ -235,7 +224,7 @@ const Validasi: React.FC<iProps> = (props) => {
               <FormGroup>
                 <Input
                   innerRef={register}
-                  name="namaPanggilan"
+                  name="fullname"
                   type="text"
                   placeHolder="Cari Berdasarkan Nama"
                 />
@@ -244,71 +233,45 @@ const Validasi: React.FC<iProps> = (props) => {
             <Column col={[12, 12, 4]}>
               <Button icon={{ name: 'search' }} type="submit" style={{ width: '83px', height: '35px' }}>
                 cari
-          </Button>
-            </Column>
-          </Row>
-          <Row>
-            <Column col={[12, 12, 4]}>
-              {/* Golongan Darah */}
-              <FormGroup>
-                <Select<SelectOption>
-                  options={tindakanMasal}
-                  defaultValue={getSelectDefaultValue('golonganDarah')}
-                  onChange={handleSelectOnChange('golonganDarah')}
-                  innerRef={() =>
-                    register(
-                      { name: 'golonganDarah' },
-                      {
-                        required: {
-                          value: true,
-                          message: errorMessages.golonganDarah.required,
-                        },
-                      },
-                    )
-                  }
-                  errorMessage={errors.golonganDarah && errors.golonganDarah.message}
-                  placeholder="Tindakan masal"
-                />
-              </FormGroup>
-            </Column>
-
-
-            <Column col={[12, 12, 4]}>
-              <Button icon={{ name: 'play-circle' }} type="submit" style={{ width: '113px', height: '35px' }}>
-                Eksekusi
-             </Button>
-            </Column>
-
-            <Column col={[12, 12, 4]} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-              <span style={{ marginBottom: '15px' }}>Tampilkan</span>&nbsp;&nbsp;
-              <span>
-                <FormGroup style={{ width: '90px' }}>
-                  <Select<SelectOption>
-                    options={options.showEntris}
-                    defaultValue={[
-                      { label: '10', value: '10', }
-                    ]}
-                    onChange={handleSelectOnChange('golonganDarah')}
-                    innerRef={() =>
-                      register(
-                        { name: 'golonganDarah' },
-                        {
-                          required: {
-                            value: true,
-                            message: errorMessages.golonganDarah.required,
-                          },
-                        },
-                      )
-                    }
-                    errorMessage={errors.golonganDarah && errors.golonganDarah.message}
-                  />
-                </FormGroup>
-              </span>&nbsp;&nbsp;
-              <span style={{ marginBottom: '15px' }}>entri</span>
+              </Button>
             </Column>
           </Row>
         </form>
-        {console.log(currentPage, '<<<< currentPage')}
+
+        <Row>
+          <Column col={[12, 12, 4]}>
+            {/* Tindakan Masal */}
+            <FormGroup>
+              <Select<SelectOption>
+                options={options.tindakanMasal}
+                defaultValue={defaultValue.tindakanMasal}
+                onChange={(e: any) => handleSelectOnChange(e, 'tindakanMasal')}
+                placeholder="Tindakan masal"
+              />
+            </FormGroup>
+          </Column>
+
+
+          <Column col={[12, 12, 4]}>
+            <Button icon={{ name: 'play-circle' }} type="submit" style={{ width: '113px', height: '35px' }}>
+              Eksekusi
+             </Button>
+          </Column>
+
+          <Column col={[12, 12, 4]} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+            <span style={{ marginBottom: '15px' }}>Tampilkan</span>&nbsp;&nbsp;
+              <span>
+              <FormGroup style={{ width: '90px' }}>
+                <Select<SelectOption>
+                  options={options.showEntris}
+                  defaultValue={defaultValue.showEntris}
+                  onChange={(e: any) => handleSelectOnChange(e, 'showEntris')}
+                />
+              </FormGroup>
+            </span>&nbsp;&nbsp;
+              <span style={{ marginBottom: '15px' }}>entri</span>
+          </Column>
+        </Row>
 
         <Table
           columns={columns}
@@ -317,7 +280,7 @@ const Validasi: React.FC<iProps> = (props) => {
           pagination={{
             onPageChange: handlePageChange,
             currentPage: currentPage,
-            perPage: 10,
+            perPage: perPage,
             totalData: total,
             totalPage: lastPage,
           }}
