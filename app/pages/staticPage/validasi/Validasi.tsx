@@ -1,13 +1,13 @@
 /** @jsx jsx */
 import React, { Fragment, useEffect, useState } from 'react';
-import Card from 'components/deskstop/Card/Card'
 import { useForm } from 'react-hook-form';
 import { jsx } from '@emotion/core';
 import { useTheme } from 'emotion-theming';
-import createStyles from './Validasi.styles';
 import { Theme } from '../../../components/base/src/theme';
-import Table from '../../../components/base/src/components/Table/Table'
 import { getListUnverifiedMembers, postVerifiedMembers } from '../../../client/MemberClient'
+import Card from 'components/deskstop/Card/Card'
+import createStyles from './Validasi.styles';
+import Table from '../../../components/base/src/components/Table/Table'
 
 import formHelper, {
   RegisterFormData,
@@ -24,6 +24,7 @@ import {
   Button,
   Row,
   Select,
+  InputMask,
   Icon
 } from 'kta-ui-components';
 
@@ -58,13 +59,25 @@ const Validasi: React.FC<iProps> = (props) => {
       { label: '10', value: '10', },
       { label: '25', value: '25', },
       { label: '50', value: '50', },
-      { label: '10', value: '10', },
+      { label: '100', value: '100', },
     ]
   })
 
   const [checkInternet, setCheckInternet] = React.useState<Boolean>(true)
   const [datas, setDatas] = useState([])
   const [messageSubmit, setMessageSubmit] = useState<string>("default")
+  const [isTableLoading, setIsTableLoading] = useState<boolean>(false)
+  const [page, setPage] = useState<number>(1)
+
+  const [inputName, setInputName] = useState<string>('')
+  const [inputNik, setInputNik] = useState<string>('')
+  const [perPage, setPerPage] = useState<number>(10)
+  // const [sortCol, setSortCol] = useState<number>(1)
+  // const [sortBy, setSortBy] = useState<number>(1)
+
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [total, setTotal] = useState<number>(1)
+  const [lastPage, setLastPage] = useState<number>(1)
 
   const getSelectDefaultValue = (key: SelectKeys) => {
     let selectedOption: Array<SelectOption> | undefined;
@@ -117,20 +130,21 @@ const Validasi: React.FC<iProps> = (props) => {
       title: 'Tindakan',
       dataIndex: 'id',
       key: 'id',
+      width: 300,
       render: (id: any) => {
         return (
-          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
 
             <a style={{ padding: '5px', backgroundColor: '#000', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
               onClick={() => _handlePostMembers()}>
               <Icon name={'address-card'} />&nbsp;
                 Lihat
-            </a><br />
+            </a>
             <a style={{ padding: '5px', backgroundColor: '#47B920', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
               onClick={() => _handlePostMembers(id, "APPROVED")}>
               <Icon name={'check-circle'} />&nbsp;
                 Validasi
-            </a><br />
+            </a>
             <a style={{ padding: '5px', backgroundColor: '#CE352D', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
               onClick={() => _handlePostMembers(id, "DELETED")}>
               <Icon name={'trash'} />&nbsp;
@@ -145,6 +159,7 @@ const Validasi: React.FC<iProps> = (props) => {
   ];
 
   const _handlePostMembers = async (...args: any) => {
+    setIsTableLoading(true)
     const [id, status] = args
     const payload = {
       member_id: id,
@@ -154,6 +169,7 @@ const Validasi: React.FC<iProps> = (props) => {
     if (data.message === "Success Approved Member") {
       setCheckInternet(false)
       setMessageSubmit("success")
+      setIsTableLoading(false)
     } else {
       setMessageSubmit("failed")
       setCheckInternet(false)
@@ -161,15 +177,36 @@ const Validasi: React.FC<iProps> = (props) => {
 
   }
 
+  const getPayload = () => ({
+    fullname: inputName || undefined,
+    id_card: inputNik || undefined,
+    page: page,
+    limit: perPage,
+    // sort_col: sortCol,
+    // sort_by: sortBy,
+  })
 
-  const _handleGetListUnverifiedMembers = async () => {
-    const { data } = await getListUnverifiedMembers()
+  const _getTableData = async () => {
+    setIsTableLoading(true)
+    const { data, meta } = await getListUnverifiedMembers(getPayload())
+    setCurrentPage(meta.current_page)
+    setTotal(meta.total)
+    setLastPage(meta.last_page)
     setDatas(data)
+    setIsTableLoading(false)
   }
 
+  const handlePageChange = async (pageNum: number) => {
+    setPage(pageNum)
+  };
+
   useEffect(() => {
-    _handleGetListUnverifiedMembers()
+    _getTableData()
   }, [])
+
+  useEffect(() => {
+    _getTableData()
+  }, [page])
 
   const Content = () => {
     return (
@@ -271,7 +308,21 @@ const Validasi: React.FC<iProps> = (props) => {
             </Column>
           </Row>
         </form>
-        <Table columns={columns} data={datas} />
+        {console.log(currentPage, '<<<< currentPage')}
+
+        <Table
+          columns={columns}
+          data={datas}
+          loading={isTableLoading}
+          pagination={{
+            onPageChange: handlePageChange,
+            currentPage: currentPage,
+            perPage: 10,
+            totalData: total,
+            totalPage: lastPage,
+          }}
+
+        />
       </Fragment>
     )
   }

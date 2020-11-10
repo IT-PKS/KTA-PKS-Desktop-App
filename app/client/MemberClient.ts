@@ -1,8 +1,8 @@
 
 import { clientGet, clientPost } from '../services/URLApi/URLApi';
 
-export const getListUnverifiedMembers = async () => {
-  return await clientGet('admin/members/validation-list', {});
+export const getListUnverifiedMembers = async (payload: object) => {
+  return await clientGet('admin/members/validation-list', payload);
 };
 
 export const postVerifiedMembers = async (payload: object) => {
