@@ -8,7 +8,6 @@ import { getListUnverifiedMembers, postVerifiedMembers } from '../../../client/M
 import Card from 'components/deskstop/Card/Card'
 import createStyles from './Validasi.styles';
 import Table from '../../../components/base/src/components/Table/Table'
-
 import { SelectOption } from '../../../components/base/src/staticPages/Register/Register.formHelper';
 
 import ValidasiInternet from './ValidasiInternet'
@@ -20,9 +19,9 @@ import {
   Row,
   Select,
   InputMask,
-  Icon
+  Icon,
+  Checkbox
 } from 'kta-ui-components';
-
 
 type Inputs = {
   fullname: string,
@@ -52,15 +51,16 @@ const Validasi: React.FC<any> = (props) => {
 
   const [tindakanMasal, setTindankanMasal] = useState([])
 
-
   const [checkInternet, setCheckInternet] = React.useState<Boolean>(true)
   const [messageSubmit, setMessageSubmit] = useState<string>("default")
   const [isTableLoading, setIsTableLoading] = useState<boolean>(false)
+  const [isBulkLoading, setIsBulkLoading] = useState<boolean>(false)
   const [page, setPage] = useState<number>(1)
-
   const [inputName, setInputName] = useState<string>('')
   const [inputNik, setInputNik] = useState<string>('')
   const [perPage, setPerPage] = useState<number>(10)
+  const [selectAll, setSelectAll] = useState<boolean>(false)
+  const [selected, setSelected] = useState<any>([])
   // const [sortCol, setSortCol] = useState<number>(1)
   // const [sortBy, setSortBy] = useState<number>(1)
 
@@ -74,7 +74,6 @@ const Validasi: React.FC<any> = (props) => {
   })
 
   const handleSelectOnChange = (e: any, type: string) => {
-    console.log("handleSelectOnChange -> type", type)
     switch (type) {
       case 'showEntris':
         setPerPage(e.value)
@@ -87,7 +86,59 @@ const Validasi: React.FC<any> = (props) => {
     }
   }
 
+  const handleSelectBulkChange = (selectedOption: any) => {
+    const value = selectedOption && 'value' in selectedOption ? selectedOption.value : undefined;
+    setTindankanMasal(value)
+  };
+
+  const handleBulkAction = () => {
+    if (tindakanMasal === undefined) {
+      alert('Tindakan massal belum dipilih')
+    } else if (selected.length === 0) {
+      alert('Tidak ada data yang dicentang')
+    } else {
+      _handleSubmitBulkAction()
+    }
+  }
+
+  const _handleHeadCheckboxChange = () => { }
+  const _handleBodyCheckboxChange = (e: any, record: any) => {
+    const { checked } = e.target;
+    const id = record.id
+
+    if (checked) {
+      setSelected([...selected, id])
+    } else {
+      const array = [...selected];
+      const deleteIndex = array.indexOf(id);
+      if (deleteIndex > -1) {
+        array.splice(deleteIndex, 1);
+      }
+      setSelected(array)
+    }
+  }
+
   const columns = [
+    {
+      title: (
+        <Checkbox
+          instanceId="checkbox-table-head"
+          checked={selectAll}
+          onChange={_handleHeadCheckboxChange}
+        />
+      ),
+      key: 'checkbox',
+      width: 40,
+      render: (value: any, record: any) => {
+        return (
+          <Checkbox
+            instanceId={record.key}
+            checked={selected.includes(record.id)}
+            onChange={(e: any) => _handleBodyCheckboxChange(e, record)}
+          />
+        );
+      },
+    },
     {
       title: 'Tanggal Registrasi',
       dataIndex: 'created_at',
@@ -120,26 +171,27 @@ const Validasi: React.FC<any> = (props) => {
       title: 'Tindakan',
       dataIndex: 'id',
       key: 'id',
-      width: 300,
+      width: 150,
       render: (id: any) => {
         return (
-          <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
 
-            <a style={{ padding: '5px', backgroundColor: '#000', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+
+            <a style={{ padding: '5px', width: '75px', backgroundColor: '#000', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
               onClick={() => _handlePostMembers()}>
               <Icon name={'address-card'} />&nbsp;
-                Lihat
-            </a>
-            <a style={{ padding: '5px', backgroundColor: '#47B920', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
+                    Lihat
+                </a><br />
+            <a style={{ padding: '5px', width: '86px', backgroundColor: '#47B920', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
               onClick={() => _handlePostMembers(id, "APPROVED")}>
               <Icon name={'check-circle'} />&nbsp;
-                Validasi
-            </a>
-            <a style={{ padding: '5px', backgroundColor: '#CE352D', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
+                  Validasi
+              </a><br />
+            <a style={{ padding: '5px', width: '79px', backgroundColor: '#CE352D', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
               onClick={() => _handlePostMembers(id, "DELETED")}>
               <Icon name={'trash'} />&nbsp;
-                Hapus
-            </a>
+                  Hapus
+              </a>
 
           </div>
 
@@ -148,14 +200,37 @@ const Validasi: React.FC<any> = (props) => {
     },
   ];
 
+
+  const _handleSubmitBulkAction = async () => {
+    setIsBulkLoading(true)
+    let res;
+    for (const val of selected) {
+      res = await _handlePostMembers(val, tindakanMasal, true)
+      if (res.message !== "Success Approved Member") {
+        setMessageSubmit("failed")
+        setCheckInternet(false)
+      }
+    }
+
+    if (res.message === "Success Approved Member") {
+      setMessageSubmit("success")
+      setIsTableLoading(false)
+      setIsBulkLoading(false)
+      setCheckInternet(false)
+
+    }
+  }
+
   const _handlePostMembers = async (...args: any) => {
     setIsTableLoading(true)
-    const [id, status] = args
+    const [id, status, isBulk] = args
     const payload = {
       member_id: id,
       status: status
     }
+
     const { data } = await postVerifiedMembers(payload)
+    if (isBulk) return data
     if (data.message === "Success Approved Member") {
       setCheckInternet(false)
       setMessageSubmit("success")
@@ -179,9 +254,9 @@ const Validasi: React.FC<any> = (props) => {
   const _getTableData = async () => {
     setIsTableLoading(true)
     const { data, meta } = await getListUnverifiedMembers(getPayload())
-    setCurrentPage(meta.current_page)
-    setTotal(meta.total)
-    setLastPage(meta.last_page)
+    setCurrentPage(meta?.current_page)
+    setTotal(meta?.total)
+    setLastPage(meta?.last_page)
     setDatas(data)
     setIsTableLoading(false)
   }
@@ -243,17 +318,23 @@ const Validasi: React.FC<any> = (props) => {
             {/* Tindakan Masal */}
             <FormGroup>
               <Select<SelectOption>
+                instanceId="select-bulk"
                 options={options.tindakanMasal}
-                defaultValue={defaultValue.tindakanMasal}
-                onChange={(e: any) => handleSelectOnChange(e, 'tindakanMasal')}
+                onChange={handleSelectBulkChange}
                 placeholder="Tindakan masal"
+                clearable
               />
             </FormGroup>
           </Column>
 
 
           <Column col={[12, 12, 4]}>
-            <Button icon={{ name: 'play-circle' }} type="submit" style={{ width: '113px', height: '35px' }}>
+            <Button
+              icon={{ name: 'play-circle' }}
+              style={{ width: '113px', height: '35px' }}
+              onClick={handleBulkAction}
+              loading={isBulkLoading}
+            >
               Eksekusi
              </Button>
           </Column>
