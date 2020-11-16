@@ -7,6 +7,12 @@ import { useTheme } from 'emotion-theming';
 import { Theme } from '../../../components/base/src/theme';
 import createStyles from './Login.styles';
 import { Link } from 'react-router-dom';
+// import initSQLite from '../../../services/sqlite/initSQLite'
+// import { Country } from '../../../entity/Country'
+// import { Province } from '../../../entity/Province'
+// import { City } from '../../../entity/City'
+// import { District } from '../../../entity/District'
+// import { SubDistrict } from '../../../entity/SubDistrict'
 
 
 // Components & error messages
@@ -14,6 +20,18 @@ import { Button, Input, Label, Panel, FormGroup, Checkbox, Row, Column } from 'k
 
 // Images
 import logoImg from '../../../components/base/src/img/logo-71x100.png';
+
+// export const addLocalUser = async () => {
+//   const connection: any = await initSQLite([Country, Province, City, District, SubDistrict])
+//   connection.manager.find(Country)
+//   connection.manager.find(Province)
+//   connection.manager.find(City)
+//   connection.manager.find(District)
+//   connection.manager.find(SubDistrict)
+//   connection.close()
+// }
+
+// addLocalUser()
 
 type LoginFormData = {
   email: string;
