@@ -18,7 +18,6 @@ import {
   Button,
   Row,
   Select,
-  InputMask,
   Icon,
   Checkbox
 } from 'kta-ui-components';
@@ -60,7 +59,9 @@ const Validasi: React.FC<any> = (props) => {
   const [inputNik, setInputNik] = useState<string>('')
   const [perPage, setPerPage] = useState<number>(10)
   const [selectAll, setSelectAll] = useState<boolean>(false)
+  const [idAll, setIdAll] = useState<any>([])
   const [selected, setSelected] = useState<any>([])
+  const [showActiveSearch, setShowActiveSearch] = useState<boolean>(false)
   // const [sortCol, setSortCol] = useState<number>(1)
   // const [sortBy, setSortBy] = useState<number>(1)
 
@@ -94,14 +95,13 @@ const Validasi: React.FC<any> = (props) => {
   const handleBulkAction = () => {
     if (tindakanMasal === undefined) {
       alert('Tindakan massal belum dipilih')
-    } else if (selected.length === 0) {
+    } else if (!selected.length && !idAll.length) {
       alert('Tidak ada data yang dicentang')
     } else {
       _handleSubmitBulkAction()
     }
   }
 
-  const _handleHeadCheckboxChange = () => { }
   const _handleBodyCheckboxChange = (e: any, record: any) => {
     const { checked } = e.target;
     const id = record.id
@@ -118,22 +118,24 @@ const Validasi: React.FC<any> = (props) => {
     }
   }
 
+  const CheckBoxHeader = () => (
+    <Checkbox
+      instanceId="checkbox-table-head"
+      checked={selectAll}
+      onChange={() => setSelectAll(!selectAll)}
+    />
+  )
+
   const columns = [
     {
-      title: (
-        <Checkbox
-          instanceId="checkbox-table-head"
-          checked={selectAll}
-          onChange={_handleHeadCheckboxChange}
-        />
-      ),
+      title: <CheckBoxHeader />,
       key: 'checkbox',
       width: 40,
       render: (value: any, record: any) => {
         return (
           <Checkbox
             instanceId={record.key}
-            checked={selected.includes(record.id)}
+            checked={selected.includes(record.id) || selectAll}
             onChange={(e: any) => _handleBodyCheckboxChange(e, record)}
           />
         );
@@ -200,11 +202,11 @@ const Validasi: React.FC<any> = (props) => {
     },
   ];
 
-
   const _handleSubmitBulkAction = async () => {
     setIsBulkLoading(true)
     let res;
-    for (const val of selected) {
+    let idBulk = selectAll ? idAll[0] : selected
+    for (const val of idBulk) {
       res = await _handlePostMembers(val, tindakanMasal, true)
       if (res.message !== "Success Approved Member") {
         setMessageSubmit("failed")
@@ -217,7 +219,6 @@ const Validasi: React.FC<any> = (props) => {
       setIsTableLoading(false)
       setIsBulkLoading(false)
       setCheckInternet(false)
-
     }
   }
 
@@ -259,6 +260,12 @@ const Validasi: React.FC<any> = (props) => {
     setLastPage(meta?.last_page)
     setDatas(data)
     setIsTableLoading(false)
+    let arr = []
+    for (let i = 0; i < data.length; i++) {
+      arr.push(data[i].id)
+    }
+    setIdAll([...idAll, arr])
+
   }
 
   const handlePageChange = async (pageNum: number) => {
@@ -268,6 +275,7 @@ const Validasi: React.FC<any> = (props) => {
   const _handleSubmitSearch = (data: any) => {
     setInputName(data.fullname)
     setInputNik(data.id_card)
+    setShowActiveSearch(true)
   }
 
   useEffect(() => {
@@ -310,9 +318,18 @@ const Validasi: React.FC<any> = (props) => {
                 cari
               </Button>
             </Column>
+            <Column col={[12, 12, 12]}>
+              {showActiveSearch &&
+                <div css={[styles.searchInfo, styles.mtxs]}>
+                  Pencarian aktif:&nbsp;
+                  {!inputNik && !inputName && <strong>Tidak Ada</strong>}
+                  {inputNik && <strong>nik: {inputNik}</strong>}
+                  {inputName && <strong>nama: {inputName}</strong>}
+                </div>
+              }
+            </Column>
           </Row>
         </form>
-
         <Row>
           <Column col={[12, 12, 4]}>
             {/* Tindakan Masal */}
@@ -367,10 +384,9 @@ const Validasi: React.FC<any> = (props) => {
           }}
 
         />
-      </Fragment>
+      </Fragment >
     )
   }
-
 
   return (
     <Card>
