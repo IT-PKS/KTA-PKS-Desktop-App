@@ -61,7 +61,7 @@ const LicenseKey: React.FC<ILogin> = (props) => {
             <h4>Masukkan Lisensi</h4>
             <p>Masukkan lisensi untuk membuka kunci aplikasi admin Kartu Tanda Anggota PKS</p>
             <FormGroup>
-              <Label required>License</Label>
+              <Label required>Lisensi</Label>
               <Input
                 innerRef={register({
                   required: {

@@ -102,5 +102,7 @@ app.on('activate', () => {
 });
 
 app.on('ready', function () {
+  console.log('Checking for update');
+
   autoUpdater.checkForUpdatesAndNotify();
 });
