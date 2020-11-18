@@ -114,7 +114,7 @@ tasks.set('dev-server', async () => {
       hot: true,
       after() {
         // Start electron main process...
-        spawn('electron', [path.normalize(`${__dirname}/app/dist/main.js`)], {
+        spawn('electron --inspect=5858', [path.normalize(`${__dirname}/app/dist/main.js`)], {
             shell: true,
             env: process.env,
             stdio: 'inherit',
