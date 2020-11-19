@@ -27,35 +27,6 @@ const isDev = process.env.NODE_ENV === 'development';
 
 let mainWindow: Electron.BrowserWindow | null = null;
 
-//Auto Updater
-const sendStatusToWindow = (text: any) => {
-  log.info(text);
-  mainWindow.webContents.send('message', text);
-}
-
-autoUpdater.on('checking-for-update', () => {
-  sendStatusToWindow('Checking for update...');
-})
-autoUpdater.on('update-available', (info) => {
-  sendStatusToWindow('Update available.');
-})
-autoUpdater.on('update-not-available', (info) => {
-  sendStatusToWindow('Update not available.');
-})
-autoUpdater.on('error', (err) => {
-  sendStatusToWindow('Error in auto-updater. ' + err);
-})
-autoUpdater.on('download-progress', (progressObj) => {
-  let log_message = "Download speed: " + progressObj.bytesPerSecond;
-  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
-  log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
-  sendStatusToWindow(log_message);
-})
-autoUpdater.on('update-downloaded', (info) => {
-  sendStatusToWindow('Update downloaded');
-});
-
-
 const createWindow = () => {
   mainWindow = new BrowserWindow({
     width: 1000,
@@ -78,6 +49,37 @@ const createWindow = () => {
       mainWindow.focus();
     }
   });
+  mainWindow.webContents.on('did-finish-load', () => {
+    mainWindow.webContents.send('version', app.getVersion())
+  })
+
+  //Auto Updater
+  const sendStatusToWindow = (text: any) => {
+    log.info(text);
+    mainWindow.webContents.send('message', text);
+  }
+
+  autoUpdater.on('checking-for-update', () => {
+    sendStatusToWindow('Checking for update...');
+  })
+  autoUpdater.on('update-available', (info) => {
+    sendStatusToWindow('Update available.');
+  })
+  autoUpdater.on('update-not-available', (info) => {
+    sendStatusToWindow('Update not available.');
+  })
+  autoUpdater.on('error', (err) => {
+    sendStatusToWindow('Error in auto-updater. ' + err);
+  })
+  autoUpdater.on('download-progress', (progressObj) => {
+    let log_message = "Download speed: " + progressObj.bytesPerSecond;
+    log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+    log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+    sendStatusToWindow(log_message);
+  })
+  autoUpdater.on('update-downloaded', (info) => {
+    sendStatusToWindow('Update downloaded');
+  });
 };
 
 app.whenReady().then(() => {
@@ -90,6 +92,7 @@ app.whenReady().then(() => {
       .catch(console.error);
   } else {
     createWindow();
+    autoUpdater.checkForUpdatesAndNotify()
   }
 });
 
@@ -99,10 +102,4 @@ app.on('window-all-closed', () => {
 
 app.on('activate', () => {
   if (mainWindow === null) createWindow();
-});
-
-app.on('ready', function () {
-  console.log('Checking for update');
-
-  autoUpdater.checkForUpdatesAndNotify();
 });
