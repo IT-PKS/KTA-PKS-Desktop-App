@@ -265,7 +265,6 @@ const Validasi: React.FC<any> = (props) => {
       arr.push(data[i].id)
     }
     setIdAll([...idAll, arr])
-
   }
 
   const handlePageChange = async (pageNum: number) => {
