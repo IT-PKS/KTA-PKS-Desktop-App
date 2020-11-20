@@ -7,6 +7,8 @@ import { useTheme } from 'emotion-theming';
 import { Theme } from '../../../components/base/src/theme';
 import createStyles from './Login.styles';
 import { Link } from 'react-router-dom';
+import { ipcRenderer } from 'electron';
+import { autoUpdater } from 'electron-updater';
 // import initSQLite from '../../../services/sqlite/initSQLite'
 // import { Country } from '../../../entity/Country'
 // import { Province } from '../../../entity/Province'
@@ -32,6 +34,30 @@ import logoImg from '../../../components/base/src/img/logo-71x100.png';
 // }
 
 // addLocalUser()
+
+ipcRenderer.on('message', (event: any, text: any) => {
+
+  console.log('hii')
+  console.log(text)
+  if (text === 'Update available') {
+    const r = confirm("Update Available, do you want to update ?");
+    if (r == true) {
+      autoUpdater.downloadUpdate()
+    } else {
+      console.log('====================================');
+      console.log('update canceled');
+      console.log('====================================');
+    }
+  }
+
+})
+
+ipcRenderer.on('version', (event: any, text: any) => {
+
+  console.log('versi');
+  console.log(text);
+
+})
 
 type LoginFormData = {
   email: string;
