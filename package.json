@@ -4,7 +4,7 @@
    "productName": "KTA PKS",
    "private": true,
    "version": "0.0.1",
-   "homepage": "https://github.com/IT-PKS/kta-desktop",
+   "homepage": "https://github.com/dodistyo/pks-public",
    "main": "dist/main.js",
    "author": {
       "name": "Partai Keadilan Sejahtera (PKS)",
