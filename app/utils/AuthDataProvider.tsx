@@ -1,7 +1,9 @@
 import { log } from "console";
 import React, { createContext, useState, useEffect } from "react"
-import { _postAuthLogin, serialKey, addLocalUser, updatePasswordLocal, loginLocal } from '../client/AuthClient'
+import { _postAuthLogin, serialKey, addLocalUser, updatePasswordLocal, loginLocal, _postSerialKey } from '../client/AuthClient'
 import { checkInternetConnection } from './utils'
+import os from 'os'
+import getMac from 'getmac'
 
 export type AuthData = {
   user: string | null;
@@ -92,8 +94,21 @@ export const useAuthDataContext = () => {
   }
 
   const onSubmitLicense = async (formData: any) => {
-    const user = await addLocalUser(formData)
-    if (user) setAuthData({ ...authData, serialKey: user.serialKey });
+    const deviceName = os.userInfo().username
+    const deviceMac = getMac()
+    const deviceOS = os.platform()
+    formData.device_os = deviceOS
+    formData.device_name = deviceName
+    formData.device_mac = deviceMac
+    const { data, error } = await _postSerialKey(formData)
+    if (error) {
+      console.log("🚀 ~ file: AuthDataProvider.tsx ~ line 105 ~ onSubmitLicense ~ error", error)
+      alert('Invalid SerialKey')
+    } else {
+      const user = await addLocalUser(formData)
+      if (user) setAuthData({ ...authData, serialKey: user.serialKey });
+      alert('Success !')
+    }
   }
 
   useEffect(() => {

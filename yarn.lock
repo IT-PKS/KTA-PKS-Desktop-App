@@ -4307,6 +4307,13 @@ get-value@^2.0.3, get-value@^2.0.6:
   resolved "https://registry.yarnpkg.com/get-value/-/get-value-2.0.6.tgz#dc15ca1c672387ca76bd37ac0a395ba2042a2c28"
   integrity sha1-3BXKHGcjh8p2vTesCjlbogQqLCg=
 
+getmac@^5.17.0:
+  version "5.17.0"
+  resolved "https://registry.yarnpkg.com/getmac/-/getmac-5.17.0.tgz#046140a2e30e8b8f56486a1353fcae1950ac7c28"
+  integrity sha512-hupD+ZCHVFRaH1wBDPgIil6KWL5p5Z6kG71nAcafwq72QaMxw9bhR2LPBk3jlw3I2F3oELNkx6Fccwiuy5fv0w==
+  dependencies:
+    "@types/node" "^14.14.6"
+
 getpass@^0.1.1:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/getpass/-/getpass-0.1.7.tgz#5eff8e3e684d569ae4cb2b1282604e8ba62149fa"

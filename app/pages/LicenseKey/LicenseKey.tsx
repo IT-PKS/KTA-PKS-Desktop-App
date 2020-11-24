@@ -69,7 +69,7 @@ const LicenseKey: React.FC<ILogin> = (props) => {
                     message: errorMessages.license.required,
                   },
                 })}
-                name="license"
+                name="key"
                 errorMessage={errors.license && errors.license.message}
               />
             </FormGroup>

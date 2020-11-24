@@ -13,7 +13,7 @@ export const addLocalUser = async (param: any) => {
         "firstName": "Bakti",
         "lastName": "Pratama",
         "password": "tes",
-        "serialKey": param.license || "LSHDTCRWHSKTYUHS"
+        "serialKey": param.key || "LSHDTCRWHSKTYUHS"
     }
     const user = new User(theUser)
 
@@ -59,4 +59,8 @@ export const serialKey = async () => {
 
 export const _postAuthLogin = async (payload: object) => {
     return await clientPost('auth/login', payload);
+}
+
+export const _postSerialKey = async (payload: object) => {
+    return await clientPost('admin/users/validate-key', payload);
 }
