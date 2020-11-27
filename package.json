@@ -3,8 +3,8 @@
    "description": "Desktop app KTA PKS.",
    "productName": "KTA PKS",
    "private": true,
-   "version": "0.0.2",
-   "homepage": "https://github.com/dodistyo/pks-public",
+   "version": "0.0.1",
+   "homepage": "https://github.com/IT-PKS/KTA-PKS-Desktop-App",
    "main": "dist/main.js",
    "author": {
       "name": "Partai Keadilan Sejahtera (PKS)",
