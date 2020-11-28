@@ -9,6 +9,7 @@ import Card from 'components/deskstop/Card/Card'
 import createStyles from './Validasi.styles';
 import Table from '../../../components/base/src/components/Table/Table'
 import { SelectOption } from '../../../components/base/src/staticPages/Register/Register.formHelper';
+import ModalDeleteMember from '../../../components/contextual/ModalDeleteMember'
 
 import ValidasiInternet from './ValidasiInternet'
 import {
@@ -49,6 +50,7 @@ const Validasi: React.FC<any> = (props) => {
 
 
   const [tindakanMasal, setTindankanMasal] = useState([])
+  const [showModalDelete, setShowModalDelete] = useState(false)
 
   const [checkInternet, setCheckInternet] = React.useState<Boolean>(true)
   const [messageSubmit, setMessageSubmit] = useState<string>("default")
@@ -68,10 +70,12 @@ const Validasi: React.FC<any> = (props) => {
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [total, setTotal] = useState<number>(1)
   const [lastPage, setLastPage] = useState<number>(1)
+  const [isDeleting, setIsDeleting] = useState<boolean>(false)
+  const [activeRecord, setActiveRecord] = useState<any>(false)
 
   const [defaultValue, setDefaultValue] = useState<any>({
     showEntris: [{ label: '10', value: '10', }],
-    tindakanMasal: null
+    tindakanMasal: ""
   })
 
   const handleSelectOnChange = (e: any, type: string) => {
@@ -80,17 +84,14 @@ const Validasi: React.FC<any> = (props) => {
         setPerPage(e.value)
         setDefaultValue({ ...defaultValue, showEntris: e })
         break;
-      case 'tindakanMasal':
-        setTindankanMasal(e.value)
-        setDefaultValue({ ...defaultValue, tindakanMasal: e })
-        break
     }
   }
 
   const handleSelectBulkChange = (selectedOption: any) => {
     const value = selectedOption && 'value' in selectedOption ? selectedOption.value : undefined;
+    setDefaultValue({ ...defaultValue, tindakanMasal: selectedOption })
     setTindankanMasal(value)
-  };
+  }
 
   const handleBulkAction = () => {
     if (tindakanMasal === undefined) {
@@ -104,6 +105,7 @@ const Validasi: React.FC<any> = (props) => {
 
   const _handleBodyCheckboxChange = (e: any, record: any) => {
     const { checked } = e.target;
+    setActiveRecord(record)
     const id = record.id
 
     if (checked) {
@@ -117,6 +119,13 @@ const Validasi: React.FC<any> = (props) => {
       setSelected(array)
     }
   }
+
+  const toggleModalDelete = () => setShowModalDelete(!showModalDelete)
+  const handleDelete = (id: string) => {
+    _handlePostMembers(id, "DELETED")
+    setIsDeleting(true)
+  }
+
 
   const CheckBoxHeader = () => (
     <Checkbox
@@ -190,7 +199,11 @@ const Validasi: React.FC<any> = (props) => {
                   Validasi
               </a><br />
             <a style={{ padding: '5px', width: '79px', backgroundColor: '#CE352D', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
-              onClick={() => _handlePostMembers(id, "DELETED")}>
+              onClick={() => {
+                setActiveRecord({ fullname: datas.find((v) => v.id === id).fullname })
+                toggleModalDelete()
+              }}
+            >
               <Icon name={'trash'} />&nbsp;
                   Hapus
               </a>
@@ -335,8 +348,9 @@ const Validasi: React.FC<any> = (props) => {
             <FormGroup>
               <Select<SelectOption>
                 instanceId="select-bulk"
+                defaultValue={defaultValue.tindakanMasal}
                 options={options.tindakanMasal}
-                onChange={handleSelectBulkChange}
+                onChange={(e: any) => handleSelectBulkChange(e)}
                 placeholder="Tindakan masal"
                 clearable
               />
@@ -382,6 +396,14 @@ const Validasi: React.FC<any> = (props) => {
             totalPage: lastPage,
           }}
 
+        />
+
+        <ModalDeleteMember
+          deleting={isDeleting}
+          fullname={activeRecord ? activeRecord.fullname : undefined}
+          onDelete={() => handleDelete(activeRecord.id)}
+          open={showModalDelete}
+          toggle={toggleModalDelete}
         />
       </Fragment >
     )

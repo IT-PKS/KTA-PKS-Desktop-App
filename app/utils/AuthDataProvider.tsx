@@ -1,7 +1,7 @@
-import { log } from "console";
 import React, { createContext, useState, useEffect } from "react"
 import { _postAuthLogin, serialKey, addLocalUser, updatePasswordLocal, loginLocal } from '../client/AuthClient'
 import { checkInternetConnection } from './utils'
+import { useHistory } from "react-router-dom";
 
 export type AuthData = {
   user: string | null;
@@ -42,7 +42,8 @@ const AuthDataProvider: React.FC = (props) => {
 }
 
 export const useAuthDataContext = () => {
-  const [authData, setAuthData] = React.useContext(AuthDataContext);
+  const history = useHistory();
+  const [authData, setAuthData] = React.useContext<any>(AuthDataContext);
 
   const fetchSerialKey = async () => {
     const sk = await serialKey()
@@ -54,40 +55,44 @@ export const useAuthDataContext = () => {
     setAuthData({ ...authData, user: '', email: '' });
   }
 
+  const onLoginOnline = async (newAuthData: any) => {
+    const { data, error } = await _postAuthLogin(newAuthData)
+    if (error) {
+      setAuthData({ ...authData, loading: false })
+      alert(error.error._general_)
+    } else {
+      await updatePasswordLocal(newAuthData)
+      localStorage.setItem("token", JSON.stringify(data.access_token))
+      localStorage.setItem("user", JSON.stringify(newAuthData.email))
+      localStorage.setItem("role", 'super_admin')
+      history.push('/ringkasan')
+      setAuthData({ ...authData, user: newAuthData.email, loading: false });
+    }
+  }
+
+  const onLoginOffline = async (newAuthData: any) => {
+    const isLoggedIn = await loginLocal(newAuthData)
+    if (isLoggedIn) {
+      localStorage.setItem("token", "notoken")
+      localStorage.setItem("user", JSON.stringify(newAuthData.email))
+      localStorage.setItem("role", 'super_admin')
+      history.push("/home")
+      setAuthData({ ...authData, user: newAuthData.email, loading: false });
+    } else {
+      setAuthData({ ...authData, loading: false })
+      alert("Invalid Credential")
+    }
+  }
+
   const onLogin = async (newAuthData: AuthData) => {
     setAuthData({ ...authData, loading: true })
     try {
-      console.log('====================================');
-      console.log('checking internet connection ...');
-      console.log('====================================');
+      console.log('Check Connextion...')
       await checkInternetConnection()
-      console.log('====================================');
-      console.log('Finish checking internet connection');
-      console.log('====================================');
-      const { data, error } = await _postAuthLogin(newAuthData)
-      if (error) {
-        setAuthData({ ...authData, loading: false })
-        alert(error.error._general_)
-      } else {
-        await updatePasswordLocal(newAuthData)
-        localStorage.setItem("token", JSON.stringify(data.access_token))
-        localStorage.setItem("user", JSON.stringify(newAuthData.email))
-        localStorage.setItem("role", 'super_admin')
-        setAuthData({ ...authData, user: newAuthData.email, loading: false });
-      }
+      onLoginOnline(newAuthData)
     } catch (error) {
       console.log('logging in locally...')
-      const isLoggedIn = await loginLocal(newAuthData)
-      if (isLoggedIn) {
-        localStorage.setItem("token", "notoken")
-        localStorage.setItem("user", JSON.stringify(newAuthData.email))
-        localStorage.setItem("role", 'super_admin')
-        setAuthData({ ...authData, user: newAuthData.email, loading: false });
-      } else {
-        setAuthData({ ...authData, loading: false })
-        alert("Invalid Credential")
-      }
-
+      onLoginOffline(newAuthData)
     }
   }
 

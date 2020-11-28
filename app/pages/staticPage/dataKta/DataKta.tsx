@@ -126,6 +126,14 @@ const DataKta: React.FC<iProps> = (props) => {
 		}
 	}
 
+	const showDetailMmber = (record: string) => async (
+		e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+	) => {
+		e.preventDefault();
+		// this.props.dispatch(toggleModalMemberDetail());
+		// this.props.dispatch(setModalMemberDetailData(record));
+	};
+
 	const CheckBoxHeader = () => (
 		<Checkbox
 			instanceId="checkbox-table-head"
@@ -195,8 +203,10 @@ const DataKta: React.FC<iProps> = (props) => {
 
 	const handleSelectBulkChange = (selectedOption: any) => {
 		const value = selectedOption && 'value' in selectedOption ? selectedOption.value : undefined;
+		setDefaultValue({ ...defaultValue, tindakanMasal: selectedOption })
 		setTindankanMasal(value)
-	};
+	}
+
 
 
 	const _getTableData = async () => {
@@ -331,8 +341,9 @@ const DataKta: React.FC<iProps> = (props) => {
 					<FormGroup>
 						<Select<SelectOption>
 							instanceId="select-bulk"
+							defaultValue={defaultValue.tindakanMasal}
 							options={options.tindakanMasal}
-							onChange={handleSelectBulkChange}
+							onChange={(e: any) => handleSelectBulkChange(e)}
 							placeholder="Tindakan masal"
 							clearable
 						/>

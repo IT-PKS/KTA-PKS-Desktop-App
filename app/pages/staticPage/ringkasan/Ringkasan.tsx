@@ -35,7 +35,7 @@ const Ringkasan = () => {
                 <div>
                     <div css={[styles.white__card__custom]}>
                         <h2 css={[styles.heading]}>Total Data</h2>
-                        <span css={[styles.number__total__data]}>{total && total['se-Indonesia']} KTA</span>
+                        <span css={[styles.number__total__data]}>{total} KTA</span>
                         <span css={[styles.se__indonesia]}>se-Indonesia</span>
                     </div>
                     <div css={[styles.white__card__custom]}>
@@ -72,7 +72,7 @@ const Ringkasan = () => {
                     <div css={[styles.white__card__custom]}>
                         <h1 css={[styles.heading]}>Laki-laki : Perempuan</h1>
                         <div css={[styles.odd__row__jenis_kelamin]}>
-                            <div css={[styles.angka__laki__laki__typography]}>{datas && datas?.gender['Laki-laki']}</div>
+                            <div css={[styles.angka__laki__laki__typography]}>{datas && datas?.gender['Laki - Laki']}</div>
                             <div css={[styles.laki__laki__typography]}>Laki-laki</div>
                         </div>
                         <div css={[styles.even__row__jenis__kelamin]}>

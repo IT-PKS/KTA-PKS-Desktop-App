@@ -879,14 +879,14 @@ const PersonalData: React.FC<iProps> = props => {
   return (
     <Fragment>
       <Card transparent>
-        <div>
+        {/* <div>
           <Button icon={{ name: 'user-plus' }} type="submit" style={{ width: '211px', height: '51px' }}>
             Tambah Satu Data
           </Button>
           <Button variant="light" icon={{ name: 'users' }} type="submit" style={{ width: '211px', height: '51px', marginLeft: '10px' }}>
             Tambah Banyak Data
         </Button>
-        </div>
+        </div> */}
 
         <div css={[styles.white__card__custom]}>
           {/* Form */}
