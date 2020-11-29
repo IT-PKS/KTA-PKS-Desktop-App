@@ -11,3 +11,4 @@ yarn-error.log
 app/dist/
 app/database/kta-pks.sql
 *.sql
+app/database/kta-pks.sql

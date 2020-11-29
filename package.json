@@ -4,7 +4,7 @@
    "productName": "KTA PKS",
    "private": true,
    "version": "0.0.1",
-   "homepage": "https://github.com/IT-PKS/kta-desktop",
+   "homepage": "https://github.com/IT-PKS/KTA-PKS-Desktop-App",
    "main": "dist/main.js",
    "author": {
       "name": "Partai Keadilan Sejahtera (PKS)",
@@ -93,6 +93,7 @@
       "electron-updater": "^4.3.5",
       "emotion-theming": "^10.0.27",
       "facepaint": "^1.2.1",
+      "getmac": "^5.17.0",
       "immer": "^7.0.9",
       "immutability-helper": "^3.1.1",
       "isomorphic-dompurify": "^0.8.0",

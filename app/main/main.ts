@@ -63,7 +63,7 @@ const createWindow = () => {
     sendStatusToWindow('Checking for update...');
   })
   autoUpdater.on('update-available', (info) => {
-    sendStatusToWindow('Update available.');
+    sendStatusToWindow('Update available');
   })
   autoUpdater.on('update-not-available', (info) => {
     sendStatusToWindow('Update not available.');
