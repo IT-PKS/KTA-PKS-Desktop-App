@@ -9,10 +9,7 @@ export const addLocalUser = async (param: any) => {
     const connection: any = await initSQLite([User])
 
     let theUser = {
-        "email": "root@admin.com",
-        "firstName": "Bakti",
-        "lastName": "Pratama",
-        "password": "tes",
+        "hashKey": param.hashKey,
         "serialKey": param.key || "LSHDTCRWHSKTYUHS"
     }
     const user = new User(theUser)

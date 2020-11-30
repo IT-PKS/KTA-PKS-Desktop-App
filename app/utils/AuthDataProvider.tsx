@@ -106,8 +106,8 @@ export const useAuthDataContext = () => {
     formData.device_name = deviceName
     formData.device_mac = deviceMac
     const { data, error } = await _postSerialKey(formData)
+    formData.hashKey = data.data.hash
     if (error) {
-      console.log("🚀 ~ file: AuthDataProvider.tsx ~ line 105 ~ onSubmitLicense ~ error", error)
       alert('Invalid SerialKey')
     } else {
       const user = await addLocalUser(formData)
