@@ -7,8 +7,9 @@ import { Theme } from '../../../components/base/src/theme';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import { ValueType } from 'react-select';
 import isNull from 'lodash/isNull';
-
+import { checkInternetConnection } from '../../../utils/utils';
 import Card from '../../../components/deskstop/Card/Card';
+import initSQLite from '../../../services/sqlite/initSQLite'
 
 import formHelper, {
   RegisterFormData,
@@ -16,6 +17,9 @@ import formHelper, {
   SelectKeys,
   ErrorMessageKeys,
 } from '../../../components/base/src/staticPages/Register/Register.formHelper';
+
+// Local Models
+import { Gender } from '../../../entity/Gender'
 
 import {
   getGenders,
@@ -105,8 +109,18 @@ const PersonalData: React.FC<iProps> = props => {
   };
 
   const _handleGetGenders = async () => {
-    const { data: jenisKelamin } = await getGenders();
-    setJenisKelamin(normalizeDropdown(jenisKelamin, 'gender'));
+    try {
+      console.log('Check Connection...')
+      await checkInternetConnection()
+      const { data: jenisKelamin } = await getGenders();
+      setJenisKelamin(normalizeDropdown(jenisKelamin, 'gender'));
+    } catch (error) {
+      console.log('get data locally...')
+      const connection: any = await initSQLite([Gender])
+      const jenisKelamin = await connection.manager.find(Gender)
+      console.log("🚀 ~ file: PersonalData.tsx ~ line 123 ~ const_handleGetGenders= ~ jenisKelamin", jenisKelamin)
+      setJenisKelamin(normalizeDropdown(jenisKelamin, 'gender'));
+    }
   }
 
   const _handleGetCountries = async () => {
