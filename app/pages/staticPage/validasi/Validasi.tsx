@@ -64,8 +64,8 @@ const Validasi: React.FC<any> = (props) => {
   const [idAll, setIdAll] = useState<any>([])
   const [selected, setSelected] = useState<any>([])
   const [showActiveSearch, setShowActiveSearch] = useState<boolean>(false)
-  // const [sortCol, setSortCol] = useState<number>(1)
-  // const [sortBy, setSortBy] = useState<number>(1)
+  const [sortCol, setSortCol] = useState<string>("")
+  const [sortBy, setSortBy] = useState<any>("")
 
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [total, setTotal] = useState<number>(1)
@@ -126,6 +126,13 @@ const Validasi: React.FC<any> = (props) => {
     setIsDeleting(true)
   }
 
+  const _handleSortChange = async (...args: any) => {
+    console.log("🚀 ~ file: Validasi.tsx ~ line 130 ~ const_handleSortChange= ~ args", args)
+
+    const [sortByCol, direction] = args
+    setSortCol(sortByCol)
+    setSortBy(direction)
+  }
 
   const CheckBoxHeader = () => (
     <Checkbox
@@ -156,6 +163,7 @@ const Validasi: React.FC<any> = (props) => {
       key: 'created_at',
       width: 120,
       sort: true,
+      onSortChange: (direction: string) => _handleSortChange('created_at', direction),
     },
     {
       title: 'NIK',
@@ -163,6 +171,7 @@ const Validasi: React.FC<any> = (props) => {
       key: 'id_card',
       width: 200,
       sort: true,
+      onSortChange: (direction: string) => _handleSortChange('id_card', direction),
 
     },
     {
@@ -171,6 +180,7 @@ const Validasi: React.FC<any> = (props) => {
       key: 'fullname',
       width: 250,
       sort: true,
+      onSortChange: (direction: string) => _handleSortChange('fullname', direction),
     },
     {
       title: 'Kode Registrasi',
@@ -260,21 +270,31 @@ const Validasi: React.FC<any> = (props) => {
     fullname: inputName || undefined,
     id_card: inputNik || undefined,
     page: page,
-    limit: perPage,
-    // sort_col: sortCol,
-    // sort_by: sortBy,
+    limit: perPage
   })
+
+  const sorterLogic = (payload: any) => {
+    let newPayload = payload
+
+    if (sortCol) newPayload = { ...payload, sort_col: sortCol }
+    if (sortBy) newPayload = { ...payload, sort_by: sortBy }
+    if (sortBy && sortCol) newPayload = { ...payload, sort_col: sortCol, sort_by: sortBy }
+
+    return newPayload
+  }
 
   const _getTableData = async () => {
     setIsTableLoading(true)
-    const { data, meta } = await getListUnverifiedMembers(getPayload())
+    let payload = getPayload()
+    const newPayload = sorterLogic(payload)
+    const { data, meta } = await getListUnverifiedMembers(newPayload)
     setCurrentPage(meta?.current_page)
     setTotal(meta?.total)
     setLastPage(meta?.last_page)
     setDatas(data)
     setIsTableLoading(false)
     let arr = []
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data?.length; i++) {
       arr.push(data[i].id)
     }
     setIdAll([...idAll, arr])
@@ -296,7 +316,7 @@ const Validasi: React.FC<any> = (props) => {
 
   useEffect(() => {
     _getTableData()
-  }, [page, perPage, inputName, inputNik])
+  }, [page, perPage, inputName, inputNik, sortCol, sortBy])
 
   const Content = () => {
     return (
