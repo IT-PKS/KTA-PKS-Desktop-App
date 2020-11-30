@@ -89,7 +89,7 @@ export const useAuthDataContext = () => {
   const onLogin = async (newAuthData: AuthData) => {
     setAuthData({ ...authData, loading: true })
     try {
-      console.log('Check Connextion...')
+      console.log('Check Connection...')
       await checkInternetConnection()
       onLoginOnline(newAuthData)
     } catch (error) {

@@ -1,4 +1,6 @@
 import { createConnection, getConnectionManager } from "typeorm";
+import { Gender } from '../../entity/Gender'
+
 
 const initSQLite = async (Entity: any) => {
     try {
@@ -8,7 +10,7 @@ const initSQLite = async (Entity: any) => {
             "database": "app/database/kta-pks.sql",
             "synchronize": true,
             "logging": false,
-            "entities": [...Entity]
+            "entities": [...Entity, Gender]
         })
         return connection
     } catch (error) {

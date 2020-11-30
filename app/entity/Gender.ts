@@ -9,15 +9,15 @@ export class Gender {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column('varchar', { nullable: false })
+    @Column('varchar', { nullable: true })
     gender!: string;
 
-    @Column('datetime', { nullable: false })
+    @Column('varchar', { nullable: true })
     @CreateDateColumn()
-    created_at!: Date;
+    created_at!: string;
 
-    @Column('datetime', { nullable: false })
+    @Column('varchar', { nullable: true })
     @UpdateDateColumn()
-    updated_at!: Date;
+    updated_at!: string;
 
 }
