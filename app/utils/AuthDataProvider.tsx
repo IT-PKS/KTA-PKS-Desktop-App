@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from "react"
 import { _postAuthLogin, serialKey, addLocalUser, updatePasswordLocal, loginLocal, _postSerialKey } from '../client/AuthClient'
-import { checkInternetConnection } from './utils'
+import { checkInternetConnection } from './Utils'
 import { useHistory } from "react-router-dom";
 import os from 'os'
 import getMac from 'getmac'
@@ -90,7 +90,7 @@ export const useAuthDataContext = () => {
     setAuthData({ ...authData, loading: true })
     try {
       console.log('Check Connection...')
-      await checkInternetConnection()
+      await checkInternetConnection(3000)
       onLoginOnline(newAuthData)
     } catch (error) {
       console.log('logging in locally...')

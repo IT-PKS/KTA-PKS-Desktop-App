@@ -7,7 +7,7 @@ import { Theme } from '../../../components/base/src/theme';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import { ValueType } from 'react-select';
 import isNull from 'lodash/isNull';
-import { checkInternetConnection } from '../../../utils/utils';
+import { checkInternetConnection } from '../../../utils/Utils';
 import Card from '../../../components/deskstop/Card/Card';
 import initSQLite from '../../../services/sqlite/initSQLite'
 
@@ -111,7 +111,8 @@ const PersonalData: React.FC<iProps> = props => {
   const _handleGetGenders = async () => {
     try {
       console.log('Check Connection...')
-      await checkInternetConnection()
+      const inet = await checkInternetConnection(3000)
+      console.log("🚀 ~ file: PersonalData.tsx ~ line 115 ~ const_handleGetGenders= ~ inet", inet)
       const { data: jenisKelamin } = await getGenders();
       setJenisKelamin(normalizeDropdown(jenisKelamin, 'gender'));
     } catch (error) {
