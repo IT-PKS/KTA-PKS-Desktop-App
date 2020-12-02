@@ -5,7 +5,6 @@ import installExtension, {
 } from 'electron-devtools-installer';
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
-import fs from 'fs'
 // import path from 'path';
 
 //-------------------------------------------------------------------
@@ -19,24 +18,6 @@ import fs from 'fs'
 autoUpdater.logger = log;
 // autoUpdater.logger.transports.file.level = 'info';
 log.info('App starting...');
-// const copyInitialDB = async () => {
-//   const pathFile = app.getPath('userData') + '/databases/kta-pks.sql'
-
-//   try {
-//     if (fs.existsSync(pathFile)) {
-//       //file exists
-//       console.log('Database exist, proceeding ...');
-
-//     }
-//   } catch (err) {
-//     console.log("Database doesn't exist, installing Inital Database", err)
-//     fs.copyFile('app/database/kta-pks.sql', pathFile, (err) => {
-//       if (err) throw err;
-//       console.log('Initial database was copied');
-//     });
-//   }
-// };
-// copyInitialDB()
 // Supress warning
 // https://github.com/electron/electron/issues/18397
 app.allowRendererProcessReuse = false;

@@ -21,7 +21,7 @@ export class User {
     @Column('varchar', { nullable: true })
     password!: string;
 
-    @Column('varchar', { nullable: false })
+    @Column('varchar', { nullable: true })
     serialKey!: string;
 
     @Column('varchar', { nullable: true })

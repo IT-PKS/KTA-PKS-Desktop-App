@@ -8,8 +8,12 @@ import configureStore from 'store/configureStore';
 import "reflect-metadata";
 import { copyInitialDB, checkApplicationUpdate } from './utils/Utils'
 
-copyInitialDB()
-checkApplicationUpdate()
+// const init = async () => {
+//   await copyInitialDB()
+//   checkApplicationUpdate()
+// }
+
+// init()
 
 const store = configureStore();
 render(

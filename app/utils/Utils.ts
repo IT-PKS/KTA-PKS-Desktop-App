@@ -17,10 +17,11 @@ export const checkInternetConnection = async (ms: number) => {
 
 export const copyInitialDB = async () => {
 
+    const sourceFile = "app/database/kta-pks.sql"
+    console.log("🚀 ~ file: Utils.ts ~ line 21 ~ copyInitialDB ~ sourceFile", sourceFile)
     const pathFile = app.getPath('userData') + '/databases/kta-pks.sql'
 
     console.log(fs.existsSync(pathFile));
-
 
     try {
         if (fs.existsSync(pathFile)) {
@@ -28,7 +29,7 @@ export const copyInitialDB = async () => {
             console.log('Database exist, proceeding ...');
 
         } else {
-            fs.copyFile('app/database/kta-pks.sql', pathFile, (err) => {
+            fs.copyFile('./resources/app.asar/app/database/kta-pks.sql', pathFile, (err) => {
                 if (err) throw err;
                 console.log('Initial database was copied');
             });
