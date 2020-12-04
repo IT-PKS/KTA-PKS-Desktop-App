@@ -1,15 +1,19 @@
 import { createConnection, getConnectionManager } from "typeorm";
-import { Gender } from '../../entity/Gender'
 import { remote } from 'electron'
 import { log } from "console";
 const { app } = remote
 
-const initSQLite = async (Entity: any) => {
+// Models
+import { User } from '../../entity/User'
+import { Gender } from '../../entity/Gender'
+import { Religion } from '../../entity/Religion'
+import { Occupation } from '../../entity/Occupation'
+import { Education } from '../../entity/Education'
+import { MaritalStatus } from '../../entity/MaritalStatus'
+import { Blood } from '../../entity/Blood'
+
+const initSQLite = async () => {
     try {
-        console.log(app.getPath('userData') + "/databases/kta-pks.sql");
-        console.log(app.getAppPath());
-
-
         const connection = await createConnection({
             "name": "pks-db",
             "type": "sqlite",
@@ -17,13 +21,19 @@ const initSQLite = async (Entity: any) => {
             "database": app.getPath('userData') + "/databases/kta-pks.sql",
             "synchronize": true,
             "logging": false,
-            "entities": [...Entity]
+            "entities": [
+                User,
+                Gender,
+                Religion,
+                Occupation,
+                Education,
+                MaritalStatus,
+                Blood,
+            ]
         })
+        console.log("🚀 ~ file: initSQLite.tsx ~ line 34 ~ initSQLite ~ path", app.getPath('userData') + "/databases/kta-pks.sql")
         return connection
     } catch (error) {
-        console.log('====================================');
-        console.log(error);
-        console.log('====================================');
         if (error.name === "AlreadyHasActiveConnectionError") {
             const existentConn = getConnectionManager().get("pks-db");
             return existentConn;
