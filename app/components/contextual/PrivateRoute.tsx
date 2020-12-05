@@ -19,7 +19,11 @@ const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }) => {
 
   const Template = (props: any) => (
     <>
-      <Header logo={LogoPortrait} dropdownMenu={[{ label: 'Logout', onClick: onLogout }]} />
+      <Header
+        userEmail={localStorage.getItem('user')?.replace(/"/g, '')}
+        logo={LogoPortrait}
+        dropdownMenu={[{ label: 'Logout', onClick: onLogout }]}
+      />
       <Sidebar />
       {props.children}
     </>
