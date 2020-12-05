@@ -6,7 +6,7 @@ import sha256 from 'js-sha256';
 
 
 export const addLocalUser = async (param: any) => {
-    const connection: any = await initSQLite([User])
+    const connection: any = await initSQLite()
 
     let theUser = {
         "hashKey": param.hashKey,
@@ -15,14 +15,16 @@ export const addLocalUser = async (param: any) => {
     const user = new User(theUser)
 
     await connection.manager.save(user)
-    // const users = await connection.manager.find(User)
+    const users = await connection.manager.find(User)
+    console.log("🚀 ~ file: AuthClient.ts ~ line 19 ~ addLocalUser ~ users", users)
+
     connection.close()
     return user
 }
 
 export const updatePasswordLocal = async (payload: any) => {
     try {
-        const connection: any = await initSQLite([User])
+        const connection: any = await initSQLite()
         let userToUpdate = await connection.manager.findOne(User, { email: payload.email });
         userToUpdate.password = sha256(payload.password);
         return await connection.manager.save(userToUpdate);
@@ -33,7 +35,7 @@ export const updatePasswordLocal = async (payload: any) => {
 
 export const loginLocal = async (payload: any) => {
     try {
-        const connection: any = await initSQLite([User])
+        const connection: any = await initSQLite()
         const user = await connection.manager.find(User, { where: { email: payload.email, password: sha256(payload.password) } });
         if (user.length) {
             return true
@@ -44,8 +46,9 @@ export const loginLocal = async (payload: any) => {
 }
 
 export const serialKey = async () => {
-    const connection: any = await initSQLite([User])
+    const connection: any = await initSQLite()
     const user = await connection.manager.find(User)
+    console.log("🚀 ~ file: AuthClient.ts ~ line 51 ~ serialKey ~ user", user)
     try {
         const res = user.length ? user[0].serialKey : ''
         return res

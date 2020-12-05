@@ -6,6 +6,14 @@ import { Provider } from 'react-redux';
 import App from 'components/contextual/App';
 import configureStore from 'store/configureStore';
 import "reflect-metadata";
+import { copyInitialDB, checkApplicationUpdate } from './utils/Utils'
+
+// const init = async () => {
+//   await copyInitialDB()
+//   checkApplicationUpdate()
+// }
+
+// init()
 
 const store = configureStore();
 render(

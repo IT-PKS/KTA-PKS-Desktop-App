@@ -1,11 +1,14 @@
 const path = require('path');
 const webpack = require('webpack');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-
+const CopyPlugin = require("copy-webpack-plugin");
 const env = process.env.NODE_ENV || 'development';
 
 module.exports = {
   mode: env,
+  optimization: {
+    minimize: false
+  },
   externals: {
     sqlite3: 'commonjs sqlite3',
     typeorm: 'commonjs typeorm'
@@ -28,6 +31,14 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(env),
+      },
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: "./app/database/kta-pks.sql", to: "./app/database/kta-pks.sql" }
+      ],
+      options: {
+        concurrency: 100,
       },
     }),
   ],

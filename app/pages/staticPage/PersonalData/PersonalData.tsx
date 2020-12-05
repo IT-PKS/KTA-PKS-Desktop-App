@@ -7,7 +7,7 @@ import { Theme } from '../../../components/base/src/theme';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import { ValueType } from 'react-select';
 import isNull from 'lodash/isNull';
-import { checkInternetConnection } from '../../../utils/utils';
+import { checkInternetConnection } from '../../../utils/Utils';
 import Card from '../../../components/deskstop/Card/Card';
 import initSQLite from '../../../services/sqlite/initSQLite'
 
@@ -19,7 +19,13 @@ import formHelper, {
 } from '../../../components/base/src/staticPages/Register/Register.formHelper';
 
 // Local Models
+import { User } from '../../../entity/User'
 import { Gender } from '../../../entity/Gender'
+import { Religion } from '../../../entity/Religion'
+import { Occupation } from '../../../entity/Occupation'
+import { Education } from '../../../entity/Education'
+import { MaritalStatus } from '../../../entity/MaritalStatus'
+import { Blood } from '../../../entity/Blood'
 
 import {
   getGenders,
@@ -108,18 +114,88 @@ const PersonalData: React.FC<iProps> = props => {
     return arrayObj;
   };
 
+  const internetTimeout: number = 3000
   const _handleGetGenders = async () => {
     try {
       console.log('Check Connection...')
-      await checkInternetConnection()
+      await checkInternetConnection(internetTimeout)
       const { data: jenisKelamin } = await getGenders();
       setJenisKelamin(normalizeDropdown(jenisKelamin, 'gender'));
     } catch (error) {
       console.log('get data locally...')
-      const connection: any = await initSQLite([Gender])
+      const connection: any = await initSQLite()
       const jenisKelamin = await connection.manager.find(Gender)
-      console.log("🚀 ~ file: PersonalData.tsx ~ line 123 ~ const_handleGetGenders= ~ jenisKelamin", jenisKelamin)
       setJenisKelamin(normalizeDropdown(jenisKelamin, 'gender'));
+    }
+  }
+
+  const _handleGetReligions = async () => {
+    try {
+      console.log('Check Connection...')
+      await checkInternetConnection(internetTimeout)
+      const { data: agama } = await getReligions();
+      setAgama(normalizeDropdown(agama, 'religion'));
+    } catch (error) {
+      console.log('get data locally...')
+      const connection: any = await initSQLite()
+      const agama = await connection.manager.find(Religion)
+      setAgama(normalizeDropdown(agama, 'religion'));
+    }
+  }
+
+  const _handleGetOccupations = async () => {
+    try {
+      console.log('Check Connection...')
+      await checkInternetConnection(internetTimeout)
+      const { data: pekerjaan } = await getOccupations();
+      setPekerjaan(normalizeDropdown(pekerjaan, 'occupation'));
+    } catch (error) {
+      console.log('get data locally...')
+      const connection: any = await initSQLite()
+      const pekerjaan = await connection.manager.find(Occupation)
+      setPekerjaan(normalizeDropdown(pekerjaan, 'occupation'));
+    }
+  }
+
+  const _handleGetEducations = async () => {
+    try {
+      console.log('Check Connection...')
+      await checkInternetConnection(internetTimeout)
+      const { data: pendidikanTerakhir } = await getEducations();
+      setPendidikanTerakhir(normalizeDropdown(pendidikanTerakhir, 'education'));
+    } catch (error) {
+      console.log('get data locally...')
+      const connection: any = await initSQLite()
+      const pendidikanTerakhir = await connection.manager.find(Education)
+      setPendidikanTerakhir(normalizeDropdown(pendidikanTerakhir, 'education'));
+    }
+  }
+
+  const _handleGetMarital = async () => {
+    try {
+      console.log('Check Connection...')
+      await checkInternetConnection(internetTimeout)
+      const { data: statusPerkawinan } = await getMarital();
+      setStatusPerkawinan(normalizeDropdown(statusPerkawinan, 'status'));
+    } catch (error) {
+      console.log('get data locally...')
+      const connection: any = await initSQLite()
+      const statusPerkawinan = await connection.manager.find(MaritalStatus)
+      setStatusPerkawinan(normalizeDropdown(statusPerkawinan, 'status'));
+    }
+  }
+
+  const _handleGetBloodType = async () => {
+    try {
+      console.log('Check Connection...')
+      await checkInternetConnection(internetTimeout)
+      const { data: golonganDarah } = await getBloodType();
+      setGolonganDarah(normalizeDropdown(golonganDarah, 'blood'));
+    } catch (error) {
+      console.log('get data locally...')
+      const connection: any = await initSQLite()
+      const golonganDarah = await connection.manager.find(Blood)
+      setGolonganDarah(normalizeDropdown(golonganDarah, 'blood'));
     }
   }
 
@@ -131,31 +207,6 @@ const PersonalData: React.FC<iProps> = props => {
   const _handleGetProvinces = async () => {
     const { data: provinsi } = await getProvinces();
     setProvinsi(normalizeDropdown(provinsi, 'name'),);
-  }
-
-  const _handleGetReligions = async () => {
-    const { data: agama } = await getReligions();
-    setAgama(normalizeDropdown(agama, 'religion'));
-  }
-
-  const _handleGetOccupations = async () => {
-    const { data: pekerjaan } = await getOccupations();
-    setPekerjaan(normalizeDropdown(pekerjaan, 'occupation'));
-  }
-
-  const _handleGetEducations = async () => {
-    const { data: pendidikanTerakhir } = await getEducations();
-    setPendidikanTerakhir(normalizeDropdown(pendidikanTerakhir, 'education'));
-  }
-
-  const _handleGetMarital = async () => {
-    const { data: statusPerkawinan } = await getMarital();
-    setStatusPerkawinan(normalizeDropdown(statusPerkawinan, 'status'));
-  }
-
-  const _handleGetBloodType = async () => {
-    const { data: golonganDarah } = await getBloodType();
-    setGolonganDarah(normalizeDropdown(golonganDarah, 'blood'));
   }
 
   const _hanldeGetCities = async (provincyId: string) => {

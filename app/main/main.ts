@@ -18,7 +18,6 @@ import { autoUpdater } from 'electron-updater';
 autoUpdater.logger = log;
 // autoUpdater.logger.transports.file.level = 'info';
 log.info('App starting...');
-
 // Supress warning
 // https://github.com/electron/electron/issues/18397
 app.allowRendererProcessReuse = false;
