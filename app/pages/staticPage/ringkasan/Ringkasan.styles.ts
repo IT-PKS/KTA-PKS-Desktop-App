@@ -37,7 +37,7 @@ const createStyles = (t: Theme) => {
     odd__row: css`
       display: flex;
       justify-content: space-between;
-      background-color: rgba(250, 203, 0, 0.1);
+      background-color:${t.color.yellowLight};
       padding: 10px;
       width: 297px;
       heigth: 41px;
@@ -57,7 +57,7 @@ const createStyles = (t: Theme) => {
       align-items: center;
       font-size: 24px;
       flex-direction: column;
-      background-color: rgba(250, 203, 0, 0.1);
+      background-color:${t.color.yellowLight};
       padding: 10px;
       width: 297px;
       heigth: 41px;

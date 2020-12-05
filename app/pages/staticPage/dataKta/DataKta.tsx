@@ -25,6 +25,9 @@ import {
 	Icon
 } from 'kta-ui-components';
 
+import { options } from '../../../utils/DataHelpers'
+
+
 type iProps = {
 	defaultValues?: { [K in keyof RegisterFormData]?: RegisterFormData[K] };
 	state?: 'default' | 'success' | 'failed';
@@ -38,19 +41,6 @@ const DataKta: React.FC<iProps> = (props) => {
 	const theme = useTheme<Theme>();
 	const styles = createStyles(theme);
 	const [datas, setDatas] = useState([])
-
-
-	const [options, setOptions] = React.useState<any | []>({
-		showEntris: [
-			{ label: '10', value: '10', },
-			{ label: '25', value: '25', },
-			{ label: '50', value: '50', },
-			{ label: '100', value: '100', },
-		],
-		tindakanMasal: [
-			{ label: 'Hapus', value: 'DELETED', },
-		]
-	})
 
 	const [columnsMain, setColumnsMain] = useState([
 		{
@@ -328,7 +318,7 @@ const DataKta: React.FC<iProps> = (props) => {
 									onChange={(e) => _handleShowColumn(e)}
 									checked={checkIncludes(v.name)}
 								/>
-								<label>{v.name}</label>
+								<label>&nbsp;{v.name}</label>
 							</div>
 						)
 					})

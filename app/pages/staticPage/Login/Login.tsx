@@ -21,7 +21,7 @@ import { autoUpdater } from 'electron-updater';
 import { Button, Input, Label, Panel, FormGroup, Checkbox, Row, Column } from 'kta-ui-components';
 
 // Images
-import logoImg from '../../../components/base/src/img/logo-71x100.png';
+import LogoPortrait from '../../../components/Logo/LogoPortrait';
 
 // export const addLocalUser = async () => {
 //   const connection: any = await initSQLite([Country, Province, City, District, SubDistrict])
@@ -101,7 +101,7 @@ const Login: React.FC<iProps> = (props) => {
       <div css={styles.wrapper}>
         <Panel css={styles.panel}>
           <div css={styles.header}>
-            <img src={logoImg} alt="Logo PKS" />
+            <LogoPortrait width={80} height={80} />
             <div css={styles.headerText}>
               <h3>
                 Admin Dasbor KTA

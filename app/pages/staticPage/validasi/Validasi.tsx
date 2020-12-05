@@ -10,6 +10,7 @@ import createStyles from './Validasi.styles';
 import Table from '../../../components/base/src/components/Table/Table'
 import { SelectOption } from '../../../components/base/src/staticPages/Register/Register.formHelper';
 import ModalDeleteMember from '../../../components/contextual/ModalDeleteMember'
+import ModalMemberDetail from '../../../components/contextual/ModalMemberDetail/ModalMemberDetail'
 
 import ValidasiInternet from './ValidasiInternet'
 import {
@@ -21,7 +22,9 @@ import {
   Select,
   Icon,
   Checkbox
-} from 'kta-ui-components';
+} from 'components/base';
+
+import { options } from '../../../utils/DataHelpers'
 
 type Inputs = {
   fullname: string,
@@ -34,23 +37,11 @@ const Validasi: React.FC<any> = (props) => {
   const theme = useTheme<Theme>();
   const styles = createStyles(theme);
   const [datas, setDatas] = useState([])
-
-  const [options, setOptions] = React.useState<any | []>({
-    showEntris: [
-      { label: '10', value: '10', },
-      { label: '25', value: '25', },
-      { label: '50', value: '50', },
-      { label: '100', value: '100', },
-    ],
-    tindakanMasal: [
-      { label: 'Validasi', value: 'APPROVED', },
-      { label: 'Hapus', value: 'DELETED', },
-    ]
-  })
-
+  const [idSelected, setIdSelected] = useState<string>("")
 
   const [tindakanMasal, setTindankanMasal] = useState([])
   const [showModalDelete, setShowModalDelete] = useState(false)
+  const [showModalLihat, setShowModalLihat] = useState<any>(false)
 
   const [checkInternet, setCheckInternet] = React.useState<Boolean>(true)
   const [messageSubmit, setMessageSubmit] = useState<string>("default")
@@ -121,14 +112,14 @@ const Validasi: React.FC<any> = (props) => {
   }
 
   const toggleModalDelete = () => setShowModalDelete(!showModalDelete)
+  const toggleModalLihat = () => { setShowModalLihat(!showModalLihat) }
+
   const handleDelete = (id: string) => {
     _handlePostMembers(id, "DELETED")
     setIsDeleting(true)
   }
 
   const _handleSortChange = async (...args: any) => {
-    console.log("🚀 ~ file: Validasi.tsx ~ line 130 ~ const_handleSortChange= ~ args", args)
-
     const [sortByCol, direction] = args
     setSortCol(sortByCol)
     setSortBy(direction)
@@ -199,7 +190,11 @@ const Validasi: React.FC<any> = (props) => {
           <div style={{ display: 'flex', flexDirection: 'column' }}>
 
             <a style={{ padding: '5px', width: '75px', backgroundColor: '#000', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
-              onClick={() => _handlePostMembers()}>
+              onClick={() => {
+                setIdSelected(id)
+                toggleModalLihat()
+              }
+              }>
               <Icon name={'address-card'} />&nbsp;
                     Lihat
                 </a><br />
@@ -425,6 +420,17 @@ const Validasi: React.FC<any> = (props) => {
           open={showModalDelete}
           toggle={toggleModalDelete}
         />
+        {showModalLihat &&
+
+          <ModalMemberDetail
+            open={showModalLihat}
+            toggle={toggleModalLihat}
+            data={datas.length > 1 && datas.find((v) => v.id === idSelected)}
+
+          />
+        }
+
+
       </Fragment >
     )
   }

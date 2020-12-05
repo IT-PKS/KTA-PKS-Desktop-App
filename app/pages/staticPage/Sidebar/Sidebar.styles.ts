@@ -9,7 +9,7 @@ const createStyles = (t: Theme) => {
       box-shadow: 6px 0px 10px rgba(0, 0, 0, 0.05);
       width: 208px;
       background-color: ${t.color.lightPrimary};
-      top: 92px;
+      top: 70px;
       left: 0px;
       bottom: 0;
       margin: 0;
@@ -41,17 +41,17 @@ const createStyles = (t: Theme) => {
         div{
           color: ${(t.color.darkPrimary)};
         }
-        color: ${t.color.yellowDark};
+        color: ${t.color.yellowPrimary};
         border-left: 5px solid ${t.color.redPrimary};
-        background-color: ${t.color.gray}
+        background-color: ${t.color.lightStain}
       }
       &.active{
         div{
           color: ${(t.color.darkPrimary)};
         }
-        color: ${t.color.yellowDark};
+        color: ${t.color.yellowPrimary};
         border-left: 5px solid ${t.color.redPrimary};
-        background-color: ${t.color.gray}
+        background-color: ${t.color.lightStain}
       }
       div {
         font-family: Open Sans;
@@ -85,7 +85,7 @@ const createStyles = (t: Theme) => {
           color: ${(t.color.darkPrimary)};
           background-color: ${t.color.lightPrimary}
         }
-        color: ${t.color.yellowDark};
+        color: ${t.color.yellowPrimary};
         border-left: 5px solid ${t.color.redPrimary};
         background-color: ${t.color.lightPrimary}
       }
@@ -112,14 +112,14 @@ const createStyles = (t: Theme) => {
             color: ${(t.color.darkPrimary)};
             background-color: ${t.color.lightPrimary}
           }
-          color: ${t.color.yellowDark};
+          color: ${t.color.yellowPrimary};
           border-left: 5px solid ${t.color.redPrimary};
           background-color: ${t.color.lightPrimary}
         }
       }
     `,
     icon_chevron_left: css`
-      color: ${t.color.darkNeutral};
+      color: #AAAAAA;
     `,
     sidebar_minimize: css`
       position:absolute;
@@ -136,7 +136,7 @@ const createStyles = (t: Theme) => {
       cursor: pointer; 
       transition: all 0.5s;
       &:hover {
-        background-color: ${t.color.yellowDark};
+        background-color: ${t.color.yellowPrimary};
         svg {
           color:  ${t.color.lightPrimary};
         }

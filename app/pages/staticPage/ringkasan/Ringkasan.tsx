@@ -44,7 +44,7 @@ const Ringkasan = () => {
                         {age &&
                             age?.map((v: string, i: number) => {
                                 return (
-                                    <div key={i} css={[styles.odd__row]}>
+                                    <div key={i} css={[i % 2 == 0 ? styles.odd__row : styles.even__row]}>
                                         <div>{v}</div>
                                         <div>{datas?.age[v]}</div>
                                     </div>
@@ -60,7 +60,7 @@ const Ringkasan = () => {
                         {location &&
                             location?.map((v: string, i: number) => {
                                 return (
-                                    <div key={i} css={[styles.odd__row]}>
+                                    <div key={i} css={[i % 2 == 0 ? styles.odd__row : styles.even__row]}>
                                         <div>{v}</div>
                                         <div>{datas?.location[v]}</div>
                                     </div>
@@ -70,16 +70,17 @@ const Ringkasan = () => {
 
                     </div>
                     <div css={[styles.white__card__custom]}>
+                        {console.log("🚀 ~ file: Ringkasan.tsx ~ line 90 ~ Ringkasan ~ datas", datas)}
                         <h1 css={[styles.heading]}>Laki-laki : Perempuan</h1>
                         <div css={[styles.odd__row__jenis_kelamin]}>
-                            <div css={[styles.angka__laki__laki__typography]}>{datas && datas?.gender['Laki - Laki']}</div>
+                            <div css={[styles.angka__laki__laki__typography]}>{datas.gender && datas?.gender['Laki - Laki']}</div>
                             <div css={[styles.laki__laki__typography]}>Laki-laki</div>
                         </div>
                         <div css={[styles.even__row__jenis__kelamin]}>
                             :
                     </div>
                         <div css={[styles.odd__row__jenis_kelamin]}>
-                            <div css={[styles.angka__perempuan__typography]}>{datas && datas?.gender['Perempuan']}</div>
+                            <div css={[styles.angka__perempuan__typography]}>{datas.gender && datas?.gender['Perempuan']}</div>
                             <div css={[styles.perempuan__typography]}>Perempuan</div>
                         </div>
                     </div>
