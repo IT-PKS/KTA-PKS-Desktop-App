@@ -12,7 +12,7 @@ import { useAuthDataContext } from 'utils/AuthDataProvider';
 import { Button, Input, Label, Panel, FormGroup } from 'kta-ui-components';
 
 // Images
-import logoImg from '../../components/base/src/img/logo-71x100.png';
+import LogoPortrait from '../../components/Logo/LogoPortrait';
 
 type LicenseFormData = {
   license: string;
@@ -48,7 +48,7 @@ const LicenseKey: React.FC<ILogin> = (props) => {
       <div css={styles.wrapper}>
         <Panel css={styles.panel}>
           <div css={styles.header}>
-            <img src={logoImg} alt="Logo PKS" />
+            <LogoPortrait width={80} height={80} />
             <div css={styles.headerText}>
               <h3>
                 Admin Dasbor KTA

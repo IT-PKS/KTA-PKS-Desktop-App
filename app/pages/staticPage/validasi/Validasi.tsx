@@ -280,7 +280,7 @@ const Validasi: React.FC<any> = (props) => {
 
   const _getTableData = async () => {
     setIsTableLoading(true)
-    let payload = getPayload()
+    const payload = getPayload()
     const newPayload = sorterLogic(payload)
     const { data, meta } = await getListUnverifiedMembers(newPayload)
     setCurrentPage(meta?.current_page)
@@ -350,13 +350,14 @@ const Validasi: React.FC<any> = (props) => {
                 <div css={[styles.searchInfo, styles.mtxs]}>
                   Pencarian aktif:&nbsp;
                   {!inputNik && !inputName && <strong>Tidak Ada</strong>}
-                  {inputNik && <strong>nik: {inputNik}</strong>}
-                  {inputName && <strong>nama: {inputName}</strong>}
+                  {inputNik && <strong>Nik: {inputNik}</strong>}
+                  {inputName && <strong>Nama: {inputName}</strong>}
                 </div>
               }
             </Column>
           </Row>
         </form>
+        <br />
         <Row>
           <Column col={[12, 12, 4]}>
             {/* Tindakan Masal */}
@@ -371,7 +372,6 @@ const Validasi: React.FC<any> = (props) => {
               />
             </FormGroup>
           </Column>
-
 
           <Column col={[12, 12, 4]}>
             <Button

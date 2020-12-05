@@ -2,17 +2,20 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import Card from 'components/deskstop/Card/Card'
 import { jsx } from '@emotion/core';
-import { getListUnverifiedMembers, postVerifiedMembers } from '../../../client/MemberClient'
+import { getListdMembers, postVerifiedMembers } from '../../../client/MemberClient'
 import { useTheme } from 'emotion-theming';
 import createStyles from './DataKta.styles';
 import { Theme } from '../../../components/base/src/theme';
 import Table from '../../../components/base/src/components/Table/Table'
 import ListCheckBox from './ListCheckBox'
+import { useForm } from 'react-hook-form';
 import {
 	RegisterFormData,
 	SelectOption
 } from '../../../components/base/src/staticPages/Register/Register.formHelper';
 import ValidasiInternet from '../validasi/ValidasiInternet'
+import ModalDeleteMember from '../../../components/contextual/ModalDeleteMember'
+import ModalMemberDetail from '../../../components/contextual/ModalMemberDetail/ModalMemberDetail'
 
 // Components
 import {
@@ -22,8 +25,9 @@ import {
 	Row,
 	Checkbox,
 	Select,
-	Icon
-} from 'kta-ui-components';
+	Icon,
+	Input
+} from 'components/base';
 
 import { options } from '../../../utils/DataHelpers'
 
@@ -37,10 +41,17 @@ type iProps = {
 	setState(value: any): any;
 };
 
+type Inputs = {
+	fullname: string,
+	id_card: string,
+	email: string,
+};
 const DataKta: React.FC<iProps> = (props) => {
+	const { register, handleSubmit } = useForm<Inputs>();
 	const theme = useTheme<Theme>();
 	const styles = createStyles(theme);
 	const [datas, setDatas] = useState([])
+	const [idSelected, setIdSelected] = useState<string>("")
 
 	const [columnsMain, setColumnsMain] = useState([
 		{
@@ -49,12 +60,16 @@ const DataKta: React.FC<iProps> = (props) => {
 			key: 'id_card',
 			width: 200,
 			sort: true,
+			onSortChange: (direction: string) => _handleSortChange('id_card', direction),
+
 		},
 		{
 			title: 'Nama Lengkap',
 			dataIndex: 'fullname',
 			key: 'fullname',
 			width: 250,
+			sort: true,
+			onSortChange: (direction: string) => _handleSortChange('fullname', direction),
 		},
 		{
 			title: 'Alamat',
@@ -65,6 +80,9 @@ const DataKta: React.FC<iProps> = (props) => {
 	])
 
 	const [tindakanMasal, setTindankanMasal] = useState([])
+	const [showModalDelete, setShowModalDelete] = useState(false)
+	const [showModalLihat, setShowModalLihat] = useState<any>(false)
+
 	const [checkInternet, setCheckInternet] = React.useState<Boolean>(true)
 	const [messageSubmit, setMessageSubmit] = useState<string>("default")
 	const [isTableLoading, setIsTableLoading] = useState<boolean>(false)
@@ -74,8 +92,15 @@ const DataKta: React.FC<iProps> = (props) => {
 	const [selectAll, setSelectAll] = useState<boolean>(false)
 	const [idAll, setIdAll] = useState<any>([])
 	const [selected, setSelected] = useState<any>([])
-	// const [sortCol, setSortCol] = useState<number>(1)
-	// const [sortBy, setSortBy] = useState<number>(1)
+	const [sortCol, setSortCol] = useState<string>("")
+	const [sortBy, setSortBy] = useState<any>("")
+	const [isDeleting, setIsDeleting] = useState<boolean>(false)
+	const [activeRecord, setActiveRecord] = useState<any>(false)
+	const [inputName, setInputName] = useState<string>('')
+	const [inputNik, setInputNik] = useState<string>('')
+	const [inputEmail, setInputEmail] = useState<string>('')
+	const [showActiveSearch, setShowActiveSearch] = useState<boolean>(false)
+
 
 	const [currentPage, setCurrentPage] = useState<number>(1)
 	const [total, setTotal] = useState<number>(1)
@@ -86,7 +111,21 @@ const DataKta: React.FC<iProps> = (props) => {
 		tindakanMasal: null
 	})
 
+	const _handleSortChange = async (...args: any) => {
+		const [sortByCol, direction] = args
+		setSortCol(sortByCol)
+		setSortBy(direction)
+	}
 
+	const sorterLogic = (payload: any) => {
+		let newPayload = payload
+
+		if (sortCol) newPayload = { ...payload, sort_col: sortCol }
+		if (sortBy) newPayload = { ...payload, sort_by: sortBy }
+		if (sortBy && sortCol) newPayload = { ...payload, sort_col: sortCol, sort_by: sortBy }
+
+		return newPayload
+	}
 	const handleSelectOnChange = (e: any, type: string) => {
 		switch (type) {
 			case 'showEntris':
@@ -159,37 +198,45 @@ const DataKta: React.FC<iProps> = (props) => {
 
 				<div style={{ display: 'flex', flexDirection: 'column' }}>
 					<a style={{ padding: '5px', width: '75px', backgroundColor: '#000', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
-						onClick={() => _handlePostMembers()}>
+						onClick={() => {
+							setIdSelected(id)
+							toggleModalLihat()
+						}
+						}>
 						<Icon name={'address-card'} />&nbsp;
-									Lihat
-							</a><br />
+                    Lihat
+                </a><br />
 					<a style={{ padding: '5px', width: '86px', backgroundColor: '#47B920', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
 						onClick={() => _handlePostMembers(id, "EDIT")}>
 						<Icon name={'edit'} />&nbsp;
 								Ubah
 						</a><br />
 					<a style={{ padding: '5px', width: '79px', backgroundColor: '#CE352D', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
-						onClick={() => _handlePostMembers(id, "DELETED")}>
+						onClick={() => {
+							setActiveRecord({ fullname: datas.find((v) => v.id === id).fullname })
+							toggleModalDelete()
+						}}
+					>
 						<Icon name={'trash'} />&nbsp;
-								Hapus
-					</a>
+                  Hapus
+              </a>
 				</div>
 
 			)
 		}
 	}]
 	const getPayload = () => ({
+		fullname: inputName || undefined,
+		id_card: inputNik || undefined,
+		email: inputEmail || undefined,
 		page: page,
 		limit: perPage,
-		// sort_col: sortCol,
-		// sort_by: sortBy,
+		is_active: 1
 	})
-
 
 	const handlePageChange = async (pageNum: number) => {
 		setPage(pageNum)
 	};
-
 
 	const handleSelectBulkChange = (selectedOption: any) => {
 		const value = selectedOption && 'value' in selectedOption ? selectedOption.value : undefined;
@@ -197,11 +244,11 @@ const DataKta: React.FC<iProps> = (props) => {
 		setTindankanMasal(value)
 	}
 
-
-
 	const _getTableData = async () => {
 		setIsTableLoading(true)
-		const { data, meta } = await getListUnverifiedMembers(getPayload())
+		const payload = getPayload()
+		const newPayload = sorterLogic(payload)
+		const { data, meta } = await getListdMembers(newPayload)
 		setCurrentPage(meta?.current_page)
 		setTotal(meta?.total)
 		setLastPage(meta?.last_page)
@@ -294,13 +341,28 @@ const DataKta: React.FC<iProps> = (props) => {
 		return res
 	}
 
+	const toggleModalDelete = () => setShowModalDelete(!showModalDelete)
+	const toggleModalLihat = () => { setShowModalLihat(!showModalLihat) }
+
+	const handleDelete = (id: string) => {
+		_handlePostMembers(id, "DELETED")
+		setIsDeleting(true)
+	}
+
+	const _handleSubmitSearch = (data: any) => {
+		setInputName(data.fullname)
+		setInputNik(data.id_card)
+		setInputEmail(data.email)
+		setShowActiveSearch(true)
+	}
+
 	useEffect(() => {
 		_getTableData()
 	}, [])
 
 	useEffect(() => {
 		_getTableData()
-	}, [page, perPage])
+	}, [page, perPage, inputName, inputNik, inputEmail, sortCol, sortBy])
 
 	const Content = () => (
 		<Fragment>
@@ -324,6 +386,60 @@ const DataKta: React.FC<iProps> = (props) => {
 					})
 				}
 			</div>
+			<br />
+			<form onSubmit={handleSubmit(_handleSubmitSearch)} noValidate>
+				<Row>
+					<Column col={[12, 12, 3]}>
+						{/* NIK */}
+						<FormGroup>
+							<Input
+								name="id_card"
+								innerRef={register}
+								type="text"
+								placeHolder="Cari Berdasarkan NIK"
+							/>
+						</FormGroup>
+					</Column>
+					<Column col={[12, 12, 3]}>
+						{/* Nama Panggilan */}
+						<FormGroup>
+							<Input
+								innerRef={register}
+								name="fullname"
+								type="text"
+								placeHolder="Cari Berdasarkan Nama"
+							/>
+						</FormGroup>
+					</Column>
+					<Column col={[12, 12, 3]}>
+						{/* Nama email */}
+						<FormGroup>
+							<Input
+								innerRef={register}
+								name="email"
+								type="email"
+								placeHolder="Cari Berdasarkan Email"
+							/>
+						</FormGroup>
+					</Column>
+					<Column col={[12, 12, 3]}>
+						<Button icon={{ name: 'search' }} type="submit" style={{ width: '83px', height: '35px' }}>
+							cari
+              </Button>
+					</Column>
+					<Column col={[12, 12, 12]}>
+						{showActiveSearch &&
+							<div css={[styles.searchInfo, styles.mtxs]}>
+								Pencarian aktif:&nbsp;
+                {!inputNik && !inputName && !inputEmail && <strong>Tidak Ada</strong>}
+								{inputNik && <strong>nik: {inputNik}</strong>}
+								{inputName && <strong>nama: {inputName}</strong>}
+								{inputEmail && <strong>email: {inputEmail}</strong>}
+							</div>
+						}
+					</Column>
+				</Row>
+			</form>
 			<br />
 			<Row>
 				<Column col={[12, 12, 4]}>
@@ -376,6 +492,23 @@ const DataKta: React.FC<iProps> = (props) => {
 					totalPage: lastPage,
 				}}
 			/>
+
+			<ModalDeleteMember
+				deleting={isDeleting}
+				fullname={activeRecord ? activeRecord.fullname : undefined}
+				onDelete={() => handleDelete(activeRecord.id)}
+				open={showModalDelete}
+				toggle={toggleModalDelete}
+			/>
+			{showModalLihat &&
+
+				<ModalMemberDetail
+					open={showModalLihat}
+					toggle={toggleModalLihat}
+					data={datas.length > 1 && datas.find((v) => v.id === idSelected)}
+
+				/>
+			}
 
 		</Fragment>
 	)
