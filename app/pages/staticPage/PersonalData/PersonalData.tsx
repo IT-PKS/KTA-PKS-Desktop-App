@@ -26,6 +26,11 @@ import { Occupation } from '../../../entity/Occupation'
 import { Education } from '../../../entity/Education'
 import { MaritalStatus } from '../../../entity/MaritalStatus'
 import { Blood } from '../../../entity/Blood'
+import { Country } from '../../../entity/Country'
+import { Province } from '../../../entity/Province'
+import { City } from '../../../entity/City'
+import { District } from '../../../entity/District'
+import { SubDistrict } from '../../../entity/SubDistrict'
 
 import {
   getGenders,
@@ -198,28 +203,85 @@ const PersonalData: React.FC<iProps> = props => {
   }
 
   const _handleGetCountries = async () => {
-    const { data: countries } = await getCountries();
-    setNegaraSaatIni(normalizeDropdown(countries, 'name'),);
+    try {
+      console.log('Check Connection...')
+      await checkInternetConnection(internetTimeout)
+      const { data: countries } = await getCountries();
+      setNegaraSaatIni(normalizeDropdown(countries, 'name'));
+    } catch (error) {
+      console.log('get data locally...')
+      const connection: any = await initSQLite()
+      const countries = await connection.manager.find(Country)
+      setNegaraSaatIni(normalizeDropdown(countries, 'name'));
+    }
   }
 
   const _handleGetProvinces = async () => {
-    const { data: provinsi } = await getProvinces();
-    setProvinsi(normalizeDropdown(provinsi, 'name'),);
+    try {
+      console.log('Check Connection...')
+      await checkInternetConnection(internetTimeout)
+      const { data: provinsi } = await getProvinces();
+      setProvinsi(normalizeDropdown(provinsi, 'name'));
+    } catch (error) {
+      console.log('get data locally...')
+      const connection: any = await initSQLite()
+      let provinsi = await connection.manager.find(Province)
+      provinsi = provinsi.map(function (elm: any) {
+        return { id: elm.id, name: elm.level2_name };
+      });
+      setProvinsi(normalizeDropdown(provinsi, 'name'));
+    }
   }
 
   const _hanldeGetCities = async (provincyId: string) => {
-    const { data: kotaKabupaten } = await getCities(provincyId);
-    setKotaKabupaten(normalizeDropdown(kotaKabupaten, 'name'));
+    try {
+      console.log('Check Connection...')
+      await checkInternetConnection(internetTimeout)
+      const { data: kotaKabupaten } = await getCities(provincyId);
+      setKotaKabupaten(normalizeDropdown(kotaKabupaten, 'name'));
+    } catch (error) {
+      console.log('get data locally...')
+      const connection: any = await initSQLite()
+      let kotaKabupaten = await connection.manager.find(City, { id_province: provincyId })
+      kotaKabupaten = kotaKabupaten.map(function (elm: any) {
+        return { id: elm.id, name: elm.level3_name };
+      });
+      setKotaKabupaten(normalizeDropdown(kotaKabupaten, 'name'));
+    }
   }
 
   const _hanldeGetDistricts = async (cityId: string) => {
-    const { data: kecamatan } = await getDistricts(cityId);
-    setKecamatan(normalizeDropdown(kecamatan, 'name'));
+    try {
+      console.log('Check Connection...')
+      await checkInternetConnection(internetTimeout)
+      const { data: kecamatan } = await getDistricts(cityId);
+      setKecamatan(normalizeDropdown(kecamatan, 'name'));
+    } catch (error) {
+      console.log('get data locally...')
+      const connection: any = await initSQLite()
+      let kecamatan = await connection.manager.find(District, { id_city: cityId })
+      kecamatan = kecamatan.map(function (elm: any) {
+        return { id: elm.id, name: elm.level4_name };
+      });
+      setKecamatan(normalizeDropdown(kecamatan, 'name'));
+    }
   }
 
   const _hanldeGetSubDistricts = async (districtId: string) => {
-    const { data: kelurahanDesa } = await getSubDistricts(districtId);
-    setKelurahanDesa(normalizeDropdown(kelurahanDesa, 'name'));
+    try {
+      console.log('Check Connection...')
+      await checkInternetConnection(internetTimeout)
+      const { data: kelurahanDesa } = await getSubDistricts(districtId);
+      setKelurahanDesa(normalizeDropdown(kelurahanDesa, 'name'));
+    } catch (error) {
+      console.log('get data locally...')
+      const connection: any = await initSQLite()
+      let kelurahanDesa = await connection.manager.find(SubDistrict, { id_district: districtId })
+      kelurahanDesa = kelurahanDesa.map(function (elm: any) {
+        return { id: elm.id, name: elm.level5_name };
+      });
+      setKelurahanDesa(normalizeDropdown(kelurahanDesa, 'name'));
+    }
   }
 
   React.useEffect(() => {
