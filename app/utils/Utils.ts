@@ -19,7 +19,6 @@ export const checkInternetConnection = async (ms: number) => {
 export const copyInitialDB = async () => {
 
     const sourceFile = "app/database/kta-pks.sql"
-    console.log("🚀 ~ file: Utils.ts ~ line 21 ~ copyInitialDB ~ sourceFile", sourceFile)
     const pathFile = app.getPath('userData') + '/databases/kta-pks.sql'
 
     console.log(fs.existsSync(pathFile));
