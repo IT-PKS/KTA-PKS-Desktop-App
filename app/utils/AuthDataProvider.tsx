@@ -13,7 +13,6 @@ export type AuthData = {
   email: string | null;
   finishChecking?: boolean;
   loading?: boolean;
-  password: string | null;
 };
 
 export interface AuthDataContextType extends AuthData {
@@ -24,9 +23,9 @@ export interface AuthDataContextType extends AuthData {
 }
 
 const initialAuthData: AuthData = {
-  user: JSON.parse(localStorage.getItem("user")) || '',
+  user: JSON.parse(`${localStorage.getItem("user")}`) || '',
   serialKey: '',
-  email: JSON.parse(localStorage.getItem("email")) || '',
+  email: JSON.parse(`${localStorage.getItem("email")}`) || '',
   finishChecking: false,
   loading: false,
 }
@@ -71,6 +70,7 @@ export const useAuthDataContext = () => {
       localStorage.setItem("user", JSON.stringify(newAuthData.email))
       localStorage.setItem("role", 'super_admin')
       history.push('/ringkasan')
+      window.location.reload()
       setAuthData({ ...authData, user: newAuthData.email, loading: false });
     }
   }
@@ -81,8 +81,9 @@ export const useAuthDataContext = () => {
       localStorage.setItem("token", "notoken")
       localStorage.setItem("user", JSON.stringify(newAuthData.email))
       localStorage.setItem("role", 'super_admin')
-      history.push("/home")
-      setAuthData({ ...authData, user: newAuthData.email, loading: false });
+      history.push('/ringkasan')
+      window.location.reload()
+      setAuthData({ ...authData, user: newAuthData.email, loading: false })
     } else {
       setAuthData({ ...authData, loading: false })
       alert("Invalid Credential")
