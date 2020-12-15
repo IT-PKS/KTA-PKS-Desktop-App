@@ -16,6 +16,7 @@ import {
 import ValidasiInternet from '../validasi/ValidasiInternet'
 import ModalDeleteMember from '../../../components/contextual/ModalDeleteMember'
 import ModalMemberDetail from '../../../components/contextual/ModalMemberDetail/ModalMemberDetail'
+import ModalEditMember from '../../../components/contextual/ModalEditMember/ModalEditMember'
 
 // Components
 import {
@@ -82,7 +83,6 @@ const DataKta: React.FC<iProps> = (props) => {
 	const [tindakanMasal, setTindankanMasal] = useState([])
 	const [showModalDelete, setShowModalDelete] = useState(false)
 	const [showModalLihat, setShowModalLihat] = useState<any>(false)
-
 	const [checkInternet, setCheckInternet] = React.useState<Boolean>(true)
 	const [messageSubmit, setMessageSubmit] = useState<string>("default")
 	const [isTableLoading, setIsTableLoading] = useState<boolean>(false)
@@ -100,6 +100,7 @@ const DataKta: React.FC<iProps> = (props) => {
 	const [inputNik, setInputNik] = useState<string>('')
 	const [inputEmail, setInputEmail] = useState<string>('')
 	const [showActiveSearch, setShowActiveSearch] = useState<boolean>(false)
+	const [showModalEdit, setShowModalEdit] = useState<boolean>(false)
 
 
 	const [currentPage, setCurrentPage] = useState<number>(1)
@@ -155,14 +156,6 @@ const DataKta: React.FC<iProps> = (props) => {
 		}
 	}
 
-	const showDetailMmber = (record: string) => async (
-		e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-	) => {
-		e.preventDefault();
-		// this.props.dispatch(toggleModalMemberDetail());
-		// this.props.dispatch(setModalMemberDetailData(record));
-	};
-
 	const CheckBoxHeader = () => (
 		<Checkbox
 			instanceId="checkbox-table-head"
@@ -188,43 +181,6 @@ const DataKta: React.FC<iProps> = (props) => {
 		},
 	];
 
-	const columnsTindakan = [{
-		title: 'Tindakan',
-		dataIndex: 'id',
-		key: 'id',
-		width: 150,
-		render: (id: any) => {
-			return (
-
-				<div style={{ display: 'flex', flexDirection: 'column' }}>
-					<a style={{ padding: '5px', width: '75px', backgroundColor: '#000', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
-						onClick={() => {
-							setIdSelected(id)
-							toggleModalLihat()
-						}
-						}>
-						<Icon name={'address-card'} />&nbsp;
-                    Lihat
-                </a><br />
-					<a style={{ padding: '5px', width: '86px', backgroundColor: '#47B920', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
-						onClick={() => _handlePostMembers(id, "EDIT")}>
-						<Icon name={'edit'} />&nbsp;
-								Ubah
-						</a><br />
-					<a style={{ padding: '5px', width: '79px', backgroundColor: '#CE352D', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
-						onClick={() => {
-							setActiveRecord({ fullname: datas.find((v) => v.id === id).fullname })
-							toggleModalDelete()
-						}}
-					>
-						<Icon name={'trash'} />&nbsp;
-                  Hapus
-              </a>
-				</div>
-
-			)
-		}
-	}]
 	const getPayload = () => ({
 		fullname: inputName || undefined,
 		id_card: inputNik || undefined,
@@ -282,7 +238,7 @@ const DataKta: React.FC<iProps> = (props) => {
 	}
 
 
-	const _handleShowColumn = (e) => {
+	const _handleShowColumn = (e: any) => {
 		const existingData = [...columnsMain]
 		const { checked, name, value } = e.target
 		const dataCheckBox = [{
@@ -300,7 +256,6 @@ const DataKta: React.FC<iProps> = (props) => {
 			setColumnsMain(removeData)
 		}
 	}
-
 
 	const _handleSubmitBulkAction = async () => {
 		setIsBulkLoading(true)
@@ -342,6 +297,7 @@ const DataKta: React.FC<iProps> = (props) => {
 	}
 
 	const toggleModalDelete = () => setShowModalDelete(!showModalDelete)
+	const toggleModalEdit = () => setShowModalEdit(!showModalEdit)
 	const toggleModalLihat = () => { setShowModalLihat(!showModalLihat) }
 
 	const handleDelete = (id: string) => {
@@ -363,6 +319,50 @@ const DataKta: React.FC<iProps> = (props) => {
 	useEffect(() => {
 		_getTableData()
 	}, [page, perPage, inputName, inputNik, inputEmail, sortCol, sortBy])
+
+
+	const columnsTindakan = [{
+		title: 'Tindakan',
+		dataIndex: 'id',
+		key: 'id',
+		width: 150,
+		render: (id: any) => {
+			return (
+
+				<div style={{ display: 'flex', flexDirection: 'column' }}>
+					<a style={{ padding: '5px', width: '75px', backgroundColor: '#000', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
+						onClick={() => {
+							setIdSelected(id)
+							toggleModalLihat()
+						}}>
+						<Icon name={'address-card'} />&nbsp;
+                    Lihat
+                </a><br />
+					<a style={{ padding: '5px', width: '86px', backgroundColor: '#47B920', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
+						onClick={() => {
+							setIdSelected(id)
+							toggleModalEdit()
+						}}>
+						<Icon name={'edit'} />&nbsp;
+								Ubah
+						</a><br />
+					<a style={{ padding: '5px', width: '79px', backgroundColor: '#CE352D', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
+						onClick={() => {
+							setActiveRecord({
+								fullname: datas.find((v) => v.id === id).fullname,
+								id: id
+							})
+							toggleModalDelete()
+						}}
+					>
+						<Icon name={'trash'} />&nbsp;
+                  Hapus
+              </a>
+				</div>
+
+			)
+		}
+	}]
 
 	const Content = () => (
 		<Fragment>
@@ -507,6 +507,15 @@ const DataKta: React.FC<iProps> = (props) => {
 					toggle={toggleModalLihat}
 					data={datas.length > 1 && datas.find((v) => v.id === idSelected)}
 
+				/>
+			}
+
+			{
+				showModalEdit &&
+				<ModalEditMember
+					open={showModalEdit}
+					toggle={toggleModalEdit}
+					data={datas.length > 1 && datas.find((v) => v.id === idSelected)}
 				/>
 			}
 

@@ -205,7 +205,10 @@ const Validasi: React.FC<any> = (props) => {
               </a><br />
             <a style={{ padding: '5px', width: '79px', backgroundColor: '#CE352D', color: '#fff', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}
               onClick={() => {
-                setActiveRecord({ fullname: datas.find((v) => v.id === id).fullname })
+                setActiveRecord({
+                  fullname: datas.find((v) => v.id === id).fullname,
+                  id: id
+                })
                 toggleModalDelete()
               }}
             >
@@ -226,13 +229,13 @@ const Validasi: React.FC<any> = (props) => {
     let idBulk = selectAll ? idAll[0] : selected
     for (const val of idBulk) {
       res = await _handlePostMembers(val, tindakanMasal, true)
-      if (res.message !== "Success Approved Member") {
+      if (res.message !== "Success Approved Member" || res.message !== "Success Removed Member") {
         setMessageSubmit("failed")
         setCheckInternet(false)
       }
     }
 
-    if (res.message === "Success Approved Member") {
+    if (res.message === "Success Approved Member" || res.message === "Success Removed Member") {
       setMessageSubmit("success")
       setIsTableLoading(false)
       setIsBulkLoading(false)
@@ -250,7 +253,7 @@ const Validasi: React.FC<any> = (props) => {
 
     const { data } = await postVerifiedMembers(payload)
     if (isBulk) return data
-    if (data.message === "Success Approved Member") {
+    if (data.message === "Success Approved Member" || data.message === "Success Removed Member") {
       setCheckInternet(false)
       setMessageSubmit("success")
       setIsTableLoading(false)

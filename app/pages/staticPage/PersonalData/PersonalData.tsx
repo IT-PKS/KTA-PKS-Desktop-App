@@ -47,9 +47,7 @@ import createStyles from './PersonalData.styles';
 // Components
 import {
   Button,
-  Checkbox,
   Column,
-  FormErrorMessage,
   FormGroup,
   Icon,
   Input,
@@ -60,7 +58,7 @@ import {
   Select,
   Textarea,
   UploadBox,
-} from 'kta-ui-components';
+} from 'components/base';
 
 import RegisterFailed from '../../../components/base/src/staticPages/Register/RegisterFailed';
 import RegisterSuccess from '../../../components/base/src/staticPages/Register/RegisterSuccess';

@@ -12,3 +12,7 @@ export const getListdMembers = async (payload: object) => {
 export const postVerifiedMembers = async (payload: object) => {
   return await clientPost('admin/members/validation-status', payload)
 }
+
+export const postEditMembers = async (payload: object) => {
+  return await clientPost('admin/members/edit', payload)
+}
