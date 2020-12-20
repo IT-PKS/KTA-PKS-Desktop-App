@@ -298,7 +298,7 @@ const DataKta: React.FC<iProps> = (props) => {
 
 	const toggleModalDelete = () => setShowModalDelete(!showModalDelete)
 	const toggleModalEdit = () => setShowModalEdit(!showModalEdit)
-	const toggleModalLihat = () => { setShowModalLihat(!showModalLihat) }
+	const toggleModalLihat = () => setShowModalLihat(!showModalLihat)
 
 	const handleDelete = (id: string) => {
 		_handlePostMembers(id, "DELETED")

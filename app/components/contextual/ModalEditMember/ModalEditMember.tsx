@@ -72,6 +72,7 @@ type Props = {
 
 const ModalDeleteMember: React.FC<Props> = props => {
   const { defaultValues, toggle, open, data } = props;
+  console.log("🚀 ~ file: ModalEditMember.tsx ~ line 75 ~ data", data)
   const { register, handleSubmit, errors, setValue, formState } = useForm<RegisterFormData>({
     defaultValues,
   });
@@ -82,6 +83,7 @@ const ModalDeleteMember: React.FC<Props> = props => {
   const { errorMessages, pattern } = formHelper;
 
   const [jenisKelamin, setJenisKelamin] = React.useState<any | []>([])
+  const [valueJenisKelamin, setValueJenisKelamin] = React.useState<any | []>([])
   const [golonganDarah, setGolonganDarah] = React.useState<any | []>([])
   const [provinsi, setProvinsi] = React.useState<any | []>([])
   const [kotaKabupaten, setKotaKabupaten] = React.useState<any | []>([])
@@ -93,11 +95,13 @@ const ModalDeleteMember: React.FC<Props> = props => {
   const [pekerjaan, setPekerjaan] = React.useState<any | []>([])
   const [pendidikanTerakhir, setPendidikanTerakhir] = React.useState<any | []>([])
 
+
   const [provinsiValue, setProvinsiValue] = React.useState<string | null>(null);
   const [kotaKabupatenValue, setKotaKabupatenValue] = React.useState<string | null>(null);
   const [kecamatanValue, setKecamatanValue] = React.useState<string | null>(null);
   const [kelurahanDesaValue, setKelurahanDesaValue] = React.useState<string | null>(null);
   const [loading, setIsLoading] = React.useState<boolean>(false);
+  const birthdate = data.birthdate.split('-')
 
   const normalizeDropdown = (arrayObj: any, keyValue: string) => {
     for (let i = 0; i < arrayObj.length; i++) {
@@ -114,11 +118,15 @@ const ModalDeleteMember: React.FC<Props> = props => {
       await checkInternetConnection(internetTimeout)
       const { data: jenisKelamin } = await getGenders();
       setJenisKelamin(normalizeDropdown(jenisKelamin, 'gender'));
+      const dataJenisKelamin: any = jenisKelamin.find((v) => v.label === data?.gender)
+      setValueJenisKelamin(dataJenisKelamin);
     } catch (error) {
       console.log('get data locally...')
       const connection: any = await initSQLite()
       const jenisKelamin = await connection.manager.find(Gender)
       setJenisKelamin(normalizeDropdown(jenisKelamin, 'gender'));
+      const dataJenisKelamin: any = jenisKelamin.find((v) => v.label === data?.gender)
+      setValueJenisKelamin(dataJenisKelamin);
     }
   }
 
@@ -240,13 +248,11 @@ const ModalDeleteMember: React.FC<Props> = props => {
     _handleGetCountries();
   })
 
+
   const getSelectDefaultValue = (key: SelectKeys) => {
     let selectedOption: Array<SelectOption> | undefined;
-    const currValue = defaultValues && defaultValues[key];
 
-    if (currValue) {
-      selectedOption = options[key].filter(option => option.value === currValue);
-    }
+    if (data.key) selectedOption = key.find((v) => v.value === data.key);
 
     return selectedOption;
   };
@@ -340,6 +346,7 @@ const ModalDeleteMember: React.FC<Props> = props => {
               }
               type="text"
               placeHolder="Nomer Induk Kependudukan anda"
+              value={data?.id_card}
             />
           </FormGroup>
 
@@ -359,6 +366,7 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   errorMessage={errors.namaLengkap && errors.namaLengkap.message}
                   type="text"
                   placeHolder="Sesuai tertera di KTP"
+                  defaultValue={data?.fullname}
                 />
               </FormGroup>
             </Column>
@@ -371,6 +379,7 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   name="namaPanggilan"
                   type="text"
                   placeHolder="Akrab dipanggil dengan nama..."
+                  defaultValue={data?.nickname}
                 />
               </FormGroup>
             </Column>
@@ -392,6 +401,7 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   errorMessage={errors.tempatLahir && errors.tempatLahir.message}
                   type="text"
                   placeHolder="Nama kota"
+                  defaultValue={data?.birthplace}
                 />
               </FormGroup>
             </Column>
@@ -417,11 +427,16 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   errorMessage={getTanggalLahirErrorMessage()}
                   type="text"
                   placeHolder="Dalam format dd/mm/yyyy"
+                  defaultValue={birthdate && `${birthdate[2]}/${birthdate[1]}/${birthdate[0]}`}
+
                 />
               </FormGroup>
             </Column>
           </Row>
 
+          {console.log(valueJenisKelamin, ' >>>>> tes jenis kelamin')}
+          {console.log("🚀 ~ file: ModalEditMember.tsx ~ line 442 ~ jenisKelamin", jenisKelamin)}
+          {console.log("🚀 ~ file: ModalEditMember.tsx ~ line 444 ~ valueJenisKelamin", valueJenisKelamin)}
           <Row>
             <Column col={[12, 12, 6]}>
               {/* Jenis Kelamin */}
@@ -429,8 +444,11 @@ const ModalDeleteMember: React.FC<Props> = props => {
                 <Label required>Jenis Kelamin</Label>
                 <Select<SelectOption>
                   options={jenisKelamin}
-                  defaultValue={getSelectDefaultValue('jenisKelamin')}
-                  onChange={handleSelectOnChange('jenisKelamin')}
+                  onChange={handleSelectOnChange('jenisKelamin', selectedOption => {
+                    if (selectedOption && 'value' in selectedOption) {
+                      setValueJenisKelamin(jenisKelamin.find((v) => v.id === selectedOption.value));
+                    }
+                  })}
                   innerRef={() =>
                     register(
                       { name: 'jenisKelamin' },
@@ -444,6 +462,7 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   }
                   errorMessage={errors.jenisKelamin && errors.jenisKelamin.message}
                   placeholder="Laki-laki / Perempuan"
+                  value={valueJenisKelamin}
                 />
               </FormGroup>
             </Column>
