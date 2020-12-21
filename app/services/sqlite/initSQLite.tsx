@@ -16,6 +16,7 @@ import { Province } from '../../entity/Province'
 import { City } from '../../entity/City'
 import { District } from '../../entity/District'
 import { SubDistrict } from '../../entity/SubDistrict'
+import { Member } from '../../entity/Member'
 
 const initSQLite = async () => {
     try {
@@ -38,7 +39,8 @@ const initSQLite = async () => {
                 Province,
                 City,
                 District,
-                SubDistrict
+                SubDistrict,
+                Member
             ]
         })
         console.log("🚀 ~ file: initSQLite.tsx ~ line 34 ~ initSQLite ~ path", app.getPath('userData') + "/databases/kta-pks.sql")

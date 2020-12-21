@@ -398,7 +398,7 @@ const PersonalData: React.FC<iProps> = props => {
           <InputMask
             innerRef={register({
               validate: {
-                required: value => isPossiblyNumber(value),
+                required: value => String(parseInt(value)) !== 'NaN',
               },
             })}
             mask={numberMask}
@@ -693,7 +693,7 @@ const PersonalData: React.FC<iProps> = props => {
               <InputMask
                 innerRef={register({
                   validate: {
-                    required: value => isPossiblyNumber(value),
+                    required: value => String(parseInt(value)) !== 'NaN',
                   },
                 })}
                 mask={numberMask}
@@ -712,7 +712,7 @@ const PersonalData: React.FC<iProps> = props => {
               <Label required>RW</Label>
               <InputMask
                 innerRef={register({
-                  validate: value => isPossiblyNumber(value),
+                  validate: value => String(parseInt(value)) !== 'NaN',
                 })}
                 mask={numberMask}
                 name="rw"
@@ -891,7 +891,7 @@ const PersonalData: React.FC<iProps> = props => {
               <InputMask
                 innerRef={register({
                   validate: {
-                    required: value => isPossiblyNumber(value),
+                    required: value => String(parseInt(value)) !== 'NaN',
                   },
                 })}
                 mask={numberMask}

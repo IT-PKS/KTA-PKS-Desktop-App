@@ -11,13 +11,15 @@ const Home: React.FC = () => {
     setLoading(true);
 
     const { payloadRest, payloadLocal } = normalizePayload(payload);
-
-    // const reslocal = await saveToLocal(payloadLocal);
     const { data, error } = await postMembersRegistration(payloadRest);
-
-    if (data) { //reslocal && 
+    const reslocal = await saveToLocal(payloadLocal, data);
+    if (data && reslocal) { //reslocal && 
       setState('success');
       setLoading(false);
+    } else if (reslocal) {
+      setState('success');
+      setLoading(false);
+      alert('Internet offline, saved to local. please sync the data later')
     } else {
       alert(`${error.message} - ${JSON.stringify(error.error)}`)
       setLoading(false);
