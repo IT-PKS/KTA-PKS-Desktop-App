@@ -11,6 +11,12 @@ import { Occupation } from '../../entity/Occupation'
 import { Education } from '../../entity/Education'
 import { MaritalStatus } from '../../entity/MaritalStatus'
 import { Blood } from '../../entity/Blood'
+import { Country } from '../../entity/Country'
+import { Province } from '../../entity/Province'
+import { City } from '../../entity/City'
+import { District } from '../../entity/District'
+import { SubDistrict } from '../../entity/SubDistrict'
+import { Member } from '../../entity/Member'
 
 const initSQLite = async () => {
     try {
@@ -29,6 +35,12 @@ const initSQLite = async () => {
                 Education,
                 MaritalStatus,
                 Blood,
+                Country,
+                Province,
+                City,
+                District,
+                SubDistrict,
+                Member
             ]
         })
         console.log("🚀 ~ file: initSQLite.tsx ~ line 34 ~ initSQLite ~ path", app.getPath('userData') + "/databases/kta-pks.sql")

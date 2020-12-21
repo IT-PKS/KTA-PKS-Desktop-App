@@ -58,7 +58,7 @@ export class Member {
     district_id!: number;
 
     @Column('integer', { nullable: false })
-    sub_district!: number;
+    sub_district_id!: number;
 
     @Column('text', { nullable: true })
     address!: string;
@@ -75,7 +75,7 @@ export class Member {
     @Column('varchar', { nullable: true })
     email!: string;
 
-    @Column('integer', { nullable: false })
+    @Column('integer', { nullable: true })
     organization_id!: number;
 
     @Column('varchar', { nullable: false })
