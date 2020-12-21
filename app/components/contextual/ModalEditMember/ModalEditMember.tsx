@@ -77,6 +77,12 @@ const ModalDeleteMember: React.FC<Props> = props => {
     defaultValues,
   });
 
+  const fullAddress = data?.address.split("RT")
+  const address = fullAddress[0]
+  const rtRw = fullAddress[1].split("RW")
+  const rt = rtRw[0]
+  const rw = rtRw[1]
+
   const theme = useTheme<Theme>();
   const styles = createStyles(theme);
 
@@ -85,21 +91,31 @@ const ModalDeleteMember: React.FC<Props> = props => {
   const [jenisKelamin, setJenisKelamin] = React.useState<any | []>([])
   const [valueJenisKelamin, setValueJenisKelamin] = React.useState<any | []>([])
   const [golonganDarah, setGolonganDarah] = React.useState<any | []>([])
+  const [valueGolonganDarah, setValueGolonganDarah] = React.useState<any | []>([])
   const [provinsi, setProvinsi] = React.useState<any | []>([])
   const [kotaKabupaten, setKotaKabupaten] = React.useState<any | []>([])
   const [kecamatan, setKecamatan] = React.useState<any | []>([])
   const [kelurahanDesa, setKelurahanDesa] = React.useState<any | []>([])
   const [negaraSaatIni, setNegaraSaatIni] = React.useState<any | []>([])
+  const [detailNegaraSaatIni, setDetailNegaraSaatIni] = React.useState<any | []>([])
   const [agama, setAgama] = React.useState<any | []>([])
+  const [detailAgama, setDetailAgama] = React.useState<any | []>([])
   const [statusPerkawinan, setStatusPerkawinan] = React.useState<any | []>([])
+  const [detailStatusPerkawinan, setDetailStatusPerkawinan] = React.useState<any | []>([])
   const [pekerjaan, setPekerjaan] = React.useState<any | []>([])
+  const [detailPekerjaan, setDetailPekerjaan] = React.useState<any | []>([])
   const [pendidikanTerakhir, setPendidikanTerakhir] = React.useState<any | []>([])
+  const [detailPendidikanTerakhir, setDetailPendidikanTerakhir] = React.useState<any | []>([])
 
 
-  const [provinsiValue, setProvinsiValue] = React.useState<string | null>(null);
+  const [provinsiValue, setProvinsiValue] = React.useState<any>(null);
+  const [detailProvinsi, setDetailProvinsi] = React.useState<any>(null);
   const [kotaKabupatenValue, setKotaKabupatenValue] = React.useState<string | null>(null);
+  const [detailKabupaten, setDetailKabupaten] = React.useState<any>(null);
   const [kecamatanValue, setKecamatanValue] = React.useState<string | null>(null);
+  const [detailKecamatan, setDetailKecamatan] = React.useState<any>(null);
   const [kelurahanDesaValue, setKelurahanDesaValue] = React.useState<string | null>(null);
+  const [detailKelurahanDesa, setDetailKelurahanDesa] = React.useState<any>(null);
   const [loading, setIsLoading] = React.useState<boolean>(false);
   const birthdate = data.birthdate.split('-')
 
@@ -136,11 +152,15 @@ const ModalDeleteMember: React.FC<Props> = props => {
       await checkInternetConnection(internetTimeout)
       const { data: agama } = await getReligions();
       setAgama(normalizeDropdown(agama, 'religion'));
+      const getDetailAgama: any = agama.find((v: any) => v.label === data?.religion)
+      setDetailAgama(getDetailAgama);
     } catch (error) {
       console.log('get data locally...')
       const connection: any = await initSQLite()
       const agama = await connection.manager.find(Religion)
       setAgama(normalizeDropdown(agama, 'religion'));
+      const getDetailAgama: any = agama.find((v: any) => v.label === data?.religion)
+      setDetailAgama(getDetailAgama);
     }
   }
 
@@ -150,11 +170,15 @@ const ModalDeleteMember: React.FC<Props> = props => {
       await checkInternetConnection(internetTimeout)
       const { data: pekerjaan } = await getOccupations();
       setPekerjaan(normalizeDropdown(pekerjaan, 'occupation'));
+      const getDetailPekerjaan: any = pekerjaan.find((v: any) => v.label === data?.job)
+      setDetailPekerjaan(getDetailPekerjaan);
     } catch (error) {
       console.log('get data locally...')
       const connection: any = await initSQLite()
       const pekerjaan = await connection.manager.find(Occupation)
       setPekerjaan(normalizeDropdown(pekerjaan, 'occupation'));
+      const getDetailPekerjaan: any = pekerjaan.find((v: any) => v.label === data?.job)
+      setDetailPekerjaan(getDetailPekerjaan);
     }
   }
 
@@ -164,11 +188,15 @@ const ModalDeleteMember: React.FC<Props> = props => {
       await checkInternetConnection(internetTimeout)
       const { data: pendidikanTerakhir } = await getEducations();
       setPendidikanTerakhir(normalizeDropdown(pendidikanTerakhir, 'education'));
+      const getDetailPendidikanTerakhir: any = pendidikanTerakhir.find((v: any) => v.label === data?.last_education)
+      setDetailPendidikanTerakhir(getDetailPendidikanTerakhir);
     } catch (error) {
       console.log('get data locally...')
       const connection: any = await initSQLite()
       const pendidikanTerakhir = await connection.manager.find(Education)
       setPendidikanTerakhir(normalizeDropdown(pendidikanTerakhir, 'education'));
+      const getDetailPendidikanTerakhir: any = pendidikanTerakhir.find((v: any) => v.label === data?.last_education)
+      setDetailPendidikanTerakhir(getDetailPendidikanTerakhir);
     }
   }
 
@@ -178,11 +206,15 @@ const ModalDeleteMember: React.FC<Props> = props => {
       await checkInternetConnection(internetTimeout)
       const { data: statusPerkawinan } = await getMarital();
       setStatusPerkawinan(normalizeDropdown(statusPerkawinan, 'status'));
+      const getDetailStatusPekawinan: any = statusPerkawinan.find((v: any) => v.label === data?.marital_status)
+      setDetailStatusPerkawinan(getDetailStatusPekawinan);
     } catch (error) {
       console.log('get data locally...')
       const connection: any = await initSQLite()
       const statusPerkawinan = await connection.manager.find(MaritalStatus)
       setStatusPerkawinan(normalizeDropdown(statusPerkawinan, 'status'));
+      const getDetailStatusPekawinan: any = statusPerkawinan.find((v: any) => v.label === data?.marital_status)
+      setDetailStatusPerkawinan(getDetailStatusPekawinan);
     }
   }
 
@@ -192,37 +224,58 @@ const ModalDeleteMember: React.FC<Props> = props => {
       await checkInternetConnection(internetTimeout)
       const { data: golonganDarah } = await getBloodType();
       setGolonganDarah(normalizeDropdown(golonganDarah, 'blood'));
+      const bloodType: any = golonganDarah.find((v: any) => v.label === data?.blood_type)
+      setValueGolonganDarah(bloodType)
+
     } catch (error) {
       console.log('get data locally...')
       const connection: any = await initSQLite()
       const golonganDarah = await connection.manager.find(Blood)
-      setGolonganDarah(normalizeDropdown(golonganDarah, 'blood'));
+      setGolonganDarah(normalizeDropdown(golonganDarah, 'blood'))
+      const bloodType: any = golonganDarah.find((v: any) => v.label === data?.blood_type)
+      setValueGolonganDarah(bloodType);
     }
   }
 
   const _handleGetCountries = async () => {
     const { data: countries } = await getCountries();
-    setNegaraSaatIni(normalizeDropdown(countries, 'name'),);
+    setNegaraSaatIni(normalizeDropdown(countries, 'name'));
+    const negaraSaatIni: any = countries.find((v) => v.label === data?.country)
+    setDetailNegaraSaatIni(negaraSaatIni)
   }
 
   const _handleGetProvinces = async () => {
     const { data: provinsi } = await getProvinces();
-    setProvinsi(normalizeDropdown(provinsi, 'name'),);
+    setProvinsi(normalizeDropdown(provinsi, 'name'));
+    const province: any = provinsi.find((v) => v.label === data?.province)
+    setDetailProvinsi(province)
+    setProvinsiValue(province.value)
+
   }
 
   const _hanldeGetCities = async (provincyId: string) => {
     const { data: kotaKabupaten } = await getCities(provincyId);
     setKotaKabupaten(normalizeDropdown(kotaKabupaten, 'name'));
+    const kabupaten: any = kotaKabupaten.find((v) => v.label === data?.city)
+    setDetailKabupaten(kabupaten)
+    setKotaKabupatenValue(kabupaten.value)
+
   }
 
   const _hanldeGetDistricts = async (cityId: string) => {
-    const { data: kecamatan } = await getDistricts(cityId);
-    setKecamatan(normalizeDropdown(kecamatan, 'name'));
+    const { data: kecamatan } = await getDistricts(cityId)
+    setKecamatan(normalizeDropdown(kecamatan, 'name'))
+    const getKecamatan: any = kecamatan.find((v) => v.label === data?.district)
+    setDetailKecamatan(getKecamatan)
+    setKecamatanValue(getKecamatan.value)
   }
 
   const _hanldeGetSubDistricts = async (districtId: string) => {
     const { data: kelurahanDesa } = await getSubDistricts(districtId);
     setKelurahanDesa(normalizeDropdown(kelurahanDesa, 'name'));
+    const getKelurahanDesa: any = kelurahanDesa.find((v) => v.label === data?.sub_district)
+    setDetailKelurahanDesa(getKelurahanDesa)
+    setKelurahanDesaValue(getKelurahanDesa.value)
   }
 
   React.useEffect(() => {
@@ -336,7 +389,7 @@ const ModalDeleteMember: React.FC<Props> = props => {
             <InputMask
               innerRef={register({
                 validate: {
-                  required: value => isPossiblyNumber(value),
+                  required: value => String(parseInt(value)) !== 'NaN',
                 },
               })}
               mask={numberMask}
@@ -345,7 +398,7 @@ const ModalDeleteMember: React.FC<Props> = props => {
                 errors.nik && errors.nik.type === 'required' && errorMessages.nik.required
               }
               type="text"
-              placeHolder="Nomer Induk Kependudukan anda"
+              placeholder="Nomer Induk Kependudukan anda"
               value={data?.id_card}
             />
           </FormGroup>
@@ -365,7 +418,7 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   name="namaLengkap"
                   errorMessage={errors.namaLengkap && errors.namaLengkap.message}
                   type="text"
-                  placeHolder="Sesuai tertera di KTP"
+                  placeholder="Sesuai tertera di KTP"
                   defaultValue={data?.fullname}
                 />
               </FormGroup>
@@ -378,7 +431,7 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   innerRef={register}
                   name="namaPanggilan"
                   type="text"
-                  placeHolder="Akrab dipanggil dengan nama..."
+                  placeholder="Akrab dipanggil dengan nama..."
                   defaultValue={data?.nickname}
                 />
               </FormGroup>
@@ -400,7 +453,7 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   name="tempatLahir"
                   errorMessage={errors.tempatLahir && errors.tempatLahir.message}
                   type="text"
-                  placeHolder="Nama kota"
+                  placeholder="Nama kota"
                   defaultValue={data?.birthplace}
                 />
               </FormGroup>
@@ -426,17 +479,13 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   name="tanggalLahir"
                   errorMessage={getTanggalLahirErrorMessage()}
                   type="text"
-                  placeHolder="Dalam format dd/mm/yyyy"
+                  placeholder="Dalam format dd/mm/yyyy"
                   defaultValue={birthdate && `${birthdate[2]}/${birthdate[1]}/${birthdate[0]}`}
 
                 />
               </FormGroup>
             </Column>
           </Row>
-
-          {console.log(valueJenisKelamin, ' >>>>> tes jenis kelamin')}
-          {console.log("🚀 ~ file: ModalEditMember.tsx ~ line 442 ~ jenisKelamin", jenisKelamin)}
-          {console.log("🚀 ~ file: ModalEditMember.tsx ~ line 444 ~ valueJenisKelamin", valueJenisKelamin)}
           <Row>
             <Column col={[12, 12, 6]}>
               {/* Jenis Kelamin */}
@@ -445,9 +494,8 @@ const ModalDeleteMember: React.FC<Props> = props => {
                 <Select<SelectOption>
                   options={jenisKelamin}
                   onChange={handleSelectOnChange('jenisKelamin', selectedOption => {
-                    if (selectedOption && 'value' in selectedOption) {
+                    if (selectedOption && 'value' in selectedOption)
                       setValueJenisKelamin(jenisKelamin.find((v) => v.id === selectedOption.value));
-                    }
                   })}
                   innerRef={() =>
                     register(
@@ -473,7 +521,10 @@ const ModalDeleteMember: React.FC<Props> = props => {
                 <Select<SelectOption>
                   options={golonganDarah}
                   defaultValue={getSelectDefaultValue('golonganDarah')}
-                  onChange={handleSelectOnChange('golonganDarah')}
+                  onChange={handleSelectOnChange('golonganDarah', selectedOption => {
+                    if (selectedOption && 'value' in selectedOption)
+                      setValueGolonganDarah(golonganDarah.find((v: any) => v.id === selectedOption.value));
+                  })}
                   innerRef={() =>
                     register(
                       { name: 'golonganDarah' },
@@ -487,6 +538,8 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   }
                   errorMessage={errors.golonganDarah && errors.golonganDarah.message}
                   placeholder="A / B / AB / O"
+                  value={valueGolonganDarah}
+
                 />
               </FormGroup>
             </Column>
@@ -504,9 +557,8 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   options={provinsi}
                   defaultValue={getSelectDefaultValue('provinsi')}
                   onChange={handleSelectOnChange('provinsi', selectedOption => {
-                    if (selectedOption && 'value' in selectedOption) {
-                      setProvinsiValue(selectedOption.value);
-                    }
+                    if (selectedOption && 'value' in selectedOption)
+                      setProvinsiValue(provinsi.find((v: any) => v.id === selectedOption.value));
                   })}
                   innerRef={() =>
                     register(
@@ -521,6 +573,7 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   }
                   errorMessage={errors.provinsi && errors.provinsi.message}
                   placeholder="Pilih Provinsi"
+                  value={detailProvinsi}
                 />
               </FormGroup>
             </Column>
@@ -532,9 +585,8 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   options={kotaKabupaten}
                   defaultValue={getSelectDefaultValue('kotaKabupaten')}
                   onChange={handleSelectOnChange('kotaKabupaten', selectedOption => {
-                    if (selectedOption && 'value' in selectedOption) {
-                      setKotaKabupatenValue(selectedOption.value);
-                    }
+                    if (selectedOption && 'value' in selectedOption)
+                      setKotaKabupatenValue(kotaKabupaten.find((v: any) => v.id === selectedOption.value));
                   })}
                   innerRef={() =>
                     register(
@@ -550,6 +602,7 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   errorMessage={errors.kotaKabupaten && errors.kotaKabupaten.message}
                   placeholder="Pilih Kota / Kabupaten"
                   disabled={isNull(provinsiValue)}
+                  value={detailKabupaten}
                 />
               </FormGroup>
             </Column>
@@ -565,7 +618,7 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   defaultValue={getSelectDefaultValue('kecamatan')}
                   onChange={handleSelectOnChange('kecamatan', selectedOption => {
                     if (selectedOption && 'value' in selectedOption) {
-                      setKecamatanValue(selectedOption.value);
+                      setKecamatanValue(kecamatan.find((v: any) => v.id === selectedOption.value));
                     }
                   })}
                   innerRef={() =>
@@ -582,6 +635,7 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   errorMessage={errors.kecamatan && errors.kecamatan.message}
                   placeholder="Pilih Kecamatan"
                   disabled={isNull(provinsiValue) || isNull(kotaKabupatenValue)}
+                  value={detailKecamatan}
                 />
               </FormGroup>
             </Column>
@@ -593,9 +647,8 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   options={kelurahanDesa}
                   defaultValue={getSelectDefaultValue('kelurahanDesa')}
                   onChange={handleSelectOnChange('kelurahanDesa', selectedOption => {
-                    if (selectedOption && 'value' in selectedOption) {
-                      setKelurahanDesaValue(selectedOption.value);
-                    }
+                    if (selectedOption && 'value' in selectedOption)
+                      setKelurahanDesaValue(kelurahanDesa.find((v: any) => v.id === selectedOption.value));
                   })}
                   innerRef={() =>
                     register(
@@ -613,6 +666,7 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   disabled={
                     isNull(provinsiValue) || isNull(kotaKabupatenValue) || isNull(kecamatanValue)
                   }
+                  value={detailKelurahanDesa}
                 />
               </FormGroup>
             </Column>
@@ -633,7 +687,8 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   name="alamat"
                   errorMessage={errors.alamat && errors.alamat.message}
                   type="text"
-                  placeHolder="Contoh: Jalan A Perum B No. 1111"
+                  placeholder="Contoh: Jalan A Perum B No. 1111"
+                  defaultValue={address}
                 />
               </FormGroup>
             </Column>
@@ -644,7 +699,7 @@ const ModalDeleteMember: React.FC<Props> = props => {
                 <InputMask
                   innerRef={register({
                     validate: {
-                      required: value => isPossiblyNumber(value),
+                      required: value => String(parseInt(value)) !== 'NaN',
                     },
                   })}
                   mask={numberMask}
@@ -653,7 +708,8 @@ const ModalDeleteMember: React.FC<Props> = props => {
                     errors.rt && errors.rt.type === 'required' && errorMessages.rt.required
                   }
                   type="text"
-                  placeHolder="RT"
+                  placeholder="RT"
+                  defaultValue={rt}
                 />
               </FormGroup>
             </Column>
@@ -663,13 +719,14 @@ const ModalDeleteMember: React.FC<Props> = props => {
                 <Label required>RW</Label>
                 <InputMask
                   innerRef={register({
-                    validate: value => isPossiblyNumber(value),
+                    validate: value => String(parseInt(value)) !== 'NaN',
                   })}
                   mask={numberMask}
                   name="rw"
                   errorMessage={errors.rw && errorMessages.rw.required}
                   type="text"
-                  placeHolder="RW"
+                  placeholder="RW"
+                  defaultValue={rw}
                 />
               </FormGroup>
             </Column>
@@ -684,8 +741,8 @@ const ModalDeleteMember: React.FC<Props> = props => {
             <Textarea
               innerRef={register}
               name="alamatSaatIni"
-              placeHolder="Isi apabila saat ini anda tidak tinggal di alamat yang tertera pada KTP"
-              css={styles.alamatTextarea}
+              placeholder="Isi apabila saat ini anda tidak tinggal di alamat yang tertera pada KTP"
+              defaultValue={data?.domicile}
             />
             <LeafletMapPicker
               onChange={latlng => {
@@ -700,10 +757,14 @@ const ModalDeleteMember: React.FC<Props> = props => {
             <Select<SelectOption>
               options={negaraSaatIni}
               defaultValue={getSelectDefaultValue('negaraSaatIni')}
-              onChange={handleSelectOnChange('negaraSaatIni')}
+              onChange={handleSelectOnChange('negaraSaatIni', selectedOption => {
+                if (selectedOption && 'value' in selectedOption)
+                  setDetailNegaraSaatIni(negaraSaatIni.find((v) => v.id === selectedOption.value))
+              })}
               innerRef={() => register({ name: 'negaraSaatIni' })}
               errorMessage={errors.negaraSaatIni && errors.negaraSaatIni.message}
               placeholder="Pilih Negara"
+              value={detailNegaraSaatIni}
             />
           </FormGroup>
 
@@ -718,7 +779,10 @@ const ModalDeleteMember: React.FC<Props> = props => {
                 <Select<SelectOption>
                   options={agama}
                   defaultValue={getSelectDefaultValue('agama')}
-                  onChange={handleSelectOnChange('agama')}
+                  onChange={handleSelectOnChange('agama', selectedOption => {
+                    if (selectedOption && 'value' in selectedOption)
+                      setDetailAgama(agama.find((v: any) => v.id === selectedOption.value));
+                  })}
                   innerRef={() =>
                     register(
                       { name: 'agama' },
@@ -732,6 +796,7 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   }
                   errorMessage={errors.agama && errors.agama.message}
                   placeholder="Agama"
+                  value={detailAgama}
                 />
               </FormGroup>
             </Column>
@@ -742,7 +807,10 @@ const ModalDeleteMember: React.FC<Props> = props => {
                 <Select<SelectOption>
                   options={statusPerkawinan}
                   defaultValue={getSelectDefaultValue('statusPerkawinan')}
-                  onChange={handleSelectOnChange('statusPerkawinan')}
+                  onChange={handleSelectOnChange('statusPerkawinan', selectedOption => {
+                    if (selectedOption && 'value' in selectedOption)
+                      setDetailStatusPerkawinan(statusPerkawinan.find((v: any) => v.id === selectedOption.value));
+                  })}
                   innerRef={() =>
                     register(
                       { name: 'statusPerkawinan' },
@@ -756,6 +824,8 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   }
                   errorMessage={errors.statusPerkawinan && errors.statusPerkawinan.message}
                   placeholder="Kawin / Belum Kawin"
+                  value={detailStatusPerkawinan}
+
                 />
               </FormGroup>
             </Column>
@@ -769,7 +839,10 @@ const ModalDeleteMember: React.FC<Props> = props => {
                 <Select<SelectOption>
                   options={pekerjaan}
                   defaultValue={getSelectDefaultValue('pekerjaan')}
-                  onChange={handleSelectOnChange('pekerjaan')}
+                  onChange={handleSelectOnChange('pekerjaan', selectedOption => {
+                    if (selectedOption && 'value' in selectedOption)
+                      setDetailPekerjaan(pekerjaan.find((v: any) => v.id === selectedOption.value));
+                  })}
                   innerRef={() =>
                     register(
                       { name: 'pekerjaan' },
@@ -783,6 +856,7 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   }
                   errorMessage={errors.pekerjaan && errors.pekerjaan.message}
                   placeholder="Pekerjaan"
+                  value={detailPekerjaan}
                 />
               </FormGroup>
             </Column>
@@ -793,7 +867,10 @@ const ModalDeleteMember: React.FC<Props> = props => {
                 <Select<SelectOption>
                   options={pendidikanTerakhir}
                   defaultValue={getSelectDefaultValue('pendidikanTerakhir')}
-                  onChange={handleSelectOnChange('pendidikanTerakhir')}
+                  onChange={handleSelectOnChange('pendidikanTerakhir', selectedOption => {
+                    if (selectedOption && 'value' in selectedOption)
+                      setDetailPendidikanTerakhir(pendidikanTerakhir.find((v: any) => v.id === selectedOption.value));
+                  })}
                   innerRef={() =>
                     register(
                       { name: 'pendidikanTerakhir' },
@@ -807,6 +884,7 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   }
                   errorMessage={errors.pendidikanTerakhir && errors.pendidikanTerakhir.message}
                   placeholder="Jenjang Pendidikan"
+                  value={detailPendidikanTerakhir}
                 />
               </FormGroup>
             </Column>
@@ -831,7 +909,8 @@ const ModalDeleteMember: React.FC<Props> = props => {
                   name="email"
                   errorMessage={errors.email && errors.email.message}
                   type="text"
-                  placeHolder="Contoh: email@website.com"
+                  placeholder="Contoh: email@website.com"
+                  defaultValue={data?.email}
                 />
               </FormGroup>
             </Column>
@@ -842,7 +921,7 @@ const ModalDeleteMember: React.FC<Props> = props => {
                 <InputMask
                   innerRef={register({
                     validate: {
-                      required: value => isPossiblyNumber(value),
+                      required: value => String(parseInt(value)) !== 'NaN',
                     },
                   })}
                   mask={numberMask}
@@ -853,7 +932,9 @@ const ModalDeleteMember: React.FC<Props> = props => {
                     errorMessages.noTelp.required
                   }
                   type="text"
-                  placeHolder="Contoh: 080011112222"
+                  placeholder="Contoh: 080011112222"
+                  defaultValue={data?.phone}
+
                 />
               </FormGroup>
             </Column>
