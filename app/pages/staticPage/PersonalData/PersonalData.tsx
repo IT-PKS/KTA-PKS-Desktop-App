@@ -620,7 +620,7 @@ const PersonalData: React.FC<iProps> = props => {
                 name="alamat"
                 errorMessage={errors.alamat && errors.alamat.message}
                 type="text"
-                placeHolder="Contoh: Jalan A Perum B No. 1111"
+                placeholder="Contoh: Jalan A Perum B No. 1111"
               />
             </FormGroup>
           </Column>
@@ -640,7 +640,7 @@ const PersonalData: React.FC<iProps> = props => {
                   errors.rt && errors.rt.type === 'required' && errorMessages.rt.required
                 }
                 type="text"
-                placeHolder="RT"
+                placeholder="RT"
               />
             </FormGroup>
           </Column>
@@ -656,7 +656,7 @@ const PersonalData: React.FC<iProps> = props => {
                 name="rw"
                 errorMessage={errors.rw && errorMessages.rw.required}
                 type="text"
-                placeHolder="RW"
+                placeholder="RW"
               />
             </FormGroup>
           </Column>
@@ -671,7 +671,7 @@ const PersonalData: React.FC<iProps> = props => {
           <Textarea
             innerRef={register}
             name="alamatSaatIni"
-            placeHolder="Isi apabila saat ini anda tidak tinggal di alamat yang tertera pada KTP"
+            placeholder="Isi apabila saat ini anda tidak tinggal di alamat yang tertera pada KTP"
             css={styles.alamatTextarea}
           />
           <LeafletMapPicker
@@ -818,7 +818,7 @@ const PersonalData: React.FC<iProps> = props => {
                 name="email"
                 errorMessage={errors.email && errors.email.message}
                 type="text"
-                placeHolder="Contoh: email@website.com"
+                placeholder="Contoh: email@website.com"
               />
             </FormGroup>
           </Column>
@@ -840,7 +840,7 @@ const PersonalData: React.FC<iProps> = props => {
                   errorMessages.noTelp.required
                 }
                 type="text"
-                placeHolder="Contoh: 080011112222"
+                placeholder="Contoh: 080011112222"
               />
             </FormGroup>
           </Column>
