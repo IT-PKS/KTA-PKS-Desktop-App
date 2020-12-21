@@ -5,8 +5,7 @@ import SignInPage from 'pages/SignIn/SignIn';
 import LicenseKey from '../../pages/LicenseKey/LicenseKey';
 import Sidebar from '../../pages/staticPage/Sidebar/Sidebar';
 import TemplateDataProvider from './TemplateDataProvider';
-import Header from '../base/src/components/Dashboard/Header'
-import LogoPortrait from '../Logo/LogoPortrait'
+import Header from '../../pages/staticPage/header/Header'
 
 const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }) => {
   const { user, serialKey, finishChecking, onLogout } = useAuthDataContext();
@@ -21,7 +20,6 @@ const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }) => {
     <>
       <Header
         userEmail={localStorage.getItem('user')?.replace(/"/g, '')}
-        logo={LogoPortrait}
         dropdownMenu={[{ label: 'Logout', onClick: onLogout }]}
       />
       <Sidebar />
