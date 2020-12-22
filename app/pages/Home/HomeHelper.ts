@@ -32,6 +32,8 @@ export const normalizePayload = (payload: any) => {
 
   const payloadLocal: any = {};
   dataFile.forEach((value, key) => { payloadLocal[key] = value; });
+  payloadLocal['ktp_file'] = payload.fotoScanKTP
+  payloadLocal['profile_file'] = payload.fotoDiri;
   payloadLocal['ktp'] = payload.fotoScanKTP[0].name;
   payloadLocal['profile'] = payload.fotoDiri[0].name;
 

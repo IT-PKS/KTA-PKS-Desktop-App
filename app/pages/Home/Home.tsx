@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PersonalData from '../staticPage/PersonalData/PersonalData';
 import { postMembersRegistration, saveToLocal } from 'client/RegisterClient';
 import { normalizePayload } from './HomeHelper';
+import { log } from 'console';
 
 const Home: React.FC = () => {
   const [state, setState] = useState<string | null>('default');
