@@ -17,6 +17,11 @@ import ValidasiInternet from '../validasi/ValidasiInternet'
 import ModalDeleteMember from '../../../components/contextual/ModalDeleteMember'
 import ModalMemberDetail from '../../../components/contextual/ModalMemberDetail/ModalMemberDetail'
 import ModalEditMember from '../../../components/contextual/ModalEditMember/ModalEditMember'
+import initSQLite from '../../../services/sqlite/initSQLite'
+import { remote } from 'electron';
+const { app } = remote
+import { Member } from '../../../entity/Member'
+import fs from 'fs'
 
 // Components
 import {
@@ -31,6 +36,8 @@ import {
 } from 'components/base';
 
 import { options } from '../../../utils/DataHelpers'
+import { postMembersRegistration } from 'client/RegisterClient';
+import { log } from 'electron-log';
 
 
 type iProps = {
@@ -154,6 +161,54 @@ const DataKta: React.FC<iProps> = (props) => {
 			}
 			setSelected(array)
 		}
+	}
+
+	const syncDataKTA = async () => {
+		const connection: any = await initSQLite()
+		let localMember = await connection.manager.find(Member, { where: { isSentToBackend: 0 } })
+
+		localMember.map(async (member: any) => {
+			let ktp_file: any = await fetch(app.getPath('userData') + '/' + member.ktp).then(r => r.blob()).then(blobFile => new File([blobFile], member.ktp, { type: `${member.ktp.split('.')[1]}` }))
+			let profile_file: any = await fetch(app.getPath('userData') + '/' + member.profile).then(r => r.blob()).then(blobFile => new File([blobFile], member.profile, { type: `${member.profile.split('.')[1]}` }))
+			console.log(ktp_file);
+			console.log(profile_file);
+
+			let registrationPayload = new FormData();
+			registrationPayload.append('fullname', member.fullname);
+			registrationPayload.append('nickname', member.nickname);
+			registrationPayload.append('birthdate', member.birthdate);
+			registrationPayload.append('birthplace', member.birthplace);
+			registrationPayload.append('id_card', member.id_card);
+			registrationPayload.append('gender', member.gender);
+			registrationPayload.append('identity_type', member.identity_type);
+			registrationPayload.append('religion', member.religion);
+			registrationPayload.append('marital_status', member.marital_status);
+			registrationPayload.append('job', member.job);
+			registrationPayload.append('last_education', member.last_education);
+			registrationPayload.append('blood_type', member.blood_type);
+			registrationPayload.append('country_id', member.country_id || 0);
+			registrationPayload.append('province_id', member.province_id);
+			registrationPayload.append('city_id', member.city_id);
+			registrationPayload.append('district_id', member.district_id);
+			registrationPayload.append('sub_district_id', member.sub_district_id);
+			registrationPayload.append('address', member.address);
+			registrationPayload.append('domicile', member.domicile);
+			registrationPayload.append('lat', member.lat);
+			registrationPayload.append('lon', member.lon);
+			registrationPayload.append('email', member.email);
+			registrationPayload.append('ktp', ktp_file);
+			registrationPayload.append('profile', profile_file);
+			const { data, error } = await postMembersRegistration(registrationPayload);
+			if (data) {
+				let memberToUpdate = await connection.manager.findOne(Member, member.id);
+				memberToUpdate.isSentToBackend = 1;
+				const res = await connection.manager.save(memberToUpdate);
+				console.log('====================================');
+				console.log(res);
+				console.log('====================================');
+			}
+		})
+
 	}
 
 	const CheckBoxHeader = () => (
@@ -532,7 +587,7 @@ const DataKta: React.FC<iProps> = (props) => {
 					checkInternet &&
 					<Column>
 						<div style={{ display: "flex", justifyContent: "flex-end" }}>
-							<Button icon={{ name: "sync-alt", placement: "left" }}>Sinkronkan Data</Button>
+							<Button icon={{ name: "sync-alt", placement: "left" }} onClick={syncDataKTA}>Sinkronkan Data</Button>
 						</div>
 					</Column>
 				}

@@ -1,8 +1,6 @@
-import sha256 from 'js-sha256'
 import { domainApi } from '../services/URLApi/URLApi'
 import * as dns from 'dns'
 import { ipcRenderer, remote } from 'electron';
-import { autoUpdater } from 'electron-updater';
 const { app } = remote
 import fs from 'fs'
 import fsj from 'fs-jetpack'
@@ -18,7 +16,7 @@ export const checkInternetConnection = async (ms: number) => {
 
 export const copyInitialDB = async () => {
 
-    const sourceFile = "app/database/kta-pks.sql"
+    // const sourceFile = "app/database/kta-pks.sql"
     const pathFile = app.getPath('userData') + '/databases/kta-pks.sql'
 
     
@@ -42,9 +40,6 @@ export const copyInitialDB = async () => {
 
 export const checkApplicationUpdate = async () => {
     ipcRenderer.on('message', (event: any, text: any) => {
-
-        
-        
         if (text === 'Update available') {
             const r = confirm("Update Available, do you want to update ?");
             if (r === true) {
