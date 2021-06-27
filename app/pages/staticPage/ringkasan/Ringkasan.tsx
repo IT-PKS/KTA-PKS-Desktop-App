@@ -70,7 +70,6 @@ const Ringkasan = () => {
 
                     </div>
                     <div css={[styles.white__card__custom]}>
-                        {console.log("🚀 ~ file: Ringkasan.tsx ~ line 90 ~ Ringkasan ~ datas", datas)}
                         <h1 css={[styles.heading]}>Laki-laki : Perempuan</h1>
                         <div css={[styles.odd__row__jenis_kelamin]}>
                             <div css={[styles.angka__laki__laki__typography]}>{datas.gender && datas?.gender['Laki - Laki']}</div>

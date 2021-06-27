@@ -43,7 +43,6 @@ const initSQLite = async () => {
                 Member
             ]
         })
-        console.log("🚀 ~ file: initSQLite.tsx ~ line 34 ~ initSQLite ~ path", app.getPath('userData') + "/databases/kta-pks.sql")
         return connection
     } catch (error) {
         if (error.name === "AlreadyHasActiveConnectionError") {

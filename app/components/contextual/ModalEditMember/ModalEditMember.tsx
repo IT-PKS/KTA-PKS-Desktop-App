@@ -72,7 +72,6 @@ type Props = {
 
 const ModalDeleteMember: React.FC<Props> = props => {
   const { defaultValues, toggle, open, data } = props;
-  console.log("🚀 ~ file: ModalEditMember.tsx ~ line 75 ~ data", data)
   const { register, handleSubmit, errors, setValue, formState } = useForm<RegisterFormData>({
     defaultValues,
   });
@@ -130,14 +129,12 @@ const ModalDeleteMember: React.FC<Props> = props => {
   const internetTimeout: number = 3000
   const _handleGetGenders = async () => {
     try {
-      console.log('Check Connection...')
       await checkInternetConnection(internetTimeout)
       const { data: jenisKelamin } = await getGenders();
       setJenisKelamin(normalizeDropdown(jenisKelamin, 'gender'));
       const dataJenisKelamin: any = jenisKelamin.find((v) => v.label === data?.gender)
       setValueJenisKelamin(dataJenisKelamin);
     } catch (error) {
-      console.log('get data locally...')
       const connection: any = await initSQLite()
       const jenisKelamin = await connection.manager.find(Gender)
       setJenisKelamin(normalizeDropdown(jenisKelamin, 'gender'));
@@ -148,14 +145,12 @@ const ModalDeleteMember: React.FC<Props> = props => {
 
   const _handleGetReligions = async () => {
     try {
-      console.log('Check Connection...')
       await checkInternetConnection(internetTimeout)
       const { data: agama } = await getReligions();
       setAgama(normalizeDropdown(agama, 'religion'));
       const getDetailAgama: any = agama.find((v: any) => v.label === data?.religion)
       setDetailAgama(getDetailAgama);
     } catch (error) {
-      console.log('get data locally...')
       const connection: any = await initSQLite()
       const agama = await connection.manager.find(Religion)
       setAgama(normalizeDropdown(agama, 'religion'));
@@ -166,14 +161,12 @@ const ModalDeleteMember: React.FC<Props> = props => {
 
   const _handleGetOccupations = async () => {
     try {
-      console.log('Check Connection...')
       await checkInternetConnection(internetTimeout)
       const { data: pekerjaan } = await getOccupations();
       setPekerjaan(normalizeDropdown(pekerjaan, 'occupation'));
       const getDetailPekerjaan: any = pekerjaan.find((v: any) => v.label === data?.job)
       setDetailPekerjaan(getDetailPekerjaan);
     } catch (error) {
-      console.log('get data locally...')
       const connection: any = await initSQLite()
       const pekerjaan = await connection.manager.find(Occupation)
       setPekerjaan(normalizeDropdown(pekerjaan, 'occupation'));
@@ -184,14 +177,12 @@ const ModalDeleteMember: React.FC<Props> = props => {
 
   const _handleGetEducations = async () => {
     try {
-      console.log('Check Connection...')
       await checkInternetConnection(internetTimeout)
       const { data: pendidikanTerakhir } = await getEducations();
       setPendidikanTerakhir(normalizeDropdown(pendidikanTerakhir, 'education'));
       const getDetailPendidikanTerakhir: any = pendidikanTerakhir.find((v: any) => v.label === data?.last_education)
       setDetailPendidikanTerakhir(getDetailPendidikanTerakhir);
     } catch (error) {
-      console.log('get data locally...')
       const connection: any = await initSQLite()
       const pendidikanTerakhir = await connection.manager.find(Education)
       setPendidikanTerakhir(normalizeDropdown(pendidikanTerakhir, 'education'));
@@ -202,14 +193,12 @@ const ModalDeleteMember: React.FC<Props> = props => {
 
   const _handleGetMarital = async () => {
     try {
-      console.log('Check Connection...')
       await checkInternetConnection(internetTimeout)
       const { data: statusPerkawinan } = await getMarital();
       setStatusPerkawinan(normalizeDropdown(statusPerkawinan, 'status'));
       const getDetailStatusPekawinan: any = statusPerkawinan.find((v: any) => v.label === data?.marital_status)
       setDetailStatusPerkawinan(getDetailStatusPekawinan);
     } catch (error) {
-      console.log('get data locally...')
       const connection: any = await initSQLite()
       const statusPerkawinan = await connection.manager.find(MaritalStatus)
       setStatusPerkawinan(normalizeDropdown(statusPerkawinan, 'status'));
@@ -220,7 +209,6 @@ const ModalDeleteMember: React.FC<Props> = props => {
 
   const _handleGetBloodType = async () => {
     try {
-      console.log('Check Connection...')
       await checkInternetConnection(internetTimeout)
       const { data: golonganDarah } = await getBloodType();
       setGolonganDarah(normalizeDropdown(golonganDarah, 'blood'));
@@ -228,7 +216,6 @@ const ModalDeleteMember: React.FC<Props> = props => {
       setValueGolonganDarah(bloodType)
 
     } catch (error) {
-      console.log('get data locally...')
       const connection: any = await initSQLite()
       const golonganDarah = await connection.manager.find(Blood)
       setGolonganDarah(normalizeDropdown(golonganDarah, 'blood'))

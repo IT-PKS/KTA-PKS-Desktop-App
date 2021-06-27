@@ -16,7 +16,6 @@ export const addLocalUser = async (param: any) => {
 
     await connection.manager.save(user)
     const users = await connection.manager.find(User)
-    console.log("🚀 ~ file: AuthClient.ts ~ line 19 ~ addLocalUser ~ users", users)
 
     connection.close()
     return user
@@ -41,14 +40,12 @@ export const loginLocal = async (payload: any) => {
             return true
         }
     } catch (error) {
-        console.log("error", error)
     }
 }
 
 export const serialKey = async () => {
     const connection: any = await initSQLite()
     const user = await connection.manager.find(User)
-    console.log("🚀 ~ file: AuthClient.ts ~ line 51 ~ serialKey ~ user", user)
     try {
         const res = user.length ? user[0].serialKey : ''
         return res

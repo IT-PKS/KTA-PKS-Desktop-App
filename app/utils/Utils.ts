@@ -21,17 +21,17 @@ export const copyInitialDB = async () => {
     const sourceFile = "app/database/kta-pks.sql"
     const pathFile = app.getPath('userData') + '/databases/kta-pks.sql'
 
-    console.log(fs.existsSync(pathFile));
+    
 
     try {
         if (fs.existsSync(pathFile)) {
             //file exists
-            console.log('Database exist, proceeding ...');
+            
 
         } else {
             // fs.copyFile('./resources/app.asar/app/database/kta-pks.sql', pathFile, (err) => {
             //     if (err) throw err;
-            //     console.log('Initial database was copied');
+            //     
             // });
             await copyFileOutsideOfElectronAsar("dist/app/database/kta-pks.sql", app.getPath('userData') + "/databases/kta-pks.sql")
         }
@@ -43,16 +43,16 @@ export const copyInitialDB = async () => {
 export const checkApplicationUpdate = async () => {
     ipcRenderer.on('message', (event: any, text: any) => {
 
-        console.log('hii')
-        console.log(text)
+        
+        
         if (text === 'Update available') {
             const r = confirm("Update Available, do you want to update ?");
             if (r === true) {
                 // autoUpdater.downloadUpdate()
             } else {
-                console.log('====================================');
-                console.log('update canceled');
-                console.log('====================================');
+                
+                
+                
             }
         }
 
@@ -60,8 +60,8 @@ export const checkApplicationUpdate = async () => {
 
     ipcRenderer.on('version', (event: any, text: any) => {
 
-        console.log('versi');
-        console.log(text);
+        
+        
 
     })
 };
@@ -73,13 +73,13 @@ const copyFileOutsideOfElectronAsar = async (sourceInAsarArchive: any, destOutsi
         if (fs.statSync(app.getAppPath() + "/" + sourceInAsarArchive).isFile()) {
 
             fsj.file(destOutsideAsarArchive, { content: fs.readFileSync(app.getAppPath() + "/" + sourceInAsarArchive) });
-            console.log('condition 1');
+            
 
         }
 
         // dir is browsed
         else if (fs.statSync(app.getAppPath() + "/" + sourceInAsarArchive).isDirectory()) {
-            console.log('condition 2');
+            
 
             fs.readdirSync(app.getAppPath() + "/" + sourceInAsarArchive).forEach(function (fileOrFolderName) {
 
@@ -87,7 +87,7 @@ const copyFileOutsideOfElectronAsar = async (sourceInAsarArchive: any, destOutsi
             });
         }
     } else {
-        console.log("file doesn't exist");
+        
 
     }
 
