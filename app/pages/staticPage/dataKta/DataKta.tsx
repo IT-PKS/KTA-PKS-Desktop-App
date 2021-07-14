@@ -186,15 +186,15 @@ const DataKta: React.FC<iProps> = (props) => {
 			registrationPayload.append('job', member.job);
 			registrationPayload.append('last_education', member.last_education);
 			registrationPayload.append('blood_type', member.blood_type);
-			registrationPayload.append('country_id', member.country_id || 0);
+			registrationPayload.append('country_id', member.country_id || 1);
 			registrationPayload.append('province_id', member.province_id);
 			registrationPayload.append('city_id', member.city_id);
 			registrationPayload.append('district_id', member.district_id);
 			registrationPayload.append('sub_district_id', member.sub_district_id);
 			registrationPayload.append('address', member.address);
 			registrationPayload.append('domicile', member.domicile);
-			registrationPayload.append('lat', member.lat);
-			registrationPayload.append('lon', member.lon);
+			registrationPayload.append('lat', '-6.1867843');
+			registrationPayload.append('lon', '106.8667756');
 			registrationPayload.append('email', member.email);
 			registrationPayload.append('ktp', ktp_file);
 			registrationPayload.append('profile', profile_file);
