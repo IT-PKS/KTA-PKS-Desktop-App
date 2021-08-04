@@ -21,7 +21,9 @@ import initSQLite from '../../../services/sqlite/initSQLite'
 import { remote } from 'electron';
 const { app } = remote
 import { Member } from '../../../entity/Member'
-import fs from 'fs'
+import { _postSerialKey } from '../../../client/AuthClient'
+import os from 'os'
+import getMac from 'getmac'
 
 // Components
 import {
@@ -163,10 +165,29 @@ const DataKta: React.FC<iProps> = (props) => {
 		}
 	}
 
+	interface payloadValidateKey {
+		key: string;
+		device_os: string;
+		device_name: string;
+		device_mac: string;
+	}
+
 	const syncDataKTA = async () => {
 		const connection: any = await initSQLite()
 		let localMember = await connection.manager.find(Member, { where: { isSentToBackend: 0 } })
+		const deviceName = os.userInfo().username
+		const deviceMac = getMac()
+		const deviceOS = os.platform()
+		//login with serial key to obtain jwt
+		let payload: payloadValidateKey ={
+			key: 'ZVbE-ox2d-fIWT-aXuu',
+			device_os: deviceOS,
+			device_name: deviceName,
+			device_mac: deviceMac
+		}
 
+		const loginWithSerialKey = await _postSerialKey(payload)
+		localStorage.setItem("token", JSON.stringify(loginWithSerialKey.data.data.token))
 		localMember.map(async (member: any) => {
 			let ktp_file: any = await fetch(app.getPath('userData') + '/' + member.ktp).then(r => r.blob()).then(blobFile => new File([blobFile], member.ktp, { type: `${member.ktp.split('.')[1]}` }))
 			let profile_file: any = await fetch(app.getPath('userData') + '/' + member.profile).then(r => r.blob()).then(blobFile => new File([blobFile], member.profile, { type: `${member.profile.split('.')[1]}` }))
@@ -208,6 +229,8 @@ const DataKta: React.FC<iProps> = (props) => {
 				console.log('====================================');
 			}
 		})
+
+		alert("sync finished")
 
 	}
 

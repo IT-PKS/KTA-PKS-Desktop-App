@@ -81,8 +81,8 @@ export const useAuthDataContext = () => {
       localStorage.setItem("token", "notoken")
       localStorage.setItem("user", JSON.stringify(newAuthData.email))
       localStorage.setItem("role", 'super_admin')
-      history.push('/ringkasan')
-      window.location.reload()
+      history.push('/')
+      // window.location.reload()
       setAuthData({ ...authData, user: newAuthData.email, loading: false })
     } else {
       setAuthData({ ...authData, loading: false })
@@ -95,10 +95,10 @@ export const useAuthDataContext = () => {
     try {
       console.log('Check Connection...')
       await checkInternetConnection(3000)
-      onLoginOnline(newAuthData)
+      await onLoginOnline(newAuthData)
     } catch (error) {
       console.log('logging in locally...')
-      onLoginOffline(newAuthData)
+      await onLoginOffline(newAuthData)
     }
   }
 

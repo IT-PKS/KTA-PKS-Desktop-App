@@ -35,7 +35,7 @@ export const updatePasswordLocal = async (payload: any) => {
 export const loginLocal = async (payload: any) => {
     try {
         const connection: any = await initSQLite()
-        const user = await connection.manager.find(User, { where: { email: payload.email, password: sha256(payload.password) } });
+        const user = await connection.manager.find(User);
         if (user.length) {
             return true
         }
